@@ -20,12 +20,17 @@ char *make_prompt(void)
 int	start_read(void)
 {
 	char *input;
+	char *prom;
 
-	input = readline(make_prompt());
+	prom = make_prompt();
+	input = readline(prom);
 	while (input)
 	{
-		input = readline(make_prompt());
 		add_history(input);
+		free(input);
+		free(prom);
+		prom = make_prompt();
+		input = readline(prom);
 	}
 	return (0);
 }
