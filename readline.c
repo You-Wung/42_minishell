@@ -1,12 +1,11 @@
 #include "minishell.h"
 
-char *make_prompt(void)
+char	*make_prompt(void)
 {
-	/*getcwd 버퍼는 malloc 후 사용*/
-	char *prompt;
-	int	i;
+	static char	prompt[1027];
+	int		i;
 
-	prompt = (char *)malloc(sizeof(char) * (1024 + 2));
+	ft_memset(&prompt[0], 0, 1027);
 	getcwd(prompt, 1024);
 	i = 0;
 	while (prompt[i])
@@ -17,20 +16,18 @@ char *make_prompt(void)
 	return (prompt);
 }
 
-int	start_read(void)
+int	start_read(char **env)
 {
-	char *input;
-	char *prom;
+	t_cmd	*c;
+	char	*input;
 
-	prom = make_prompt();
-	input = readline(prom);
+	input = readline(make_prompt());
 	while (input)
 	{
 		add_history(input);
+		fill_cmd(&c, input, env);
 		free(input);
-		free(prom);
-		prom = make_prompt();
-		input = readline(prom);
+		input = readline(make_prompt());
 	}
 	return (0);
 }

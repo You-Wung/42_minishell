@@ -19,6 +19,5 @@ static void	our_mark(void)
 int main(int argc, char **argv, char **env)
 {
 	our_mark();
-	//init_signal();
-	start_read();
+	start_read(env);
 }
