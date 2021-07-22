@@ -6,14 +6,13 @@ static int comma_check(t_match *m)
 
 	i = 0;
 	if (m->comma % 2 == 1 && ++i)
-		printf("quote");
+		printf("quote %d\n",i);
 	if (m->dcomma % 2 == 1 && ++i)
 		printf("double quote");
 	if (m->backtick % 2 == 1 && ++i)
 		printf("backtick");
 	if (!i)
 		return (0);
-	printf("\n");
 	return (ERROR);
 }
 
@@ -54,8 +53,7 @@ static int check_size(char *input)
 
 	rt = 0;
 	comma = 0;
-	while (*input != ';' && *input != '>' && *input != '<'
-			&& *input != '|')
+	while (*input)
 	{
 		if (*input == '\'' || *input == '\"' || *input == '`')
 			comma++;
@@ -71,14 +69,15 @@ static int check_size(char *input)
 
 static char	*input_cmd(t_cmd *c, char *input, int size)
 {
-	int	i;
-	int j;
-	int	phrase;
-
+	int		i;
+	int 	j;
+	int		phrase;
+ 
 	i = 0;
 	j = 0;
-	while (input[i] && input[i] != ';' && input[i] != '>'
-		&& input[i] != '<' && input[i] != '|')
+	while(input[i] == ' ')
+			i++;
+	while (input[i])
 	{
 		phrase = check_size(input + i);
 		if (phrase > 0)
@@ -86,14 +85,11 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 			c->cmd[j] = (char *)malloc(phrase + 1);
 			ft_strlcpy(c->cmd[j++], &input[i], phrase);
 		}
-		while(input[i] == ' ')
+		i += phrase;
+		while(input[i] && input[i] == ' ')
 			i++;
-		i += phrase + 1;
+		set_flag(c, &input[i]);
 	}
-	if (input[i] != '>' || input[i] != '<')
-		i++;
-	printf("%s !\n",c->cmd[0]);
-	printf("%s !\n",c->cmd[1]);
 	return (&(input[i]));
 }
 
@@ -108,5 +104,6 @@ char	*init_cmd(t_cmd *c, char *input, char **env)
 		return (NULL);
 	c->cmd = (char **)malloc(sizeof(char *) * size + 1);
 	c->cmd[size] = NULL;
+	c->env = env;
 	return (input_cmd(c, input, size));
 }

@@ -21,8 +21,8 @@
 # define PIPE 1/* | */
 # define R_RE 2/* > */
 # define L_RE 3/* < */
-# define R_APPEND 4/* >> */
-# define L_APPEND 5/* << */
+# define R_APP 4/* >> */
+# define L_APP 5/* << */
 # define SEMICOLON 6/* ; */
 
 # define ERROR -1
@@ -32,7 +32,6 @@ typedef struct		s_cmd
 	char			**cmd;/*커맨드, 마지막은 NULL*/
 	char			**env;/*환경변수, 팔요없으면 NULL*/
 	int				flag;/*0이면 끝, 리다이렉션이나, 파이프 대비*/
-	struct s_match	*m;
 }					t_cmd;
 
 typedef struct	s_match
@@ -54,6 +53,7 @@ typedef struct	s_id
 int	start_read(char **env);
 void	fill_cmd(t_cmd **c, char *input, char **env);/*cmd채우는 함수*/
 char	*init_cmd(t_cmd *c, char *input, char **env);/*실제로 cmd에 인덱스 넣어주는과정*/
+void	set_flag(t_cmd *c, char *input);/*flag 설정*/
 
 
 
