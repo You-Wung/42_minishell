@@ -11,6 +11,8 @@ SRCS =	main.c\
 		readline.c\
 		split_cmd.c\
 		init_cmd.c\
+		init_cmd2.c\
+		signal.c\
 		libft/ft_memset.c\
 		libft/ft_strlcpy.c
 

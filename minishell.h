@@ -54,6 +54,7 @@ int	start_read(char **env);
 void	fill_cmd(t_cmd **c, char *input, char **env);/*cmd채우는 함수*/
 char	*init_cmd(t_cmd *c, char *input, char **env);/*실제로 cmd에 인덱스 넣어주는과정*/
 void	set_flag(t_cmd *c, char *input);/*flag 설정*/
+void	init_signal();/*시그널 처리*/
 
 
 
