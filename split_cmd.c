@@ -37,10 +37,11 @@ static int	count_cmd(char *input)
 		if (is_sep(input[i]) && !c)
 			rt++;
 	}
+	printf("count_cmd returns %d\n\n",rt);
 	return (rt);
 }
 
-void	fill_cmd(t_cmd **c, char *input, char **env)
+void	fill_cmd(t_cmd **c, char *input)
 {
 	int	size;
 	int	i;
@@ -54,11 +55,12 @@ void	fill_cmd(t_cmd **c, char *input, char **env)
 	i = -1;
 	while (++i < size && input)
 	{
-		input = init_cmd(c[i], input, env);
+		input = init_cmd(c[i], input);
+		printf("[%s]\n",input);
 		//if (c[i]->cmd[0])
-		//	printf("cmd[0] %s\n",c[i]->cmd[0]);
+			printf("cmd[0] %s\n",c[i]->cmd[0]);
 		//if (c[i]->cmd[1])
-		//	printf("cmd[1] %s\n",c[i]->cmd[1]);
-		//printf("\n");
+			printf("cmd[1] %s\n",c[i]->cmd[1]);
+		//	printf("flag %d\n",c[i]->flag);
 	}
 }

@@ -13,6 +13,9 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <errno.h>
 
 /*define of color*/
 #define COLOR_SET "\x1b[37m"
@@ -27,33 +30,45 @@
 
 # define ERROR -1
 
+
 typedef struct		s_cmd
 {
 	char			**cmd;/*커맨드, 마지막은 NULL*/
-	char			**env;/*환경변수, 팔요없으면 NULL*/
 	int				flag;/*0이면 끝, 리다이렉션이나, 파이프 대비*/
 }					t_cmd;
 
-typedef struct	s_match
+typedef struct	s_match/*윤주 안봐도돼*/
 {
 	int			comma;/* ' " ` 쌍 맞는지*/
 	int			dcomma;
 	int			backtick;
 }				t_match;
 
-
-typedef struct	s_id
+typedef struct		s_env
 {
-	pid_t		pid[100];	/*시그널. fork된 만큼 pid 배열에 담고
+	char			*name;
+	char			*content;
+	struct s_env	*next;
+}					t_env;
+
+typedef struct		s_ext		/*전역변수*/
+{
+	pid_t			pid[100];	/*시그널. fork된 만큼 pid 배열에 담고
 							kill 함수 이용해서 signal 해당 프로세스로 보내고
 							해당 프로세스에서 다른 모든 프로세스 kill 죽인다*/
-}				t_id;
+	t_env			*env;
+	struct termios	save;
+}					t_ext;
 
 
-int	start_read(char **env);
-void	fill_cmd(t_cmd **c, char *input, char **env);/*cmd채우는 함수*/
-char	*init_cmd(t_cmd *c, char *input, char **env);/*실제로 cmd에 인덱스 넣어주는과정*/
-void	set_flag(t_cmd *c, char *input);/*flag 설정*/
+
+int		start_read(void);
+char	*make_prompt(void);
+
+void	fill_cmd(t_cmd **c, char *input);/*cmd채우는 함수*/
+char	*init_cmd(t_cmd *c, char *input);/*실제로 cmd에 인덱스 넣어주는과정*/
+char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
+int		check_input(char *input, t_match *m);
 void	init_signal();/*시그널 처리*/
 
 

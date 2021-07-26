@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern t_ext var;
+
 char	*make_prompt(void)
 {
 	static char	prompt[1027];
@@ -16,18 +18,19 @@ char	*make_prompt(void)
 	return (prompt);
 }
 
-int	start_read(char **env)
+int	start_read(void)
 {
 	t_cmd	*c;
 	char	*input;
 
-	input = readline(make_prompt());
-	while (input)
+	while (1)
 	{
-		add_history(input);
-		fill_cmd(&c, input, env);
-		free(input);
 		input = readline(make_prompt());
+		if (!input)
+			break ;
+		add_history(input);
+		fill_cmd(&c, input);
+		free(input);
 	}
 	return (0);
 }

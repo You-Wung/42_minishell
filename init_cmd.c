@@ -13,6 +13,7 @@ static int comma_check(t_match *m)
 		printf("backtick");
 	if (!i)
 		return (0);
+	printf("\n");
 	return (ERROR);
 }
 
@@ -28,7 +29,7 @@ static int	count(char *input)
 	
 	rt = 1;
 	ft_memset(&m, 0, sizeof(t_match));
-	while (*input)
+	while (check_input(input, &m))
 	{
 		if (*input == '\'' && m.dcomma % 2 == 0 && m.backtick % 2 == 0)
 			m.comma++;
@@ -36,13 +37,14 @@ static int	count(char *input)
 			m.dcomma++;
 		if (*input == '`' && m.dcomma % 2 == 0 && m.comma % 2 == 0)
 			m.backtick++;
-		if (*input == ' ' && m.comma % 2 == 0
-			&& m.dcomma % 2 == 0 && m.backtick % 2 == 0)
+		if (*input == ' ' && *(input + 1) != ' ' && *(input - 1) != ' '
+		&& m.comma % 2 == 0 && m.dcomma % 2 == 0 && m.backtick % 2 == 0)
 			rt++;
 		input++;
 	}
 	if (comma_check(&m) == ERROR)
 		return (ERROR);
+	printf("[COUNT] ONE PHRASE SPLITED %d\n",rt);
 	return (rt);
 }
 
@@ -55,15 +57,17 @@ static int check_size(char *input)
 	comma = 0;
 	while (*input)
 	{
+		if ((*input == ' ' && comma % 2 == 0) || *input == '\0'
+			|| *input == '<' || *input == '>' || *input == ';'
+			|| *input == '|')
+			break ;
 		if (*input == '\'' || *input == '\"' || *input == '`')
 			comma++;
 		if (*input != ' ' && *input != '\0')
 			rt++;
-		if ((*input == ' ' && comma % 2 == 0) || *input == '\0')
-			break ;
 		input++;
 	}
-	printf("returns %d\n",rt);
+	printf("[CHECK SIZE] a word counted %d\n",rt);
 	return (rt);
 }
 
@@ -73,28 +77,28 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 	int 	j;
 	int		phrase;
  
-	i = 0;
+	i = -1;
 	j = 0;
-	while(input[i] == ' ')
-			i++;
-	while (input[i])
+	while(*input == ' ')
+			input++;
+	while (++i < size)
 	{
-		phrase = check_size(input + i);
+		phrase = check_size(input);
 		if (phrase > 0)
 		{
 			c->cmd[j] = (char *)malloc(phrase + 1);
-			ft_strlcpy(c->cmd[j++], &input[i], phrase);
+			ft_strlcpy(c->cmd[j++], input, phrase);
 		}
-		i += phrase;
-		while(input[i] && input[i] == ' ')
-			i++;
-		set_flag(c, &input[i]);
+		input += phrase;
+		while(*input && *input == ' ')
+			input++;
+		input = set_flag(c, input, &j);
 	}
-	return (&(input[i]));
+	return (input);
 }
 
 /*실제로 cmd에 인덱스 넣어주는과정*/
-char	*init_cmd(t_cmd *c, char *input, char **env)
+char	*init_cmd(t_cmd *c, char *input)
 {
 	int	size;
 	int	i;
@@ -104,6 +108,5 @@ char	*init_cmd(t_cmd *c, char *input, char **env)
 		return (NULL);
 	c->cmd = (char **)malloc(sizeof(char *) * size + 1);
 	c->cmd[size] = NULL;
-	c->env = env;
 	return (input_cmd(c, input, size));
 }

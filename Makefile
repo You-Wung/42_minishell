@@ -14,11 +14,13 @@ SRCS =	main.c\
 		init_cmd2.c\
 		signal.c\
 		libft/ft_memset.c\
-		libft/ft_strlcpy.c
+		libft/ft_strlcpy.c\
+		libft/ft_strlen.c
 
 $(NAME) :
-	gcc $(CFLAGS) $(SRCS) -o $(NAME)
-	./$(NAME)
+	gcc $(CFLAGS) $(SRCS) -o $(NAME) -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
+	#gcc $(CFLAGS) $(SRCS) -o $(NAME)
+	#./$(NAME)
 
 all : $(NAME)
 

@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+t_ext var;
+
 static void	our_mark(void)
 {
 	printf(COLOR_SET);
@@ -19,6 +21,7 @@ static void	our_mark(void)
 int main(int argc, char **argv, char **env)
 {
 	our_mark();
+	//env 처리필요
 	init_signal();
-	start_read(env);
+	start_read();
 }
