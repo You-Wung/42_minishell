@@ -13,6 +13,7 @@ SRCS =	main.c\
 		init_cmd.c\
 		init_cmd2.c\
 		signal.c\
+		env.c\
 		libft/ft_memset.c\
 		libft/ft_strlcpy.c\
 		libft/ft_strlen.c

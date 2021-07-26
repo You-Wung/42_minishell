@@ -26,8 +26,9 @@ int	start_read(void)
 	while (1)
 	{
 		input = readline(make_prompt());
-		if (!input)
-			break ;
+		printf("input %s\n",input);
+		if (input == NULL)
+			return (ERROR);
 		add_history(input);
 		fill_cmd(&c, input);
 		free(input);

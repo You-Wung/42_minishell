@@ -46,22 +46,24 @@ typedef struct	s_match/*윤주 안봐도돼*/
 
 typedef struct		s_env
 {
-	char			*name;
-	char			*content;
+	char			name[256];
+	char			content[256];
 	struct s_env	*next;
 }					t_env;
 
 typedef struct		s_ext		/*전역변수*/
 {
+	struct termios	restore;
 	pid_t			pid[100];	/*시그널. fork된 만큼 pid 배열에 담고
 							kill 함수 이용해서 signal 해당 프로세스로 보내고
 							해당 프로세스에서 다른 모든 프로세스 kill 죽인다*/
 	t_env			*env;
-	struct termios	save;
+	//struct termios	save;
 }					t_ext;
 
 
 
+void	init_env(char **env);
 int		start_read(void);
 char	*make_prompt(void);
 

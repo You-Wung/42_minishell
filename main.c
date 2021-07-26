@@ -21,7 +21,7 @@ static void	our_mark(void)
 int main(int argc, char **argv, char **env)
 {
 	our_mark();
-	//env 처리필요
-	init_signal();
-	start_read();
+	init_env(env);
+	//init_signal();
+	//start_read();
 }
