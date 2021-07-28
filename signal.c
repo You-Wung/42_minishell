@@ -28,7 +28,7 @@ void	init_signal()
 
     tcgetattr(STDIN_FILENO, &attributes);
 	var.restore = attributes;
-	//attributes.c_lflag &= (~ECHOCTL);
+	attributes.c_lflag &= (~ECHOCTL);
 	//ctrl + d 는 시그널이 아님. input이 null이냐 아니냐에 따라 처리
     tcsetattr(STDIN_FILENO, TCSANOW, &attributes);
 	

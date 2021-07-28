@@ -26,7 +26,7 @@
 # define L_RE 3/* < */
 # define R_APP 4/* >> */
 # define L_APP 5/* << */
-# define SEMICOLON 6/* ; */
+# define SEMI 6/* ; */
 
 # define ERROR -1
 
@@ -57,17 +57,16 @@ typedef struct		s_ext		/*전역변수*/
 	pid_t			pid[100];	/*시그널. fork된 만큼 pid 배열에 담고
 							kill 함수 이용해서 signal 해당 프로세스로 보내고
 							해당 프로세스에서 다른 모든 프로세스 kill 죽인다*/
-	t_env			*env;
-	//struct termios	save;
+	int				size_env;	/*환경변수 개수*/
+	t_env			*env;		/*환경변수*/
 }					t_ext;
-
-
 
 void	init_env(char **env);
 int		start_read(void);
 char	*make_prompt(void);
 
-void	fill_cmd(t_cmd **c, char *input);/*cmd채우는 함수*/
+void	fill_cmd(t_cmd *c, char *input);/*cmd채우는 함수*/
+int		count_cmd(char *input);/* | > < ; 기준으로 커맨드 몇개로 잘릴까 */
 char	*init_cmd(t_cmd *c, char *input);/*실제로 cmd에 인덱스 넣어주는과정*/
 char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
 int		check_input(char *input, t_match *m);

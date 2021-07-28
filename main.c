@@ -22,6 +22,6 @@ int main(int argc, char **argv, char **env)
 {
 	our_mark();
 	init_env(env);
-	//init_signal();
-	//start_read();
+	init_signal();
+	start_read();
 }

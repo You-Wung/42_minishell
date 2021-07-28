@@ -4,8 +4,11 @@ extern t_ext var;
 
 static void	input(char *env, t_env *buf)
 {
-	int	i;
-	int	j;
+	static int	size;
+	int			i;
+	int			j;
+	
+	var.size_env = ++size;
 	i = 0;
 	while (env[i] != '=')
 		i++;
@@ -34,13 +37,14 @@ void	init_env(char **env)
 	i = -1;
 	while (env[++i])
 		input(env[i], &e[i]);
+	var.env = e;
 	i = -1;
-	while (env[++i])
-	{
-		printf("NAME : %s\n",e[i].name);
-		printf("CONT : %s\n",e[i].content);
-		if (e[i].next)
-			printf("NEXT : %s\n\n",e[i].next->name);
-	}
-	
+	/* --- 체크용 --- */
+	//while (++i < var.size_env)
+	//{
+		//printf("NAME : %s\n",var.env[i].name);
+		//printf("CONT : %s\n",var.env[i].content);
+		//if (e[i].next)
+			//printf("NEXT : %s\n\n",var.env[i].next->name);
+	//}	
 }

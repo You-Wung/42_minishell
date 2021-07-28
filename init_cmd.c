@@ -79,9 +79,10 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
  
 	i = -1;
 	j = 0;
-	while(*input == ' ')
+		printf("input : %s\n",input);
+	while(*input && *input == ' ')
 			input++;
-	while (++i < size)
+	while (++i < size && *input)
 	{
 		phrase = check_size(input);
 		if (phrase > 0)
@@ -106,7 +107,6 @@ char	*init_cmd(t_cmd *c, char *input)
 	size = count(input);
 	if (size == ERROR)
 		return (NULL);
-	c->cmd = (char **)malloc(sizeof(char *) * size + 1);
-	c->cmd[size] = NULL;
+	c->cmd = (char **)malloc(sizeof(char *) * size);
 	return (input_cmd(c, input, size));
 }

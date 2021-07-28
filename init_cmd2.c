@@ -12,6 +12,8 @@ char	*set_flag(t_cmd *c, char *input, int *sign)
 		c->flag = L_RE;
 	else if (*input == '|')
 		c->flag = PIPE;
+	else if (*input == ';')
+		c->flag = SEMI;
 	else
 		c->flag = 0;
 	while (*input == '>' || *input == '<'

@@ -14,7 +14,7 @@ static int	is_sep(char c)
 	return (0);
 }
 /* | > < ; 기준으로 커맨드 몇개로 잘릴까 */
-static int	count_cmd(char *input)
+int	count_cmd(char *input)
 {
 	int		rt;
 	int		i;
@@ -41,26 +41,17 @@ static int	count_cmd(char *input)
 	return (rt);
 }
 
-void	fill_cmd(t_cmd **c, char *input)
+void	fill_cmd(t_cmd *c, char *input)
 {
 	int	size;
 	int	i;
 
-	size = count_cmd(input);
-	if (size == ERROR || size == 0)
-		return ;
-	*c = (t_cmd *)malloc(sizeof(t_cmd) * (size + 1));
-	c[size] = NULL;
-	printf("it will be splited %d input : %s\n", size, input);
 	i = -1;
 	while (++i < size && input)
 	{
-		input = init_cmd(c[i], input);
-		printf("[%s]\n",input);
-		//if (c[i]->cmd[0])
-			printf("cmd[0] %s\n",c[i]->cmd[0]);
-		//if (c[i]->cmd[1])
-			printf("cmd[1] %s\n",c[i]->cmd[1]);
-		//	printf("flag %d\n",c[i]->flag);
+		input = init_cmd(&c[i], input);
+		printf("cmd[0] %s\n",c[i].cmd[0]);
+		printf("cmd[1] %s\n",c[i].cmd[1]);
+		printf("flag : %d\n\n",c[i].flag);
 	}
 }
