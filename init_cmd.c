@@ -13,7 +13,7 @@ static int comma_check(t_match *m)
 		printf("backtick");
 	if (!i)
 		return (0);
-	printf("\n");
+	//printf("\n");
 	return (ERROR);
 }
 

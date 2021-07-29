@@ -47,11 +47,14 @@ void	fill_cmd(t_cmd *c, char *input)
 	int	i;
 
 	i = -1;
-	while (++i < size && input)
+	while (input && ++i < size)
 	{
 		input = init_cmd(&c[i], input);
-		printf("cmd[0] %s\n",c[i].cmd[0]);
-		printf("cmd[1] %s\n",c[i].cmd[1]);
-		printf("flag : %d\n\n",c[i].flag);
+		if (c[i].cmd)
+		{
+			printf("cmd[0] %s\n",c[i].cmd[0]);
+			printf("cmd[1] %s\n",c[i].cmd[1]);
+			printf("flag : %d\n\n",c[i].flag);
+		}
 	}
 }
