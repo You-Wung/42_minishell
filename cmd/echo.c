@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_option_n(char *str)
 {
@@ -23,22 +23,19 @@ int	ft_echo(char **cmd)
 
 	i = 1;
 	option_n = 0;
-	if (cmd[0])
+	while (cmd[i] && check_option_n(cmd[i]) == 1)
 	{
-		while (cmd[i] && check_option_n(cmd[i]) == 1)
-		{
-			option_n = 1;
-			i++;
-		}
-		while (cmd[i])
-		{
-			// if (cmd[i][0] == '$')
-				/* 환경병수 출력 */
-			printf("%s", cmd[i]);
-			if (cmd[i + 1] && cmd[i + 1][0] != '\0')
-				printf(" ");
-			i++;
-		}
+		option_n = 1;
+		i++;
+	}
+	while (cmd[i])
+	{
+		// if (cmd[i][0] == '$')
+			/* 환경병수 출력 */
+		printf("%s", cmd[i]);
+		if (cmd[i + 1] && cmd[i + 1][0] != '\0')
+			printf(" ");
+		i++;
 	}
 	if (option_n == 0)
 		printf("\n");

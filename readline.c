@@ -55,6 +55,9 @@ int	start_read(void)
 			 위 fill_cmd 부분에서 변수 c 에 명령어들 동적할당해서 다 들어가는 역할을 하기때문에
 			 실제로 동작하는 부분은 fill_cmd 밑에 있으면 될 것 같습니다.
 		*/
+		exec_cmd(c);
+		
+		
 		free(c);
 		free(input);
 	}

@@ -29,6 +29,7 @@
 # define SEMI 6/* ; */
 
 # define ERROR -1
+# define SUCCESS 0
 
 
 typedef struct		s_cmd
@@ -72,6 +73,20 @@ char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
 int		check_input(char *input, t_match *m);
 void	init_signal();/*시그널 처리*/
 
+/* 명령어 */
+int		ft_cd(t_env *env, char **cmd);
+int		ft_echo(char **cmd);
+int		ft_env(t_env *env);
+int		ft_exit(char **cmd);
+int		ft_export(t_env *env, char **cmd);
+int		ft_pwd(void);
+int		ft_redirect_L(char **cmd, char *file);
+int		ft_redirect_R(char **cmd, char *file);
+int		ft_redirect_RR(char **cmd, char *file);
+int		ft_redirect_LL(char **cmd, char *file);
+int		ft_unset(t_env *env, char **cmd);
 
+void	exec_cmd(t_cmd *c);
+void	run_cmd(char **cmd);
 
 #endif

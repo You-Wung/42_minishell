@@ -1,10 +1,10 @@
-#include "minihell.h"
+#include "../minishell.h"
 
 int	ft_pwd(void)
 {
-	char	cwd[PATH_MAX];
+	char	cwd[256];
 
-	if (getcwd(cwd, PATH_MAX))
+	if (getcwd(cwd, 256))
 	{
 		printf("%s\n", cwd);
 		return (0);

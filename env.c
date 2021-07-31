@@ -40,11 +40,11 @@ void	init_env(char **env)
 	var.env = e;
 	i = -1;
 	/* --- 체크용 --- */
-	//while (++i < var.size_env)
-	//{
-		//printf("NAME : %s\n",var.env[i].name);
-		//printf("CONT : %s\n",var.env[i].content);
-		//if (e[i].next)
-			//printf("NEXT : %s\n\n",var.env[i].next->name);
-	//}	
+	// while (++i < var.size_env)
+	// {
+	// 	printf("NAME : %s\n",var.env[i].name);
+	// 	printf("CONT : %s\n",var.env[i].content);
+	// 	if (e[i].next)
+	// 		printf("NEXT : %s\n\n",var.env[i].next->name);
+	// }
 }

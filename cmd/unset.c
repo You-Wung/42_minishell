@@ -1,29 +1,28 @@
-#include "minishell.h"
+#include "../minishell.h"
 
-/* unset */
 int	ft_unset(t_env *env, char **cmd)
 {
 	t_env	*tmp;
-	char	*name;
+	char	*find;
 
-	name = cmd[1];
-	if (name == NULL)
+	find = cmd[1];
+	if (find == NULL)
 		return (SUCCESS);
-	if (ft_strcmp(env->content, name) == 0)
+	if (env->next == NULL && ft_strcmp(env->name, find) == 0)
 	{
 		free(env);
-		return (0);
+		return (SUCCESS);
 	}
 	while (env && env->next)
 	{
-		if (ft_strcmp(env->next->name, name) == 0)
+		if (ft_strcmp(env->next->name, find) == 0)
 		{
 			tmp = env->next->next;
 			free(env->next);
 			env->next = tmp;
-			return (0);
+			return (SUCCESS);
 		}
 		env = env->next;
 	}
-	return (0);
+	return (SUCCESS);
 }

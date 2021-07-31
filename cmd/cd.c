@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int	put_oldpwd(t_env *env)
 {
@@ -11,12 +11,9 @@ int	put_oldpwd(t_env *env)
 	{
 		if (ft_strcmp(env->name, "OLDPWD") == 0)
 		{
-			i = 0;
-			while (cwd[i])
-			{
+			i = -1;
+			while (cwd[++i])
 				env->content[i] = cwd[i];
-				i++;
-			}
 			env->content[i] = '\0';
 			return (SUCCESS);
 		}
@@ -55,12 +52,9 @@ int	move_oldpwd(t_env *env, char **cmd)
 	{
 		if (ft_strcmp(env->name, "OLDPWD") == 0)
 		{
-			i = 0;
-			while (env->content[i])
-			{
+			i = -1;
+			while (env->content[++i])
 				move[i] = env->content[i];
-				i++;
-			}
 			move[i] = '\0';
 			put_oldpwd(env);
 			if (chdir(move) != 0)

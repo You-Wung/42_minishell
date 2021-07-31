@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 /* redirect << */
 // 수정필요

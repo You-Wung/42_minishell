@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 /* redirect > */
 // file c[1].cmd[0]
@@ -25,5 +25,5 @@ int	ft_redirect_R(char **cmd, char *file)
 	}
 	else if (pid > 0)
 		wait(&status);
-	return (0);
+	return (SUCCESS);
 }
