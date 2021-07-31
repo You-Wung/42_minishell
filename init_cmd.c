@@ -67,7 +67,8 @@ static int check_size(char *input)
 			rt++;
 		input++;
 	}
-	printf("[CHECK SIZE] a word counted %d\n",rt);
+			if (rt != 0)
+				printf("[CHECK SIZE] a word counted %d\n",rt);
 	return (rt);
 }
 
@@ -79,17 +80,16 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
  
 	i = -1;
 	j = 0;
-		printf("input : %s\n",input);
+		printf("input_cmd : %s\n",input);
 	while(*input && *input == ' ')
 			input++;
 	while (++i < size && *input)
 	{
 		phrase = check_size(input);
-		if (phrase > 0)
-		{
-			c->cmd[j] = (char *)malloc(phrase + 1);
-			ft_strlcpy(c->cmd[j++], input, phrase);
-		}
+		if (phrase == 0)
+			break ;
+		c->cmd[j] = (char *)malloc(phrase + 1);
+		ft_strlcpy(c->cmd[j++], input, phrase);
 		input += phrase;
 		while(*input && *input == ' ')
 			input++;

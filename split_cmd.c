@@ -36,6 +36,9 @@ int	count_cmd(char *input)
 		}
 		if (is_sep(input[i]) && !c)
 			rt++;
+		if ((is_sep(input[i]) == 2 && input[i + 1] == '>')
+		|| (is_sep(input[i]) == 3 && input[i + 1] == '<'))
+			i++;
 	}
 	printf("count_cmd returns %d\n\n",rt);
 	return (rt);
@@ -50,11 +53,12 @@ void	fill_cmd(t_cmd *c, char *input)
 	while (input && ++i < size)
 	{
 		input = init_cmd(&c[i], input);
-		if (c[i].cmd)
-		{
+		if (c[i].cmd[0])
 			printf("cmd[0] %s\n",c[i].cmd[0]);
+		if (c[i].cmd[1])
 			printf("cmd[1] %s\n",c[i].cmd[1]);
-			printf("flag : %d\n\n",c[i].flag);
-		}
+		if (c[i].flag)
+			printf("flag : %d\n",c[i].flag);
+		printf("\n");
 	}
 }

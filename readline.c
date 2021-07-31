@@ -18,7 +18,6 @@ static t_cmd *malloc_c(char *input)
 
 	size = count_cmd(input);
 	c = (t_cmd *)malloc(sizeof(t_cmd) * size);
-	printf("it will be splited %d input : %s\n\n", size, input);
 	return (c);
 }
 
