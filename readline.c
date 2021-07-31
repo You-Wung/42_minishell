@@ -55,8 +55,6 @@ int	start_read(void)
 			 실제로 동작하는 부분은 fill_cmd 밑에 있으면 될 것 같습니다.
 		*/
 		exec_cmd(c);
-		
-		
 		free(c);
 		free(input);
 	}

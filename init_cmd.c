@@ -107,6 +107,7 @@ char	*init_cmd(t_cmd *c, char *input)
 	size = count(input);
 	if (size == ERROR)
 		return (NULL);
-	c->cmd = (char **)malloc(sizeof(char *) * size);
+	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
+	c->cmd[size] = NULL;
 	return (input_cmd(c, input, size));
 }
