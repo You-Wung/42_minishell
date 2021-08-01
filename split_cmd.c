@@ -1,15 +1,33 @@
 #include "minishell.h"
 
-static int	is_sep(char c)
+static int	is_flag(char c)
 {
 	if (c == '|' || c == '>'
-		|| c == '<' || c == ';')
-	{
-		if (c == '<')
-			return (3);
-		if (c == '>')
-			return (2);
+	|| c == '<' || c == ';')
 		return (1);
+	return (0);
+}
+
+static int	find_error(char *c)
+{
+	if ((*c == '|' && is_flag(*(c + 1)))
+		|| (*c == ';' && is_flag(*(c + 1)))
+		|| (is_flag(*c) && is_flag(*(c + 1) && is_flag(*(c - 1))))
+		|| (is_flag(*c) && is_flag(*(c + 1) && is_flag(*(c - 1))))
+		|| (*c == '>' && *(c + 1) == '<')
+		|| (*c == '<' && *(c + 1) == '>'))
+		return (ERROR);
+	if (is_flag(*c))
+	{
+		if ((*c == '>' && *(c + 1) == '>')
+			|| (*c == '<' && *(c + 1) == '<'))
+			c += 2;
+		else
+			c++;
+		while (*c == ' ')
+			c++;
+		if (*c && is_flag(*c))
+			return (ERROR);
 	}
 	return (0);
 }
@@ -34,10 +52,12 @@ int	count_cmd(char *input)
 			else if (!c)
 				c = input[i];
 		}
-		if (is_sep(input[i]) && !c)
+		if (find_error(&input[i]) == ERROR)
+			return (ERROR);
+		if (is_flag(input[i]) && !c)
 			rt++;
-		if ((is_sep(input[i]) == 2 && input[i + 1] == '>')
-		|| (is_sep(input[i]) == 3 && input[i + 1] == '<'))
+		if ((input[i] == '>' && input[i + 1] == '>')
+		|| (input[i] == '<' && input[i + 1] == '<'))
 			i++;
 	}
 	printf("count_cmd returns %d\n\n",rt);
@@ -50,6 +70,7 @@ void	fill_cmd(t_cmd *c, char *input)
 	int	i;
 
 	i = -1;
+	size = count_cmd(input);
 	while (input && ++i < size)
 	{
 		input = init_cmd(&c[i], input);
