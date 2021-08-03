@@ -7,9 +7,6 @@ void sigint_handler(int signo)
 	char		*prompt;
 	int			len;
 
-	//printf("%c[1A",27);
-	//printf("%c[K", 27);
-	//printf("%c[1B",27);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	// rl_replace_line("", 0);

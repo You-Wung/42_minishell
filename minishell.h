@@ -59,6 +59,7 @@ typedef struct		s_ext		/*전역변수*/
 							kill 함수 이용해서 signal 해당 프로세스로 보내고
 							해당 프로세스에서 다른 모든 프로세스 kill 죽인다*/
 	int				size_env;	/*환경변수 개수*/
+	int				size_pi;	/*파이프개수*/
 	t_env			*env;		/*환경변수*/
 }					t_ext;
 

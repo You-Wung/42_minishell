@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern t_ext var;
+
 static int	is_flag(char c)
 {
 	if (c == '|' || c == '>'
@@ -82,4 +84,12 @@ void	fill_cmd(t_cmd *c, char *input)
 			printf("flag : %d\n",c[i].flag);
 		printf("\n");
 	}
+	i = -1;
+	var.size_pi = 0;
+	while (++i < size)
+	{
+		if (c[i].flag == PIPE)
+			var.size_pi++;
+	}
+	//printf("size_pi : %d\n",var.size_pi);
 }
