@@ -10,5 +10,5 @@ int	ft_pwd(void)
 		return (0);
 	}
 	else
-		return (1);
+		return (-1);
 }

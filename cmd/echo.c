@@ -16,7 +16,26 @@ int	check_option_n(char *str)
 	return (1);
 }
 
-int	ft_echo(char **cmd)
+void	echo_env(t_env *env, char *env_name)
+{
+	int	i;
+
+	i = -1;
+	while (env_name[(++i) + 1])
+		env_name[i] = env_name[i + 1];
+	env_name[i] = '\0';
+	while (env && env->next)
+	{
+		if (ft_strcmp(env->name, env_name) == 0)
+		{
+			printf("%s", env->content);
+			return ;
+		}
+		env = env->next;
+	}
+}
+
+int	ft_echo(t_env *env, char **cmd)
 {
 	int	i;
 	int	option_n;
@@ -30,9 +49,10 @@ int	ft_echo(char **cmd)
 	}
 	while (cmd[i])
 	{
-		// if (cmd[i][0] == '$')
-			/* 환경병수 출력 */
-		printf("%s", cmd[i]);
+		if (cmd[i][0] == '$')
+			echo_env(env, cmd[i]);
+		else
+			printf("%s", cmd[i]);
 		if (cmd[i + 1] && cmd[i + 1][0] != '\0')
 			printf(" ");
 		i++;

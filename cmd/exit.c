@@ -18,18 +18,20 @@ int	ft_exit(char **cmd)
 
 	exit_status = 0;
 	printf("exit\n");
+	if (cmd[1] == NULL)
+		exit(0);
 	if (cmd[1] && cmd[2])
 	{
 		exit_status = 1;
 		printf("minishell: too many arguments\n");
 	}
-	else if (cmd[1] && is_num(cmd[1]) == ERROR)
+	if (cmd[1] && is_num(cmd[1]) == ERROR)
 	{
 		exit_status = 255;
 		printf("minishell: numeric argument required\n");
 		exit(0);
 	}
-	else if (cmd[1])
+	if (cmd[1])
 	{
 		exit_status = ft_atoi(cmd[1]);
 		exit(0);
