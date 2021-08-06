@@ -102,7 +102,6 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 char	*init_cmd(t_cmd *c, char *input)
 {
 	int	size;
-	int	i;
 
 	size = count(input);
 	if (size == ERROR)
