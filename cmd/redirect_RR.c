@@ -18,7 +18,7 @@ int	ft_redirect_RR(t_cmd *c)
 		if (c[1].cmd[1])
 		{
 			close(out);
-			exit(1);
+			return (ERROR);
 		}
 		dup2(out, STDOUT_FILENO);
 		run_cmd(c[0].cmd);

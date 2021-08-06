@@ -23,7 +23,7 @@ SRCS =	main.c\
 		cmd/unset.c\
 		cmd/redirect_L.c\
 		cmd/redirect_R.c\
-		cmd/redirect_LL_!.c\
+		cmd/redirect_LL.c\
 		cmd/redirect_RR.c\
 		cmd/exec_cmd.c\
 		cmd/pipe.c\
