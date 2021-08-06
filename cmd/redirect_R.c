@@ -18,13 +18,13 @@ int	ft_redirect_R(t_cmd *c)
 		if (c[1].cmd[1])
 		{
 			close(out);
-			exit(1);
+			exit(0);
 		}
 		dup2(out, STDOUT_FILENO);
 		run_cmd(c[0].cmd);
 		close(out);
 	}
 	else if (pid > 0)
-		wait(&status);
+		waitpid(pid, &status, 0);
 	return (SUCCESS);
 }

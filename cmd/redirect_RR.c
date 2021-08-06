@@ -25,6 +25,6 @@ int	ft_redirect_RR(t_cmd *c)
 		close(out);
 	}
 	else if (pid > 0)
-		wait(&status);
+		waitpid(pid, &status, 0);
 	return (SUCCESS);
 }

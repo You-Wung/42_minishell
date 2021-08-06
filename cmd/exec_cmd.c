@@ -13,8 +13,8 @@ int	use_redirect(t_cmd *c)
 		result = ft_redirect_L(c);
 	if (c->flag == 4)
 		result = ft_redirect_RR(c);
-	// if (c->flag == 5)
-	// 	result = ft_redirect_LL(c);
+	if (c->flag == 5)
+		result = ft_redirect_LL(c);
 	return (result);
 }
 
@@ -25,7 +25,7 @@ int	use_builtin(t_cmd *c, t_env *e)
 
 	result = -1;
 	if (ft_strcmp(c->cmd[0], "exit") == 0)
-		result = ft_exit(c->cmd);
+		result = ft_exit(c->cmd, c->flag);
 	if (ft_strcmp(c->cmd[0], "cd") == 0)
 		result = ft_cd(e, c->cmd);
 	if (ft_strcmp(c->cmd[0], "echo") == 0)
@@ -68,7 +68,7 @@ void	exec_cmd(t_cmd *c, int pipe)
 
 	e = var.env;
 	if (pipe != 1 && c->flag == 1)
-		result = ft_pipe(c);
+		result = ft_pipe(c, var.size_pi);
 	else if (c->flag == 0)
 		result = use_builtin(c, e);
 	else
