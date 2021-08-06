@@ -1,29 +1,30 @@
 #include "../minishell.h"
 
-/* redirect > */
-// file c[1].cmd[0]
-int	ft_redirect_R(char **cmd, char *file)
+int	ft_redirect_R(t_cmd *c)
 {
 	pid_t	pid;
-	int		fd[2];
 	int		out;
 	int		status;
 
-	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		out = open(c[1].cmd[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (out < 0)
 		{
-			printf("minishell: no such file or directory: %s\n", file);
+			printf("minishell: %s: no such file or directory\n", c[1].cmd[0]);
 			return (ERROR);
 		}
-		dup2(out, 1);
-		run_cmd(cmd);
+		if (c[1].cmd[1])
+		{
+			close(out);
+			exit(0);
+		}
+		dup2(out, STDOUT_FILENO);
+		run_cmd(c[0].cmd);
 		close(out);
 	}
 	else if (pid > 0)
-		wait(&status);
+		waitpid(pid, &status, 0);
 	return (SUCCESS);
 }

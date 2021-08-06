@@ -2,31 +2,34 @@
 
 extern t_ext var;
 
+int	use_redirect(t_cmd *c)
+{
+	int	result;
+
+	result = -1;
+	if (c->flag == 2)
+		result = ft_redirect_R(c);
+	if (c->flag == 3)
+		result = ft_redirect_L(c);
+	if (c->flag == 4)
+		result = ft_redirect_RR(c);
+	if (c->flag == 5)
+		result = ft_redirect_LL(c);
+	return (result);
+}
+
 /* result 값은 $? */
 int	use_builtin(t_cmd *c, t_env *e)
 {
 	int	result;
-	
-	result = -1;
-	/* flag */
-	// printf("\n\nflag === %d\n", c->flag);
-	// if (c->flag == 1)
-	// 	ft_pipe();
-	// if (c->flag == 2)
-	// 	ft_redirect_R(c->cmd, c->cmd[0]);
-	// if (c->flag == 3)
-	// 	ft_redirect_L(c->cmd, c->cmd[0]);
-	// if (c->flag == 4)
-	// 	ft_redirect_RR(c->cmd, c->cmd[0]);
-	// if (c->flag == 5)
-	// 	ft_redirect_LL(c->cmd, c->cmd[0]);
 
+	result = -1;
 	if (ft_strcmp(c->cmd[0], "exit") == 0)
-		result = ft_exit(c->cmd);
+		result = ft_exit(c->cmd, c->flag);
 	if (ft_strcmp(c->cmd[0], "cd") == 0)
 		result = ft_cd(e, c->cmd);
 	if (ft_strcmp(c->cmd[0], "echo") == 0)
-		result = ft_echo(c->cmd);
+		result = ft_echo(e, c->cmd);
 	if (ft_strcmp(c->cmd[0], "pwd") == 0)
 		result = ft_pwd();
 	if (ft_strcmp(c->cmd[0], "env") == 0)
@@ -40,8 +43,8 @@ int	use_builtin(t_cmd *c, t_env *e)
 
 void	run_cmd(char **cmd)
 {
-    const char *path;
-    
+	const char	*path;
+
 	path = ft_strjoin("/bin/", cmd[0]);
 	execve(path, cmd, NULL);
 	path = ft_strjoin("/usr/local/bin/", cmd[0]);
@@ -56,7 +59,7 @@ void	run_cmd(char **cmd)
 	exit(1);
 }
 
-void	exec_cmd(t_cmd *c)
+void	exec_cmd(t_cmd *c, int pipe)
 {
 	int		pid;
 	int		status;
@@ -64,7 +67,12 @@ void	exec_cmd(t_cmd *c)
 	t_env	*e;
 
 	e = var.env;
-	result = use_builtin(c, e);
+	if (pipe != 1 && c->flag == 1)
+		result = ft_pipe(c, var.size_pi);
+	else if (c->flag == 0)
+		result = use_builtin(c, e);
+	else
+		result = use_redirect(c);
 	if (result == -1)
 	{
 		if (c->cmd[0])
