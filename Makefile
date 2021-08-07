@@ -24,7 +24,6 @@ SRCS =	main.c\
 		cmd/redirect_L.c\
 		cmd/redirect_LL.c\
 		cmd/redirect_R.c\
-		cmd/redirect_LL.c\
 		cmd/redirect_RR.c\
 		cmd/exec_cmd.c\
 		cmd/pipe.c\
@@ -35,6 +34,7 @@ SRCS =	main.c\
 		libft/ft_split.c\
 		libft/ft_atoi.c\
 		libft/ft_strcmp.c
+		#cmd/redirect_LL.c\
 
 
 $(NAME) :
