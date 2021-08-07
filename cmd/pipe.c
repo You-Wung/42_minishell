@@ -2,24 +2,25 @@
 
 extern t_ext var;
 
-void	use_cmd(t_cmd *c)
+int	use_cmd(t_cmd *c)
 {
 	int		result;
 	t_env	*e;
 
 	e = var.env;
-	// printf("1 %s\n",c->cmd[0]);
+	result = -2;
 	if (ft_strcmp(c->cmd[0], "export") == 0
 		&& ft_strcmp(c->cmd[0], "unset") == 0)
-		return ;
-	// printf("3\n");
+		return (result);
 	if (c->flag <= 1)
 		result = use_builtin(c, e);
 	else
 		result = use_redirect(c);
-	if (result == -1)
+	if (result == -2)
 		run_cmd(c->cmd);
-	// printf("2 %d\n", result);
+	if (result == SUCCESS)
+		exit(1);
+	return (result);
 }
 
 void	exec_pipe(t_cmd *c, int fd[2], int flags)
@@ -61,20 +62,22 @@ void	use_pipe(t_cmd *c, int size_pi, int (*fd)[2])
 
 	i = 0;
 	j = 0;
+	printf("c[%d].cmd[0] = %s\n", j, c[j].cmd[0]);
 	exec_pipe(&c[j++], fd[0], 2);
-	if (c->flag > 1)
-		j++;
 	close(fd[i][1]);
-	while (i < size_pi - 1)
+	while (size_pi > 1 && i < size_pi - 1)
 	{
 		temp_fd[0] = fd[i][0];
 		temp_fd[1] = fd[i + 1][1];
-		exec_pipe(&c[j++], temp_fd, 3);
-		if (c->flag > 1)
+		printf("flag = %d	c[%d].cmd[0] = %s\n", c[j].flag,  j, c[j].cmd[0]);
+		exec_pipe(&c[j], temp_fd, 3);
+		while (c[j].flag > 1)
 			j++;
+		j++;
 		close(fd[i][0]);
 		close(fd[++i][1]);
 	}
+	printf("c[%d].cmd[0] = %s\n", j, c[j].cmd[0]);
 	exec_pipe(&c[j], fd[i], 1);
 	close(fd[i][0]);
 }
@@ -82,7 +85,6 @@ void	use_pipe(t_cmd *c, int size_pi, int (*fd)[2])
 int	ft_pipe(t_cmd *c, int size_pi)
 {
 	int	i;
-	int	status;
 
 	int (*fd)[2];
 	fd = malloc(sizeof(int) * 2 * size_pi);
