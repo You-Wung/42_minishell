@@ -22,8 +22,8 @@ SRCS =	main.c\
 		cmd/pwd.c\
 		cmd/unset.c\
 		cmd/redirect_L.c\
+		cmd/redirect_LL.c\
 		cmd/redirect_R.c\
-		cmd/redirect_LL_!.c\
 		cmd/redirect_RR.c\
 		cmd/exec_cmd.c\
 		cmd/pipe.c\
@@ -34,6 +34,7 @@ SRCS =	main.c\
 		libft/ft_split.c\
 		libft/ft_atoi.c\
 		libft/ft_strcmp.c
+
 
 $(NAME) :
 	gcc $(CFLAGS) $(SRCS) -o $(NAME) -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include

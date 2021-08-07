@@ -52,6 +52,8 @@ int	start_read(void)
 		input = readline(make_prompt());
 		if (input == NULL)
 			input_is_null();
+		if (!(*input))
+			continue ;
 		add_history(input);
 		c = malloc_c(input);
 		if (c)

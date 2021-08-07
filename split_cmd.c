@@ -78,8 +78,10 @@ void	fill_cmd(t_cmd *c, char *input)
 		input = init_cmd(&c[i], input);
 		if (c[i].cmd[0])
 			printf("cmd[0] %s\n",c[i].cmd[0]);
-		if (c[i].cmd[1])
-			printf("cmd[1] %s\n",c[i].cmd[1]);
+		printf("======================\n");
+		//if (c[i].cmd[1])
+			//printf("cmd[1] %s\n",c[i].cmd[1]);
+		printf("======================\n");
 		if (c[i].flag)
 			printf("flag : %d\n",c[i].flag);
 		printf("\n");
