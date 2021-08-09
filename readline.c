@@ -7,6 +7,7 @@ static void input_is_null(void)
 	printf("%c[1A", 27);
 	printf("%c[1000D", 27);
 	printf("%sexit\n",make_prompt());
+	printf(COLOR_RESET);
 	tcsetattr(STDIN_FILENO, TCSANOW, &var.restore);
 	exit(0);
 }
@@ -32,7 +33,16 @@ char	*make_prompt(void)
 	int		i;
 
 	ft_memset(&prompt[0], 0, 1027);
-	getcwd(prompt, 1024);
+	//getcwd(prompt, 1024);
+	prompt[0] = 'm';
+	prompt[1] = 'i';
+	prompt[2] = 'n';
+	prompt[3] = 'i';
+	prompt[4] = 's';
+	prompt[5] = 'h';
+	prompt[6] = 'e';
+	prompt[7] = 'l';
+	prompt[8] = 'l';
 	i = 0;
 	while (prompt[i])
 		i++;

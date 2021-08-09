@@ -15,11 +15,13 @@ static void	our_mark(void)
 	printf("  █  █  █  █  █  ██  █        █  █  █  █    █    █\n");
 	printf("  █  █  █  █  █   █  █     ████  █  █  ███  ███  ███\n");
 	printf("─────────────────────────────────────────────────────\n");
-	printf(COLOR_RESET);
+	//printf(COLOR_RESET);
 }
 
 int main(int argc, char **argv, char **env)
 {
+	var.writing = 0;
+	var.qmark = 0;
 	our_mark();
 	init_env(env);
 	init_signal();

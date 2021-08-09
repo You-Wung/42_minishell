@@ -8,7 +8,7 @@ static void	input(char *env, t_env *buf)
 	int			i;
 	int			j;
 	
-	var.size_env = ++size;
+	//var.size_env = ++size;
 	i = 0;
 	while (env[i] != '=')
 		i++;

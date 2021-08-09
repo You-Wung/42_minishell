@@ -18,7 +18,7 @@
 #include <errno.h>
 
 /*define of color*/
-#define COLOR_SET "\x1b[37m"
+#define COLOR_SET "\x1b[33m"
 #define COLOR_RESET "\x1b[0m"
 /*define for flag*/
 # define PIPE 1/* | */
@@ -58,9 +58,11 @@ typedef struct		s_ext		/*전역변수*/
 	pid_t			pid[100];	/*시그널. fork된 만큼 pid 배열에 담고
 							kill 함수 이용해서 signal 해당 프로세스로 보내고
 							해당 프로세스에서 다른 모든 프로세스 kill 죽인다*/
-	int				size_env;	/*환경변수 개수*/
+	int				writing;	/*현재 표준입력으로 받고있는 상태인지*/
+	//int				size_env;	/*환경변수 개수*/
 	int				size_pi;	/*파이프개수*/
 	t_env			*env;		/*환경변수*/
+	int				qmark;		/* echo $?*/ 
 }					t_ext;
 
 void	init_env(char **env);
