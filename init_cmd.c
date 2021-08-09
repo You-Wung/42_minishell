@@ -27,7 +27,7 @@ static int	count(char *input)
 	t_match	m;
 	int		rt;
 	
-	rt = 0;
+	rt = 1;
 	ft_memset(&m, 0, sizeof(t_match));
 	while (*input && *input == ' ')
 		input++;
@@ -47,8 +47,8 @@ static int	count(char *input)
 	if (comma_check(&m) == ERROR)
 		return (ERROR);
 	printf("[COUNT] ONE PHRASE SPLITED %d\n",rt);
-	if (rt == 0)
-		return (1);
+	if (rt == 1)
+		return (0);
 	return (rt);
 }
 
