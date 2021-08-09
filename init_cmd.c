@@ -47,8 +47,6 @@ static int	count(char *input)
 	if (comma_check(&m) == ERROR)
 		return (ERROR);
 	printf("[COUNT] ONE PHRASE SPLITED %d\n",rt);
-	if (rt == 1)
-		return (0);
 	return (rt);
 }
 
