@@ -57,6 +57,7 @@ int	start_read(void)
 	t_cmd	*c;
 	char	*input;
 
+	var.qmark = 0;
 	while (1)
 	{
 		input = readline(make_prompt());
@@ -69,7 +70,7 @@ int	start_read(void)
 		if (c)
 		{
 			fill_cmd(c, input);
-			exec_cmd(c, 0);
+			var.qmark = exec_cmd(c);
 		}
 		free(c);
 		free(input);

@@ -41,7 +41,7 @@ int	use_builtin(t_cmd *c, t_env *e)
 	return (result);
 }
 
-void	run_cmd(char **cmd)
+int	run_cmd(char **cmd)
 {
 	const char	*path;
 
@@ -56,32 +56,33 @@ void	run_cmd(char **cmd)
 	path = ft_strjoin("/sbin/", cmd[0]);
 	execve(path, cmd, NULL);
 	printf("Error: %s: command does not exist.\n", cmd[0]);
-	exit(1);
+	return (1);
 }
 
-void	exec_cmd(t_cmd *c, int pipe)
+int	exec_cmd(t_cmd *c)
 {
 	int		pid;
 	int		status;
-	int		result;
 	t_env	*e;
 
 	e = var.env;
-	if (pipe != 1 && c->flag == 1)
-		result = ft_pipe(c, var.size_pi);
+	if (c->flag == 1)
+		var.qmark = ft_pipe(c, var.size_pi);
 	else if (c->flag == 0)
-		result = use_builtin(c, e);
+		var.qmark = use_builtin(c, e);
 	else
-		result = use_redirect(c);
-	if (result == -2)
+		var.qmark = use_redirect(c);
+	if (var.qmark == -2)
 	{
+		var.qmark = 0;
 		if (c->cmd[0])
 		{
 			pid = fork();
 			if (pid > 0)
 				waitpid(pid, &status, 0);
 			else if (pid == 0)
-				run_cmd(c->cmd);
+				var.qmark = run_cmd(c->cmd);
 		}
 	}
+	return (var.qmark);
 }

@@ -13,12 +13,12 @@ int	ft_redirect_R(t_cmd *c)
 		if (out < 0)
 		{
 			printf("minishell: %s: no such file or directory\n", c[1].cmd[0]);
-			return (ERROR);
+			return (1);
 		}
 		if (c[1].cmd[1])
 		{
 			close(out);
-			return (ERROR);
+			return (1);
 		}
 		dup2(out, STDOUT_FILENO);
 		run_cmd(c[0].cmd);

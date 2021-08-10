@@ -79,13 +79,13 @@ int	ft_export(t_env *env, char **cmd)
 	while (cmd[i])
 	{
 		tmp = ft_split(cmd[i], '=');
-		if (vaild_env(tmp) == 0)
+		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env(tmp) == 0)
 		{
 			printf("minichell: not a valid identifier.\n");
-			return (ERROR);
+			return (1);
 		}
 		add_env(env, tmp);
 		i++;
 	}
-	return (0);
+	return (SUCCESS);
 }
