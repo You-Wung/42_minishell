@@ -90,9 +90,9 @@ int		ft_redirect_LL(t_cmd *c);
 int		ft_unset(t_env *env, char **cmd);
 int		ft_pipe(t_cmd *c, int size_pi);
 
-void	exec_cmd(t_cmd *c, int pipe);
+int		exec_cmd(t_cmd *c);
 int		use_builtin(t_cmd *c, t_env *e);
 int		use_redirect(t_cmd *c);
-void	run_cmd(char **cmd);
+int		run_cmd(char **cmd);
 
 #endif

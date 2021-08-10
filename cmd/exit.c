@@ -12,7 +12,7 @@ int	is_num(char *str)
 	return (SUCCESS);
 }
 
-int end_shell(int flag)
+int	end_shell(int flag)
 {
 	if (flag != 1)
 		exit(0);

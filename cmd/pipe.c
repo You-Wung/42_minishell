@@ -4,23 +4,24 @@ extern t_ext var;
 
 int	use_cmd(t_cmd *c)
 {
-	int		result;
 	t_env	*e;
 
 	e = var.env;
-	result = -2;
 	if (ft_strcmp(c->cmd[0], "export") == 0
 		&& ft_strcmp(c->cmd[0], "unset") == 0)
-		return (result);
+		return (var.qmark);
 	if (c->flag <= 1)
-		result = use_builtin(c, e);
+		var.qmark = use_builtin(c, e);
 	else
-		result = use_redirect(c);
-	if (result == -2)
-		run_cmd(c->cmd);
-	if (result == SUCCESS)
+		var.qmark = use_redirect(c);
+	if (var.qmark != -2)
 		exit(1);
-	return (result);
+	else
+	{
+		var.qmark = 0;
+		var.qmark = run_cmd(c->cmd);
+	}
+	return (var.qmark);
 }
 
 void	exec_pipe(t_cmd *c, int fd[2], int flags)
@@ -50,7 +51,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 		}
 		close(fd[0]);
 		close(fd[1]);
-		use_cmd(c);
+		var.qmark = use_cmd(c);
 	}
 }
 
@@ -62,14 +63,12 @@ void	use_pipe(t_cmd *c, int size_pi, int (*fd)[2])
 
 	i = 0;
 	j = 0;
-	printf("c[%d].cmd[0] = %s\n", j, c[j].cmd[0]);
 	exec_pipe(&c[j++], fd[0], 2);
 	close(fd[i][1]);
 	while (size_pi > 1 && i < size_pi - 1)
 	{
 		temp_fd[0] = fd[i][0];
 		temp_fd[1] = fd[i + 1][1];
-		printf("flag = %d	c[%d].cmd[0] = %s\n", c[j].flag,  j, c[j].cmd[0]);
 		exec_pipe(&c[j], temp_fd, 3);
 		while (c[j].flag > 1)
 			j++;
@@ -77,7 +76,6 @@ void	use_pipe(t_cmd *c, int size_pi, int (*fd)[2])
 		close(fd[i][0]);
 		close(fd[++i][1]);
 	}
-	printf("c[%d].cmd[0] = %s\n", j, c[j].cmd[0]);
 	exec_pipe(&c[j], fd[i], 1);
 	close(fd[i][0]);
 }
