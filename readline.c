@@ -58,6 +58,7 @@ int	start_read(void)
 	char	*input;
 
 	var.qmark = 0;
+	var.pnum = 0;
 	while (1)
 	{
 		input = readline(make_prompt());

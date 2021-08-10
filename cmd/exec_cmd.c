@@ -67,7 +67,9 @@ int	exec_cmd(t_cmd *c)
 
 	e = var.env;
 	if (c->flag == 1)
-		var.qmark = ft_pipe(c, var.size_pi);
+		var.qmark = ft_pipe(c);
+	if (c->flag == 6)
+		var.qmark = ft_semicolon(c);
 	else if (c->flag == 0)
 		var.qmark = use_builtin(c, e);
 	else
@@ -78,6 +80,7 @@ int	exec_cmd(t_cmd *c)
 		if (c->cmd[0])
 		{
 			pid = fork();
+			var.pid[var.pnum++] = pid;
 			if (pid > 0)
 				waitpid(pid, &status, 0);
 			else if (pid == 0)
