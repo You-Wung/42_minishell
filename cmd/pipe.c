@@ -30,6 +30,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 	int		status;
 
 	pid = fork();
+	var.pid[var.pnum++] = pid;
 	if (pid < 0)
 		perror("fork");
 	if (pid > 0)
@@ -41,6 +42,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 	{
 		if (flags == 1 || flags == 3)
 		{
+			var.writing = 1;
 			if (dup2(fd[0], STDIN_FILENO) < 0)
 				perror("dup2");
 		}
@@ -55,7 +57,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 	}
 }
 
-void	use_pipe(t_cmd *c, int size_pi, int (*fd)[2])
+void	use_pipe(t_cmd *c, int (*fd)[2])
 {
 	int	temp_fd[2];
 	int	i;
@@ -65,7 +67,7 @@ void	use_pipe(t_cmd *c, int size_pi, int (*fd)[2])
 	j = 0;
 	exec_pipe(&c[j++], fd[0], 2);
 	close(fd[i][1]);
-	while (size_pi > 1 && i < size_pi - 1)
+	while (var.size_pi > 1 && i < var.size_pi - 1)
 	{
 		temp_fd[0] = fd[i][0];
 		temp_fd[1] = fd[i + 1][1];
@@ -80,15 +82,16 @@ void	use_pipe(t_cmd *c, int size_pi, int (*fd)[2])
 	close(fd[i][0]);
 }
 
-int	ft_pipe(t_cmd *c, int size_pi)
+int	ft_pipe(t_cmd *c)
 {
 	int	i;
 
 	int (*fd)[2];
-	fd = malloc(sizeof(int) * 2 * size_pi);
+	fd = malloc(sizeof(int) * 2 * var.size_pi);
 	i = 0;
-	while (i < size_pi)
+	while (i < var.size_pi)
 		pipe(fd[i++]);
-	use_pipe(c, size_pi, fd);
+	use_pipe(c, fd);
+	var.writing = 0;
 	return (0);
 }

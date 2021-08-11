@@ -58,9 +58,10 @@ typedef struct		s_ext		/*전역변수*/
 	pid_t			pid[100];	/*시그널. fork된 만큼 pid 배열에 담고
 							kill 함수 이용해서 signal 해당 프로세스로 보내고
 							해당 프로세스에서 다른 모든 프로세스 kill 죽인다*/
+	int				pnum;		/*pid[pnum]*/
 	int				writing;	/*현재 표준입력으로 받고있는 상태인지*/
 	//int				size_env;	/*환경변수 개수*/
-	int				size_pi;	/*파이프개수*/
+	int				size_pi;	/*파이프 개수*/
 	t_env			*env;		/*환경변수*/
 	int				qmark;		/* echo $?*/ 
 }					t_ext;
@@ -88,7 +89,8 @@ int		ft_redirect_R(t_cmd *c);
 int		ft_redirect_RR(t_cmd *c);
 int		ft_redirect_LL(t_cmd *c);
 int		ft_unset(t_env *env, char **cmd);
-int		ft_pipe(t_cmd *c, int size_pi);
+int		ft_pipe(t_cmd *c);
+int		ft_semicolon(t_cmd *c);
 
 int		exec_cmd(t_cmd *c);
 int		use_builtin(t_cmd *c, t_env *e);

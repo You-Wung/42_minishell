@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+extern t_ext var;
+
 int	get_user_tmp(t_cmd *c)
 {
 	char	*buf;
@@ -34,9 +36,11 @@ int	use_user_tmp(t_cmd *c)
 		printf("minishell: no such file or directory\n");
 		return (1);
 	}
+	var.writing = 1;
 	dup2(in, STDIN_FILENO);
 	run_cmd(c[0].cmd);
 	close(in);
+	var.writing = 0;
 	return (SUCCESS);
 }
 
@@ -47,6 +51,7 @@ int	del_user_tmp(void)
 	char	**del;
 
 	pid = fork();
+	var.pid[var.pnum++] = pid;
 	if (pid < 0)
 	{
 		printf("fork error\n");
@@ -68,6 +73,7 @@ int	ft_redirect_LL(t_cmd *c)
 	int		status;
 
 	pid = fork();
+	var.pid[var.pnum++] = pid;
 	if (pid < 0)
 	{
 		printf("fork error\n");

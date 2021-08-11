@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+extern t_ext var;
+
 int	ft_redirect_R(t_cmd *c)
 {
 	pid_t	pid;
@@ -7,6 +9,7 @@ int	ft_redirect_R(t_cmd *c)
 	int		status;
 
 	pid = fork();
+	var.pid[var.pnum++] = pid;
 	if (pid == 0)
 	{
 		out = open(c[1].cmd[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
