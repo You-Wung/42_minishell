@@ -93,5 +93,12 @@ void	fill_cmd(t_cmd *c, char *input)
 		if (c[i].flag == PIPE)
 			var.size_pi++;
 	}
+	var.size_se = 0;
+	i = -1;
+	while (++i < size)
+	{
+		if (c[i].flag == SEMI)
+			var.size_se++;
+	}
 	//printf("size_pi : %d\n",var.size_pi);
 }
