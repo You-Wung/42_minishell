@@ -104,11 +104,22 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 char	*init_cmd(t_cmd *c, char *input)
 {
 	int	size;
+	int	i;
 
+	if (is_flag(*input))
+	{
+		printf("minishell : ERROR\n");
+		return (NULL);
+	}
 	size = count(input);
 	if (size == ERROR)
 		return (NULL);
+	//i = -1;
+	//while (input[++i]);
+	//if (is_flag(input[i - 1]))
+		//size--;
 	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	c->cmd[size] = NULL;
 	return (input_cmd(c, input, size));
+
 }

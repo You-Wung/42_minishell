@@ -8,7 +8,6 @@ static void	input(char *env, t_env *buf)
 	int			i;
 	int			j;
 	
-	//var.size_env = ++size;
 	i = 0;
 	while (env[i] != '=')
 		i++;
@@ -40,7 +39,7 @@ void	init_env(char **env)
 	var.env = e;
 	i = -1;
 	/* --- 체크용 --- */
-	// while (++i < var.size_env)
+	// while (env[++i])
 	// {
 	// 	printf("NAME : %s\n",var.env[i].name);
 	// 	printf("CONT : %s\n",var.env[i].content);

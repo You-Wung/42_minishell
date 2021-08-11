@@ -2,7 +2,7 @@
 
 extern t_ext var;
 
-static int	is_flag(char c)
+int	is_flag(char c)
 {
 	if (c == '|' || c == '>'
 	|| c == '<' || c == ';')
@@ -62,11 +62,11 @@ int	count_cmd(char *input)
 		|| (input[i] == '<' && input[i + 1] == '<'))
 			i++;
 	}
-	printf("count_cmd returns %d\n\n",rt);
+	printf("!count_cmd returns %d\n\n",rt);
 	return (rt);
 }
 
-void	fill_cmd(t_cmd *c, char *input)
+char	*fill_cmd(t_cmd *c, char *input)
 {
 	int	size;
 	int	i;
@@ -76,15 +76,17 @@ void	fill_cmd(t_cmd *c, char *input)
 	while (input && ++i < size)
 	{
 		input = init_cmd(&c[i], input);
-		if (c[i].cmd[0])
-			printf("cmd[0] %s\n",c[i].cmd[0]);
-		printf("======================\n");
-		if (c[i].cmd[1])
-			printf("cmd[1] %s\n",c[i].cmd[1]);
-		printf("======================\n");
-		if (c[i].flag)
-			printf("flag : %d\n",c[i].flag);
-		printf("\n");
+		if (input == NULL)
+			return (NULL);
+		//if (c[i].cmd[0])
+			//printf("cmd[0] %s\n",c[i].cmd[0]);
+		//printf("======================\n");
+		//if (c[i].cmd[1])
+			//printf("cmd[1] %s\n",c[i].cmd[1]);
+		//printf("======================\n");
+		//if (c[i].flag)
+			//printf("flag : %d\n",c[i].flag);
+		//printf("\n");
 	}
 	i = -1;
 	var.size_pi = 0;
@@ -101,4 +103,5 @@ void	fill_cmd(t_cmd *c, char *input)
 			var.size_se++;
 	}
 	//printf("size_pi : %d\n",var.size_pi);
+	return (input);
 }
