@@ -44,7 +44,7 @@ int	add_env(t_env *env, char **tmp)
 	int		i;
 	t_env	*e;
 
-	while (env && env->next)
+	while (env && env->next->next != NULL)
 	{
 		if (ft_strcmp(env->name, tmp[0]) == 0)
 		{
@@ -54,13 +54,11 @@ int	add_env(t_env *env, char **tmp)
 		env = env->next;
 	}
 	e = (t_env *)malloc(sizeof(t_env));
-	e->next = NULL;
+	e->next = env->next;
 	i = -1;
 	while (tmp[0][++i])
 		e->name[i] = tmp[0][i];
 	put_env(e, tmp[1]);
-	while (env && env->next)
-		env = env->next;
 	env->next = e;
 	return (1);
 }

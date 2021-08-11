@@ -26,6 +26,7 @@ SRCS =	main.c\
 		cmd/redirect_R.c\
 		cmd/redirect_RR.c\
 		cmd/exec_cmd.c\
+		cmd/semicolon.c\
 		cmd/pipe.c\
 		libft/ft_memset.c\
 		libft/ft_strlcpy.c\
