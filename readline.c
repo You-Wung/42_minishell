@@ -1,18 +1,19 @@
 #include "minishell.h"
 
-extern t_ext var;
+extern t_ext	g_var;
 
-static void input_is_null(void)
+static void	input_is_null(void)
 {
 	printf("%c[1A", 27);
 	printf("%c[1000D", 27);
-	printf("%sexit\n",make_prompt());
+	printf("%sexit\n", make_prompt());
 	printf(COLOR_RESET);
-	tcsetattr(STDIN_FILENO, TCSANOW, &var.restore);
+	tcsetattr(STDIN_FILENO, TCSANOW, &g_var.restore);
 	exit(0);
 }
+
 /* t_cmd *c 동적할당 해주는 부분 */
-static t_cmd *malloc_c(char *input)
+static t_cmd	*malloc_c(char *input)
 {
 	t_cmd	*c;
 	int		size;
@@ -30,10 +31,9 @@ static t_cmd *malloc_c(char *input)
 char	*make_prompt(void)
 {
 	static char	prompt[1027];
-	int		i;
+	int			i;
 
 	ft_memset(&prompt[0], 0, 1027);
-	//getcwd(prompt, 1024);
 	prompt[0] = 'm';
 	prompt[1] = 'i';
 	prompt[2] = 'n';
@@ -68,9 +68,9 @@ int	start_read(void)
 		c = malloc_c(input);
 		if (c && fill_cmd(c, input))
 		{
-			var.writing = 1;
-			var.qmark = exec_cmd(c);
-			var.writing = 0;
+			g_var.writing = 1;
+			g_var.qmark = exec_cmd(c);
+			g_var.writing = 0;
 		}
 		free(c);
 		free(input);

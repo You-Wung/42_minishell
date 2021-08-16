@@ -1,13 +1,12 @@
 #include "minishell.h"
 
-extern t_ext var;
+extern t_ext	g_var;
 
 static void	input(char *env, t_env *buf)
 {
-	static int	size;
 	int			i;
 	int			j;
-	
+
 	i = 0;
 	while (env[i] != '=')
 		i++;
@@ -36,7 +35,7 @@ void	init_env(char **env)
 	i = -1;
 	while (env[++i])
 		input(env[i], &e[i]);
-	var.env = e;
+	g_var.env = e;
 	i = -1;
 	/* --- 체크용 --- */
 	// while (env[++i])

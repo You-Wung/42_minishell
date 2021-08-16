@@ -25,10 +25,10 @@ char	*set_flag(t_cmd *c, char *input, int *sign)
 	return (input);
 }
 
-int		check_input(char *input, t_match *m)
+int	check_input(char *input, t_match *m)
 {
 	int	c;
-	int dc;
+	int	dc;
 	int	b;
 
 	c = m->comma % 2;

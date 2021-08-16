@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-extern t_ext var;
+extern t_ext	g_var;
 
 int	use_redirect(t_cmd *c)
 {
@@ -65,27 +65,30 @@ int	exec_cmd(t_cmd *c)
 	int		status;
 	t_env	*e;
 
-	e = var.env;
+	e = g_var.env;
 	if (c->flag == 1)
-		var.qmark = ft_pipe(c);
+		g_var.qmark = ft_pipe(c);
 	if (c->flag == 6)
-		var.qmark = ft_semicolon(c);
+		g_var.qmark = ft_semicolon(c);
 	else if (c->flag == 0)
-		var.qmark = use_builtin(c, e);
+		g_var.qmark = use_builtin(c, e);
 	else
-		var.qmark = use_redirect(c);
-	if (var.qmark == -2)
+		g_var.qmark = use_redirect(c);
+	if (g_var.qmark == -2)
 	{
-		var.qmark = 0;
+		g_var.qmark = 0;
 		if (c->cmd[0])
 		{
 			pid = fork();
-			var.pid[var.pnum++] = pid;
+			g_var.pid[g_var.pnum++] = pid;
 			if (pid > 0)
 				waitpid(pid, &status, 0);
 			else if (pid == 0)
-				var.qmark = run_cmd(c->cmd);
+			{
+				g_var.qmark = run_cmd(c->cmd);
+				exit(0);
+			}
 		}
 	}
-	return (var.qmark);
+	return (g_var.qmark);
 }

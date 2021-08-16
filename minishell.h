@@ -18,7 +18,7 @@
 #include <errno.h>
 
 /*define of color*/
-#define COLOR_SET "\x1b[33m"
+#define COLOR_SET "\x1b[1;95m"
 #define COLOR_RESET "\x1b[0m"
 /*define for flag*/
 # define PIPE 1/* | */

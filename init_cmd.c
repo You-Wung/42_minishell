@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int comma_check(t_match *m)
+static int	comma_check(t_match *m)
 {
 	int	i;
 
@@ -13,7 +13,6 @@ static int comma_check(t_match *m)
 		printf("backtick");
 	if (!i)
 		return (0);
-	//printf("\n");
 	return (ERROR);
 }
 
@@ -26,7 +25,7 @@ static int	count(char *input)
 {
 	t_match	m;
 	int		rt;
-	
+
 	rt = 1;
 	ft_memset(&m, 0, sizeof(t_match));
 	while (*input && *input == ' ')
@@ -40,19 +39,19 @@ static int	count(char *input)
 		if (*input == '`' && m.dcomma % 2 == 0 && m.comma % 2 == 0)
 			m.backtick++;
 		if (*input == ' ' && *(input + 1) != ' ' && *(input - 1) != ' '
-		&& m.comma % 2 == 0 && m.dcomma % 2 == 0 && m.backtick % 2 == 0)
+			&& m.comma % 2 == 0 && m.dcomma % 2 == 0 && m.backtick % 2 == 0)
 			rt++;
 		input++;
 	}
 	if (comma_check(&m) == ERROR)
 		return (ERROR);
-	printf("[COUNT] ONE PHRASE SPLITED %d\n",rt);
+	printf("[COUNT] ONE PHRASE SPLITED %d\n", rt);
 	return (rt);
 }
 
-static int check_size(char *input)
+static int	check_size(char *input)
 {
-	int comma;
+	int	comma;
 	int	rt;
 
 	rt = 0;
@@ -69,22 +68,22 @@ static int check_size(char *input)
 			rt++;
 		input++;
 	}
-			if (rt != 0)
-				printf("[CHECK SIZE] a word counted %d\n",rt);
+	if (rt != 0)
+		printf("[CHECK SIZE] a word counted %d\n", rt);
 	return (rt);
 }
 
 static char	*input_cmd(t_cmd *c, char *input, int size)
 {
 	int		i;
-	int 	j;
+	int		j;
 	int		phrase;
- 
+
 	i = -1;
 	j = 0;
-		printf("input_cmd : %s\n",input);
-	while(*input && *input == ' ')
-			input++;
+	printf("input_cmd : %s\n", input);
+	while (*input && *input == ' ')
+		input++;
 	while (++i < size && *input)
 	{
 		phrase = check_size(input);
@@ -93,7 +92,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 		c->cmd[j] = (char *)malloc(phrase + 1);
 		ft_strlcpy(c->cmd[j++], input, phrase);
 		input += phrase;
-		while(*input && *input == ' ')
+		while (*input && *input == ' ')
 			input++;
 		input = set_flag(c, input, &j);
 	}
@@ -104,7 +103,6 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 char	*init_cmd(t_cmd *c, char *input)
 {
 	int	size;
-	int	i;
 
 	if (is_flag(*input))
 	{
@@ -121,5 +119,4 @@ char	*init_cmd(t_cmd *c, char *input)
 	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	c->cmd[size] = NULL;
 	return (input_cmd(c, input, size));
-
 }

@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-extern t_ext var;
+extern t_ext g_var;
 
 int	check_option_n(char *str)
 {
@@ -25,8 +25,8 @@ void	echo_env(t_env *env, char *env_name)
 	i = -1;
 	if (ft_strcmp(env_name, "$?") == 0)
 	{
-		printf("%d", var.qmark);
-		var.qmark = 0;
+		printf("%d", g_var.qmark);
+		g_var.qmark = 0;
 		return ;
 	}
 	while (env_name[(++i) + 1])

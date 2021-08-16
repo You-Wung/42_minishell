@@ -1,27 +1,27 @@
 #include "../minishell.h"
 
-extern t_ext var;
+extern t_ext g_var;
 
 int	use_cmd(t_cmd *c)
 {
 	t_env	*e;
 
-	e = var.env;
+	e = g_var.env;
 	if (ft_strcmp(c->cmd[0], "export") == 0
 		&& ft_strcmp(c->cmd[0], "unset") == 0)
-		return (var.qmark);
+		return (g_var.qmark);
 	if (c->flag <= 1)
-		var.qmark = use_builtin(c, e);
+		g_var.qmark = use_builtin(c, e);
 	else
-		var.qmark = use_redirect(c);
-	if (var.qmark != -2)
+		g_var.qmark = use_redirect(c);
+	if (g_var.qmark != -2)
 		exit(1);
 	else
 	{
-		var.qmark = 0;
-		var.qmark = run_cmd(c->cmd);
+		g_var.qmark = 0;
+		g_var.qmark = run_cmd(c->cmd);
 	}
-	return (var.qmark);
+	return (g_var.qmark);
 }
 
 void	exec_pipe(t_cmd *c, int fd[2], int flags)
@@ -30,7 +30,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 	int		status;
 
 	pid = fork();
-	var.pid[var.pnum++] = pid;
+	g_var.pid[g_var.pnum++] = pid;
 	if (pid < 0)
 		perror("fork");
 	if (pid > 0)
@@ -52,7 +52,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 		}
 		close(fd[0]);
 		close(fd[1]);
-		var.qmark = use_cmd(c);
+		g_var.qmark = use_cmd(c);
 	}
 }
 
@@ -66,7 +66,7 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 	j = 0;
 	exec_pipe(&c[j++], fd[0], 2);
 	close(fd[i][1]);
-	while (var.size_pi > 1 && i < var.size_pi - 1)
+	while (g_var.size_pi > 1 && i < g_var.size_pi - 1)
 	{
 		temp_fd[0] = fd[i][0];
 		temp_fd[1] = fd[i + 1][1];
@@ -86,9 +86,9 @@ int	ft_pipe(t_cmd *c)
 	int	i;
 
 	int (*fd)[2];
-	fd = malloc(sizeof(int) * 2 * var.size_pi);
+	fd = malloc(sizeof(int) * 2 * g_var.size_pi);
 	i = 0;
-	while (i < var.size_pi)
+	while (i < g_var.size_pi)
 		pipe(fd[i++]);
 	use_pipe(c, fd);
 	return (0);

@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-extern t_ext var;
+extern t_ext g_var;
 
 int	get_user_tmp(t_cmd *c)
 {
@@ -49,7 +49,7 @@ int	del_user_tmp(void)
 	char	**del;
 
 	pid = fork();
-	var.pid[var.pnum++] = pid;
+	g_var.pid[g_var.pnum++] = pid;
 	if (pid < 0)
 	{
 		printf("fork error\n");
@@ -71,7 +71,7 @@ int	ft_redirect_LL(t_cmd *c)
 	int		status;
 
 	pid = fork();
-	var.pid[var.pnum++] = pid;
+	g_var.pid[g_var.pnum++] = pid;
 	if (pid < 0)
 	{
 		printf("fork error\n");
