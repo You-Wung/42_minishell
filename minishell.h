@@ -60,7 +60,6 @@ typedef struct		s_ext		/*전역변수*/
 							해당 프로세스에서 다른 모든 프로세스 kill 죽인다*/
 	int				pnum;		/*pid[pnum]*/
 	int				writing;	/*현재 표준입력으로 받고있는 상태인지*/
-	//int				size_env;	/*환경변수 개수*/
 	int				size_pi;	/*파이프 개수*/
 	int				size_se;	/*세미콜론 개수*/
 	t_env			*env;		/*환경변수*/

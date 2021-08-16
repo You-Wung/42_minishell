@@ -42,7 +42,6 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 	{
 		if (flags == 1 || flags == 3)
 		{
-			var.writing = 1;
 			if (dup2(fd[0], STDIN_FILENO) < 0)
 				perror("dup2");
 		}
@@ -92,6 +91,5 @@ int	ft_pipe(t_cmd *c)
 	while (i < var.size_pi)
 		pipe(fd[i++]);
 	use_pipe(c, fd);
-	var.writing = 0;
 	return (0);
 }

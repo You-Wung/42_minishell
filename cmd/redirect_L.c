@@ -23,11 +23,9 @@ int	ft_redirect_L(t_cmd *c)
 			close(in);
 			return (1);
 		}
-		var.writing = 1;
 		dup2(in, STDIN_FILENO);
 		run_cmd(c[0].cmd);
 		close(in);
-		var.writing = 0;
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);

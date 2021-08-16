@@ -67,7 +67,11 @@ int	start_read(void)
 		add_history(input);
 		c = malloc_c(input);
 		if (c && fill_cmd(c, input))
+		{
+			var.writing = 1;
 			var.qmark = exec_cmd(c);
+			var.writing = 0;
+		}
 		free(c);
 		free(input);
 	}

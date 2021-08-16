@@ -36,11 +36,9 @@ int	use_user_tmp(t_cmd *c)
 		printf("minishell: no such file or directory\n");
 		return (1);
 	}
-	var.writing = 1;
 	dup2(in, STDIN_FILENO);
 	run_cmd(c[0].cmd);
 	close(in);
-	var.writing = 0;
 	return (SUCCESS);
 }
 
