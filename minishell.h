@@ -79,6 +79,7 @@ char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
 int		check_input(char *input, t_match *m);
 void	init_signal(void);/*시그널 처리*/
 int		is_flag(char c);
+char	*edit_input(char **input);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

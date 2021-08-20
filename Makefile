@@ -14,6 +14,7 @@ SRCS =	main.c\
 		init_cmd2.c\
 		signal.c\
 		env.c\
+		utils.c\
 		cmd/cd.c\
 		cmd/echo.c\
 		cmd/env.c\
@@ -34,6 +35,7 @@ SRCS =	main.c\
 		libft/ft_strjoin.c\
 		libft/ft_split.c\
 		libft/ft_atoi.c\
+		libft/ft_strdup.c\
 		libft/ft_strcmp.c
 
 

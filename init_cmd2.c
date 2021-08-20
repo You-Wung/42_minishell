@@ -41,3 +41,68 @@ int	check_input(char *input, t_match *m)
 		return (1);
 	return (0);
 }
+
+static void	pull_input(char *input)
+{
+	char	*copied;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	copied = ft_strdup(input);
+	while (copied[i] && copied[i] != ' ')
+		i++;
+	while (copied[i])
+		input[j++] = copied[i++];
+	input[j] = '\0';
+	free(copied);
+}
+
+static char	*save_cmd(char *input)
+{
+	char	*cmd;
+	int		i;
+	int		j;
+	int		pull_point;
+
+	j = 0;
+	i = 0;
+	cmd = malloc(10);
+	while (is_flag(input[i]))
+		i++;
+	while (input[i] && input[i] == ' ')
+		i++;
+	while (input[i] && input[i] != ' ')
+		i++;
+	while (input[i] && input[i] == ' ')
+		i++;
+	pull_point = i;
+	while (input[i] && input[i] != ' ')
+		cmd[j++] = input[i++];
+	cmd[j] = '\0';
+	pull_input(&input[pull_point]);
+	return (cmd);
+}
+
+char	*edit_input(char **input)
+{
+	char	*ret;
+	char	*cmd;
+	int		i;
+	int		j;
+
+	if (**input == '<' && *(*input + 1) == '<')
+		return (NULL);
+	cmd = save_cmd(*input);
+	ret = malloc(ft_strlen(*input) + 1);
+	i = 0;
+	j = 0;
+	while (cmd[i])
+		ret[j++] = cmd[i++];
+	i = 0;
+	while (*(input + i) && i < ft_strlen(*input))
+		ret[++j] = *(*input + i++);
+	free(*input);
+	return (ret);
+}

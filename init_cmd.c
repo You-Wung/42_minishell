@@ -6,7 +6,7 @@ static int	comma_check(t_match *m)
 
 	i = 0;
 	if (m->comma % 2 == 1 && ++i)
-		printf("quote %d\n",i);
+		printf("quote %d\n", i);
 	if (m->dcomma % 2 == 1 && ++i)
 		printf("double quote");
 	if (m->backtick % 2 == 1 && ++i)
@@ -104,11 +104,12 @@ char	*init_cmd(t_cmd *c, char *input)
 {
 	int	size;
 
+	while (*input && *input == ' ')
+		input++;
 	if (is_flag(*input))
-	{
-		printf("minishell : ERROR\n");
+		input = edit_input(&input);
+	if (input == NULL)
 		return (NULL);
-	}
 	size = count(input);
 	if (size == ERROR)
 		return (NULL);

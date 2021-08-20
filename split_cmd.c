@@ -2,14 +2,6 @@
 
 extern t_ext	g_var;
 
-int	is_flag(char c)
-{
-	if (c == '|' || c == '>'
-		|| c == '<' || c == ';')
-		return (1);
-	return (0);
-}
-
 static int	find_error(char *c)
 {
 	if ((*c == '|' && is_flag(*(c + 1)))
@@ -83,7 +75,10 @@ char	*fill_cmd(t_cmd *c, char *input)
 	{
 		input = init_cmd(&c[i], input);
 		if (input == NULL)
+		{
+			printf("minishell: Error\n");
 			return (NULL);
+		}
 		//if (c[i].cmd[0])
             //printf("cmd[0] %s\n",c[i].cmd[0]);
         //printf("======================\n");
@@ -93,7 +88,6 @@ char	*fill_cmd(t_cmd *c, char *input)
         //if (c[i].flag)
             //printf("flag : %d\n",c[i].flag);
         //printf("\n");
-
 	}
 	i = -1;
 	while (++i < size)
