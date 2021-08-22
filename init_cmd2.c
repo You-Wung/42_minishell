@@ -94,6 +94,11 @@ char	*edit_input(char **input)
 
 	if (**input == '<' && *(*input + 1) == '<')
 		return (NULL);
+	i = 0;
+	while (is_flag(*(*input + i)) || (*(*input + i) == ' '))
+		i++;
+	if (*(*input + i) == 0)
+		return (NULL);
 	cmd = save_cmd(*input);
 	ret = malloc(ft_strlen(*input) + 1);
 	i = 0;
@@ -101,7 +106,7 @@ char	*edit_input(char **input)
 	while (cmd[i])
 		ret[j++] = cmd[i++];
 	i = 0;
-	while (*(input + i) && i < ft_strlen(*input))
+	while (*(input + i) && i < (int)ft_strlen(*input))
 		ret[++j] = *(*input + i++);
 	free(*input);
 	return (ret);

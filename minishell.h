@@ -80,6 +80,7 @@ int		check_input(char *input, t_match *m);
 void	init_signal(void);/*시그널 처리*/
 int		is_flag(char c);
 char	*edit_input(char **input);
+void	check_qmark(char **str);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

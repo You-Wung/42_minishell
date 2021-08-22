@@ -2,8 +2,9 @@ NAME = minishell
 
 CC = gcc
 
-#CFLAGS = -Werror -Wall -Wextra -lreadline
-CFLAGS = -lreadline
+CFLAGS = -Werror -Wall -Wextra -lreadline
+#CFLAGS2 = -Werror -Wall -Wextra
+#CFLAGS = -lreadline
 
 RM = rm -rf
 
@@ -28,28 +29,43 @@ SRCS =	main.c\
 		cmd/redirect_RR.c\
 		cmd/exec_cmd.c\
 		cmd/pipe.c\
-		cmd/semicolon.c\
-		libft/ft_memset.c\
+		cmd/semicolon.c
+
+LIBFT = libft/ft_memset.c\
 		libft/ft_strlcpy.c\
 		libft/ft_strlen.c\
 		libft/ft_strjoin.c\
 		libft/ft_split.c\
 		libft/ft_atoi.c\
 		libft/ft_strdup.c\
-		libft/ft_strcmp.c
+		libft/ft_strcmp.c\
+		libft/ft_itoa.c\
+		libft/ft_strchr.c
 
+OBJS = $(SRCS:.c=.o)
 
-$(NAME) :
-	gcc $(CFLAGS) $(SRCS) -o $(NAME) -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-	#gcc $(CFLAGS) $(SRCS) -o $(NAME)
-	#./$(NAME)
+O_LIBFT = $(LIBFT:.c=.o)
+
+%.o:	$(SRCS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o:	$(LIBFT)
+	$(CC) $(CFLAGS2) -c $< -o $@
+
+$(NAME) : $(OBJS) $(LIBFT)
+	make -C ./libft
+	$(CC) $(CFLAGS) -o $(NAME) $(O_LIBFT) $(OBJS) -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 
 all : $(NAME)
 
 fclean : clean
-	$(RM) $(NAME)
+	make fclean -C libft/
+	$(RM) $(NAME) $(O_LIBFT) $(OBJS)
 
 clean :
-	$(RM) $(NAME)
+	make clean -C libft/
+	$(RM) $(NAME) 
 
 re : fclean all
+
+.PHONY:			all clean fclean re bonus

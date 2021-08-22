@@ -31,7 +31,7 @@ void	put_env(t_env *env, char *tmp)
 	j = 0;
 	if (tmp[0] == '\"' || tmp[0] == '\'')
 		j = 1;
-	while (i < ft_strlen(tmp) - (j * 2))
+	while (i < (int)ft_strlen(tmp) - (j * 2))
 	{			
 		env->content[i] = tmp[i + j];
 		i++;

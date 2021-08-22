@@ -48,7 +48,7 @@ void	echo_env_plus(t_env *env, char *tmp)
 	int	i;
 
 	i = 0;
-	while (i < ft_strlen(tmp) - 2)
+	while (i < (int)ft_strlen(tmp) - 2)
 	{			
 		tmp[i] = tmp[i + 1];
 		i++;
@@ -67,7 +67,7 @@ void	echo_str(char *tmp)
 	if (tmp[0] == '\"' || tmp[0] == '\'')
 	{
 		j = 1;
-		while (i < ft_strlen(tmp) - (j * 2))
+		while (i < (int)ft_strlen(tmp) - (j * 2))
 		{			
 			printf("%c", tmp[i + j]);
 			i++;

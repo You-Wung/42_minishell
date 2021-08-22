@@ -61,10 +61,12 @@ static int	check_size(char *input)
 	comma = 0;
 	while (*input)
 	{
-		if ((*input == ' ' && comma % 2 == 0) || *input == '\0'
-			|| *input == '<' || *input == '>' || *input == ';'
-			|| *input == '|')
-			break ;
+		if (*input == ' ' || *input == '\0' || *input == '<'
+			|| *input == '>' || *input == ';' || *input == '|')
+		{
+			if (!(comma % 2))
+				break ;
+		}
 		if (*input == '\'' || *input == '\"' || *input == '`')
 			comma++;
 		if (*input != ' ' && *input != '\0')
@@ -94,6 +96,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 			break ;
 		c->cmd[j] = (char *)malloc(phrase + 1);
 		ft_strlcpy(c->cmd[j++], input, phrase);
+		check_qmark(&c->cmd[j - 1]);
 		input += phrase;
 		while (*input && *input == ' ')
 			input++;
