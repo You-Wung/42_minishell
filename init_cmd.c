@@ -1,18 +1,21 @@
 #include "minishell.h"
 
+extern t_ext	g_var;
+
 static int	comma_check(t_match *m)
 {
 	int	i;
 
 	i = 0;
 	if (m->comma % 2 == 1 && ++i)
-		printf("quote %d\n", i);
+		printf("quote\n");
 	if (m->dcomma % 2 == 1 && ++i)
-		printf("double quote");
+		printf("double quote\n");
 	if (m->backtick % 2 == 1 && ++i)
-		printf("backtick");
+		printf("backtick\n");
 	if (!i)
 		return (0);
+	g_var.qmark = 1;
 	return (ERROR);
 }
 
@@ -38,8 +41,8 @@ static int	count(char *input)
 			m.dcomma++;
 		if (*input == '`' && m.dcomma % 2 == 0 && m.comma % 2 == 0)
 			m.backtick++;
-		if (*input == ' ' && *(input + 1) != ' ' && *(input - 1) != ' '
-			&& m.comma % 2 == 0 && m.dcomma % 2 == 0 && m.backtick % 2 == 0)
+		if (*input == ' ' && *(input + 1) != ' ' && !is_flag(*(input + 1))
+			&& !(m.comma % 2) && !(m.dcomma % 2) && !(m.backtick % 2))
 			rt++;
 		input++;
 	}

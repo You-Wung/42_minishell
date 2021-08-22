@@ -44,6 +44,7 @@ int	run_cmd(char **cmd)
 {
 	const char	*path;
 
+	execve(cmd[0], cmd, NULL);
 	path = ft_strjoin("/bin/", cmd[0]);
 	execve(path, cmd, NULL);
 	path = ft_strjoin("/usr/local/bin/", cmd[0]);
