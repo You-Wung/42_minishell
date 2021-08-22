@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-extern t_ext g_var;
+t_ext	g_var;
 
 int	use_cmd(t_cmd *c)
 {
@@ -24,6 +24,23 @@ int	use_cmd(t_cmd *c)
 	return (g_var.qmark);
 }
 
+void	exec_pipe2(t_cmd *c, int fd[2], int flags)
+{
+	if (flags == 1 || flags == 3)
+	{
+		if (dup2(fd[0], STDIN_FILENO) < 0)
+			perror("dup2");
+	}
+	if (flags == 2 || flags == 3)
+	{
+		if (dup2(fd[1], STDOUT_FILENO) < 0)
+			perror("dup2");
+	}
+	close(fd[0]);
+	close(fd[1]);
+	g_var.qmark = use_cmd(c);
+}
+
 void	exec_pipe(t_cmd *c, int fd[2], int flags)
 {
 	pid_t	pid;
@@ -39,21 +56,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 		return ;
 	}
 	if (pid == 0)
-	{
-		if (flags == 1 || flags == 3)
-		{
-			if (dup2(fd[0], STDIN_FILENO) < 0)
-				perror("dup2");
-		}
-		if (flags == 2 || flags == 3)
-		{
-			if (dup2(fd[1], STDOUT_FILENO) < 0)
-				perror("dup2");
-		}
-		close(fd[0]);
-		close(fd[1]);
-		g_var.qmark = use_cmd(c);
-	}
+		exec_pipe2(c, fd, flags);
 }
 
 void	use_pipe(t_cmd *c, int (*fd)[2])

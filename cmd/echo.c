@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-extern t_ext g_var;
+t_ext	g_var;
 
 int	check_option_n(char *str)
 {

@@ -18,7 +18,6 @@ int	use_redirect(t_cmd *c)
 	return (result);
 }
 
-/* result 값은 $? */
 int	use_builtin(t_cmd *c, t_env *e)
 {
 	int	result;
@@ -59,10 +58,24 @@ int	run_cmd(char **cmd)
 	return (1);
 }
 
+void	not_builtin(t_cmd *c)
+{
+	int		status;
+	int		pid;
+
+	pid = fork();
+	g_var.pid[g_var.pnum++] = pid;
+	if (pid > 0)
+		waitpid(pid, &status, 0);
+	else if (pid == 0)
+	{
+		g_var.qmark = run_cmd(c->cmd);
+		exit(0);
+	}
+}
+
 int	exec_cmd(t_cmd *c)
 {
-	int		pid;
-	int		status;
 	t_env	*e;
 
 	e = g_var.env;
@@ -78,17 +91,7 @@ int	exec_cmd(t_cmd *c)
 	{
 		g_var.qmark = 0;
 		if (c->cmd[0])
-		{
-			pid = fork();
-			g_var.pid[g_var.pnum++] = pid;
-			if (pid > 0)
-				waitpid(pid, &status, 0);
-			else if (pid == 0)
-			{
-				g_var.qmark = run_cmd(c->cmd);
-				exit(0);
-			}
-		}
+			not_builtin(c);
 	}
 	return (g_var.qmark);
 }

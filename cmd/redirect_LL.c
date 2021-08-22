@@ -1,13 +1,13 @@
 #include "../minishell.h"
 
-extern t_ext g_var;
+t_ext	g_var;
 
 int	get_user_tmp(t_cmd *c)
 {
 	char	*buf;
 	int		in;
 
-	in = open("%%user_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	in = open(".%%user_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (in < 0)
 		return (ERROR);
 	while (1)
@@ -30,7 +30,7 @@ int	use_user_tmp(t_cmd *c)
 {
 	int		in;
 
-	in = open("%%user_tmp", O_RDONLY);
+	in = open(".%%user_tmp", O_RDONLY);
 	if (in < 0)
 	{
 		printf("minishell: no such file or directory\n");
@@ -57,7 +57,7 @@ int	del_user_tmp(void)
 	}
 	if (pid == 0)
 	{
-		del = ft_split("rm ./%%user_tmp", ' ');
+		del = ft_split("rm .%%user_tmp", ' ');
 		run_cmd(del);
 	}
 	if (pid > 0)
