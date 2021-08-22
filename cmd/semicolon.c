@@ -1,8 +1,8 @@
 #include "../minishell.h"
 
-extern t_ext g_var;
+t_ext	g_var;
 
-int ft_semicolon(t_cmd *c)
+int	ft_semicolon(t_cmd *c)
 {
 	while (g_var.size_se > 0)
 	{
