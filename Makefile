@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Werror -Wall -Wextra -lreadline
+CFLAGS = -Werror -Wall -Wextra -lreadline  -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 #CFLAGS2 = -Werror -Wall -Wextra
 #CFLAGS = -lreadline
 
@@ -42,19 +42,9 @@ LIBFT = libft/ft_memset.c\
 		libft/ft_itoa.c\
 		libft/ft_strchr.c
 
-OBJS = $(SRCS:.c=.o)
-
-O_LIBFT = $(LIBFT:.c=.o)
-
-%.o:	$(SRCS)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-%.o:	$(LIBFT)
-	$(CC) $(CFLAGS2) -c $< -o $@
-
-$(NAME) : $(OBJS) $(LIBFT)
+$(NAME) : $(SRCS) $(LIBFT)
 	make -C ./libft
-	$(CC) $(CFLAGS) -o $(NAME) $(O_LIBFT) $(OBJS) -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
+	$(CC) $(CFLAGS) -o $(NAME) $(SRCS) $(LIBFT)
 
 all : $(NAME)
 
@@ -68,4 +58,4 @@ clean :
 
 re : fclean all
 
-.PHONY:			all clean fclean re bonus
+.PHONY:	all clean fclean re
