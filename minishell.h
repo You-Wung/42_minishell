@@ -65,6 +65,7 @@ typedef struct s_ext
 	int				size_pi;
 	int				size_se;
 	t_env			*env;
+	char			**n_env;
 	int				qmark;
 }	t_ext;
 

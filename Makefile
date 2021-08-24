@@ -3,8 +3,6 @@ NAME = minishell
 CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra -lreadline  -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-#CFLAGS2 = -Werror -Wall -Wextra
-#CFLAGS = -lreadline
 
 RM = rm -rf
 
