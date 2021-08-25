@@ -16,6 +16,20 @@ int	ft_redirect_R(t_cmd *c)
 		if (check_open(out, c) == 1)
 			return (1);
 		dup2(out, STDOUT_FILENO);
+
+	// if (c->flag == 6)
+	// 	g_var.qmark = ft_semicolon(c);
+	// else if (c->flag == 0)
+	// 	g_var.qmark = use_builtin(c, g_var.env);
+	// if (g_var.qmark == -2)
+	// {
+	// 	g_var.qmark = 0;
+	// 	if (c->cmd[0])
+	// 		not_builtin(c);
+	// }
+
+
+	// 	// exec_cmd(c);
 		run_cmd(c[0].cmd);
 		close(out);
 	}
