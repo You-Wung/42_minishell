@@ -96,7 +96,7 @@ int	ft_cd(t_env *env, char **cmd)
 {
 	int		i;
 
-	if (cmd[1] == NULL)
+	if (cmd[1] == NULL || ft_strcmp(cmd[1], "~") == 0)
 		return (move_env_path(env, "HOME"));
 	if (ft_strcmp(cmd[1], "-") == 0)
 		return (move_oldpwd(env));

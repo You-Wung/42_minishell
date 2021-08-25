@@ -44,17 +44,17 @@ int	run_cmd(char **cmd)
 {
 	const char	*path;
 
-	execve(cmd[0], cmd, NULL);//n_env 넣으세요
+	execve(cmd[0], cmd, g_var.n_env);
 	path = ft_strjoin("/bin/", cmd[0]);
-	execve(path, cmd, NULL);
+	execve(path, cmd, g_var.n_env);
 	path = ft_strjoin("/usr/local/bin/", cmd[0]);
-	execve(path, cmd, NULL);
+	execve(path, cmd, g_var.n_env);
 	path = ft_strjoin("/usr/bin/", cmd[0]);
-	execve(path, cmd, NULL);
+	execve(path, cmd, g_var.n_env);
 	path = ft_strjoin("/user/sbin/", cmd[0]);
-	execve(path, cmd, NULL);
+	execve(path, cmd, g_var.n_env);
 	path = ft_strjoin("/sbin/", cmd[0]);
-	execve(path, cmd, NULL);
+	execve(path, cmd, g_var.n_env);
 	printf("Error: %s: command does not exist.\n", cmd[0]);
 	return (1);
 }
