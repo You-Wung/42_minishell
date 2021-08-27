@@ -1,14 +1,1 @@
-Makefile
-cmd
-env.c
-in
-init_cmd.c
-init_cmd2.c
-libft
-main.c
-minishell
-minishell.h
-readline.c
-signal.c
-split_cmd.c
-utils.c
+Error: lls: command does not exist.
