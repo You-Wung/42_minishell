@@ -2,6 +2,26 @@
 
 extern t_ext	g_var;
 
+int	use_redi_cmd(t_cmd *c)
+{
+	t_env	*e;
+
+	e = g_var.env;
+	if (ft_strcmp(c->cmd[0], "export") == 0
+		&& ft_strcmp(c->cmd[0], "unset") == 0)
+		return (g_var.qmark);
+	if (c->flag == 0 || 1 < c->flag)
+		g_var.qmark = use_builtin(c, e);
+	if (g_var.qmark != -2)
+		exit(1);
+	else
+	{
+		g_var.qmark = 0;
+		g_var.qmark = run_cmd(c->cmd);
+	}
+	return (g_var.qmark);
+}
+
 int	ft_redirect_R(t_cmd *c)
 {
 	pid_t	pid;
@@ -16,21 +36,8 @@ int	ft_redirect_R(t_cmd *c)
 		if (check_open(out, c) == 1)
 			return (1);
 		dup2(out, STDOUT_FILENO);
-
-	// if (c->flag == 6)
-	// 	g_var.qmark = ft_semicolon(c);
-	// else if (c->flag == 0)
-	// 	g_var.qmark = use_builtin(c, g_var.env);
-	// if (g_var.qmark == -2)
-	// {
-	// 	g_var.qmark = 0;
-	// 	if (c->cmd[0])
-	// 		not_builtin(c);
-	// }
-
-
-	// 	// exec_cmd(c);
-		run_cmd(c[0].cmd);
+		if (use_redi_cmd(c) == 1)
+			exit(0);
 		close(out);
 	}
 	else if (pid > 0)

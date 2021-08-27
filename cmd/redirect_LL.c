@@ -37,7 +37,8 @@ int	use_user_tmp(t_cmd *c)
 		return (1);
 	}
 	dup2(in, STDIN_FILENO);
-	run_cmd(c[0].cmd);
+	if (use_redi_cmd(c) == 1)
+		exit(0);
 	close(in);
 	return (SUCCESS);
 }

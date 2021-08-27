@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+t_ext	g_var;
+
 int	print_env(t_env *env)
 {
 	while (env && env->next != NULL)
@@ -10,30 +12,20 @@ int	print_env(t_env *env)
 	return (SUCCESS);
 }
 
-int	vaild_env(char **tmp)
-{
-	if (tmp[0] == NULL)
-		return (0);
-	if (!(('0' <= tmp[0][0] && tmp[0][0] <= '9')
-		|| ('a' <= tmp[0][0] && tmp[0][0] <= 'z')
-		|| ('A' <= tmp[0][0] && tmp[0][0] <= 'Z')
-		|| (tmp[0][0] == '_')))
-		return (0);
-	return (1);
-}
-
 void	put_env(t_env *env, char *tmp)
 {
 	int	i;
 	int	j;
 
-	i = 0;
 	j = 0;
-	if (tmp[0] == '\"' || tmp[0] == '\'')
-		j = 1;
-	while (i < (int)ft_strlen(tmp) - (j * 2))
-	{			
-		env->content[i] = tmp[i + j];
+	i = 0;
+	while (i < (int)ft_strlen(tmp))
+	{
+		if (tmp[i] != '\"' || tmp[i] != '\'')
+		{
+			env->content[j] = tmp[i];
+			j++;
+		}
 		i++;
 	}
 	env->content[i] = '\0';
@@ -43,24 +35,51 @@ int	add_env(t_env *env, char **tmp)
 {
 	int		i;
 	t_env	*e;
+	t_env	*find;
 
-	while (env && env->next->next != NULL)
+	find = env;
+	while (find && find->next != NULL)
 	{
-		if (ft_strcmp(env->name, tmp[0]) == 0)
+		if (ft_strcmp(find->name, tmp[0]) == 0)
 		{
-			put_env(env, tmp[1]);
+			put_env(find, tmp[1]);
 			return (1);
 		}
-		env = env->next;
+		find = find->next;
 	}
+	while (env && env->next->next != NULL)
+		env = env->next;
 	e = (t_env *)malloc(sizeof(t_env));
 	e->next = env->next;
 	i = -1;
 	while (tmp[0][++i])
 		e->name[i] = tmp[0][i];
+	e->name[i] = '\0';
 	put_env(e, tmp[1]);
 	env->next = e;
 	return (1);
+}
+
+void	put_n_env(char **cmd, int j)
+{
+	int	size;
+	int	i;
+	char	**tmp;
+	
+	size = 0;
+	j = 0;
+	while (g_var.n_env[size])
+		size++;
+	tmp = malloc(sizeof(char)*(size + 1));
+	i = 0;
+	while (i < size)
+	{
+		tmp[i] = g_var.n_env[i];
+		i++;
+	}
+	tmp[i] = cmd[j];
+	tmp[++i] = NULL;
+	g_var.n_env = tmp;
 }
 
 int	ft_export(t_env *env, char **cmd)
@@ -76,8 +95,9 @@ int	ft_export(t_env *env, char **cmd)
 	}
 	while (cmd[i])
 	{
+		put_n_env(cmd, i);
 		tmp = ft_split(cmd[i], '=');
-		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env(tmp) == 0)
+		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env_name(tmp[0][0]) == 0)
 		{
 			printf("minichell: not a valid identifier.\n");
 			return (1);
@@ -85,5 +105,6 @@ int	ft_export(t_env *env, char **cmd)
 		add_env(env, tmp);
 		i++;
 	}
+
 	return (SUCCESS);
 }

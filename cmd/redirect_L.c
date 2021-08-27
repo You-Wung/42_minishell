@@ -31,8 +31,8 @@ int	ft_redirect_L(t_cmd *c)
 		if (check_open(in, c) == 1)
 			return (1);
 		dup2(in, STDIN_FILENO);
-		// exec_cmd(c);
-		run_cmd(c[0].cmd);
+		if (use_redi_cmd(c) == 1)
+			exit(0);
 		close(in);
 	}
 	else if (pid > 0)
