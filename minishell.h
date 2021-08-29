@@ -104,7 +104,7 @@ int		check_open(int in, t_cmd *c);
 int		exec_cmd(t_cmd *c);
 int		use_builtin(t_cmd *c, t_env *e);
 int		use_redirect(t_cmd *c);
-int		run_cmd(char **cmd);
+int		run_cmd(char **cmd, t_env *env);
 int		use_redi_cmd(t_cmd *c);
 
 #endif

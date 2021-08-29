@@ -17,7 +17,7 @@ int	use_redi_cmd(t_cmd *c)
 	else
 	{
 		g_var.qmark = 0;
-		g_var.qmark = run_cmd(c->cmd);
+		g_var.qmark = run_cmd(c->cmd, g_var.env);
 	}
 	return (g_var.qmark);
 }
