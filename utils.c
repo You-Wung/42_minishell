@@ -33,6 +33,7 @@ static int	count_qmark(char *str)
 static int	exchange_qmark(char *rt, int in)
 {
 	char	*buf;
+	char	*for_free;
 	int		i;
 
 	i = 0;
@@ -42,14 +43,14 @@ static int	exchange_qmark(char *rt, int in)
 		return (1);
 	}
 	buf = ft_itoa(g_var.qmark);
-	printf("Qmark Exchange started. buf : %s\n", buf);
+	for_free = buf;
 	while (*buf)
 	{
 		rt[in++] = *buf;
 		i++;
 		buf++;
 	}
-	//free(buf);
+	free(for_free);
 	return (i);
 }
 
