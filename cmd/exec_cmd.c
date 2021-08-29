@@ -63,7 +63,9 @@ void	not_builtin(t_cmd *c)
 {
 	int		status;
 	int		pid;
+	int		qmark;
 
+	qmark = 0;
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
 	if (pid > 0)
@@ -71,6 +73,7 @@ void	not_builtin(t_cmd *c)
 	else if (pid == 0)
 	{
 		g_var.qmark = run_cmd(c->cmd);
+		//printf("Qmakr changed %d\n",g_var.qmark);
 		exit(0);
 	}
 }

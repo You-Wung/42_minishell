@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+extern t_ext	g_var;
+
 int	is_num(char *str)
 {
 	while (*str)
@@ -15,7 +17,11 @@ int	is_num(char *str)
 int	end_shell(int flag)
 {
 	if (flag != 1)
+	{
+		printf(COLOR_RESET);
+		tcsetattr(STDIN_FILENO, TCSANOW, &g_var.restore);
 		exit(0);
+	}
 	return (0);
 }
 

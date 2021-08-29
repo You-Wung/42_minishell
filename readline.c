@@ -52,6 +52,16 @@ char	*make_prompt(void)
 	return (prompt);
 }
 
+static void	freee_c(t_cmd *c)
+{
+	int	i;
+
+	i = -1;
+	while (c->cmd[++i])
+		free(c->cmd[i]);
+	free(c->cmd);
+}
+
 int	start_read(void)
 {
 	t_cmd	*c;
@@ -62,16 +72,17 @@ int	start_read(void)
 		input = readline(make_prompt());
 		if (input == NULL)
 			input_is_null();
-		if (!(*input))
+		if (!(*input) || all_space(input))
 			continue ;
 		add_history(input);
 		c = malloc_c(input);
 		if (c && fill_cmd(c, input))
-		{
+		{		
 			g_var.writing = 1;
 			g_var.qmark = exec_cmd(c);
 			g_var.writing = 0;
 		}
+		freee_c(c);
 		free(c);
 		free(input);
 	}

@@ -21,7 +21,7 @@ void	sigint_handler(int signo)
 	}
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
-	//  rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -31,14 +31,16 @@ static void	sigquit_handler(int signo)
 	if (g_var.writing)
 		write(STDOUT_FILENO, "^\\Quit: 3\n", 11);
 	else
-		printf("%c[11C", 27);
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 void	init_signal(void)
 {
 	struct termios	attributes;
 
-	//ctrl + d 는 시그널이 아님. input이 null이냐 아니냐에 따라 처리
 	tcgetattr(STDIN_FILENO, &attributes);
 	g_var.restore = attributes;
 	attributes.c_lflag &= (~ECHOCTL);

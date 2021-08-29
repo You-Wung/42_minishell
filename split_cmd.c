@@ -11,18 +11,11 @@ static int	find_error(char *c)
 		|| (*c == '>' && *(c + 1) == '<')
 		|| (*c == '<' && *(c + 1) == '>'))
 		return (ERROR);
-	if (is_flag(*c))
-	{
-		if ((*c == '>' && *(c + 1) == '>')
-			|| (*c == '<' && *(c + 1) == '<'))
-			c += 2;
-		else
-			c++;
-		while (*c == ' ')
-			c++;
-		if (*c && is_flag(*c))
-			return (ERROR);
-	}
+	while (*c)
+		c++;
+	c--;
+	if (*c == '>' || *c == '<' || *c == '|')
+		return (ERROR);
 	return (0);
 }
 
@@ -52,9 +45,9 @@ int	count_cmd(char *input)
 			else if (!c)
 				c = input[i];
 		}
-		if (find_error(&input[i]) == ERROR)
+		if (c && find_error(&input[i]) == ERROR)
 			return (ERROR);
-		if (is_flag(input[i]) && input[i] != ';' && !c)
+		if (is_flag(input[i]) && input[i + 1] && !c)
 			rt++;
 		if ((input[i] == '>' && input[i + 1] == '>')
 			|| (input[i] == '<' && input[i + 1] == '<'))

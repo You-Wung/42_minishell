@@ -61,20 +61,14 @@ static int	check_size(char *input)
 	comma = 0;
 	while (*input)
 	{
-		if (*input == ' ' || *input == '\0' || *input == '<'
-			|| *input == '>' || *input == ';' || *input == '|')
-		{
-			if (!(comma % 2))
-				break ;
-		}
+		if (*input == ' ' && !(comma % 2))
+			break ;
 		if (*input == '\'' || *input == '\"' || *input == '`')
 			comma++;
-		if (*input != ' ' && *input != '\0')
-			rt++;
+		rt++;
 		input++;
 	}
-	if (rt != 0)
-		printf("[CHECK SIZE] a word counted %d\n", rt);
+	printf("[CHECK SIZE] a word counted %d\n", rt);
 	return (rt);
 }
 

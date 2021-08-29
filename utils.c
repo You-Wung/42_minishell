@@ -49,7 +49,7 @@ static int	exchange_qmark(char *rt, int in)
 		i++;
 		buf++;
 	}
-	free(buf);
+	//free(buf);
 	return (i);
 }
 
@@ -78,4 +78,16 @@ void	check_qmark(char **str)
 	tmp = *str;
 	free(tmp);
 	*str = rt;
+}
+
+int	all_space(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	if (!input[i])
+		return (1);
+	return (0);
 }
