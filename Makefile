@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Werror -Wall -Wextra -lreadline  -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
+CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 
 RM = rm -rf
 

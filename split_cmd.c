@@ -54,7 +54,7 @@ int	count_cmd(char *input)
 		}
 		if (find_error(&input[i]) == ERROR)
 			return (ERROR);
-		if (is_flag(input[i]) && !c)
+		if (is_flag(input[i]) && input[i] != ';' && !c)
 			rt++;
 		if ((input[i] == '>' && input[i + 1] == '>')
 			|| (input[i] == '<' && input[i + 1] == '<'))
@@ -98,7 +98,7 @@ char	*fill_cmd(t_cmd *c, char *input)
 	i = -1;
 	while (++i < size)
 	{
-		if (c[i].flag == SEMI)
+		if (c[i].flag == SEMI && i + 1 < size)
 			g_var.size_se++;
 	}
 	return (input);

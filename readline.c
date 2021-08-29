@@ -69,7 +69,9 @@ int	start_read(void)
 		if (c && fill_cmd(c, input))
 		{
 			g_var.writing = 1;
+			printf("--------------------\n");
 			g_var.qmark = exec_cmd(c);
+			printf("--------------------\n");
 			g_var.writing = 0;
 		}
 		free(c);
