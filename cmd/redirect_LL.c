@@ -58,8 +58,8 @@ int	del_user_tmp(void)
 	}
 	if (pid == 0)
 	{
-		del = ft_split("rm .%%user_tmp", ' ');
-		run_cmd(del);
+		del = ft_split("/bin/rm .%%user_tmp", ' ');
+		execve("/bin/rm", del, g_var.n_env);
 	}
 	if (pid > 0)
 		waitpid(pid, &status, 0);

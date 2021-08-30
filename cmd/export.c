@@ -62,15 +62,15 @@ int	add_env(t_env *env, char **tmp)
 
 void	put_n_env(char **cmd, int j)
 {
-	int	size;
-	int	i;
+	int		size;
+	int		i;
 	char	**tmp;
-	
+
 	size = 0;
 	j = 0;
 	while (g_var.n_env[size])
 		size++;
-	tmp = malloc(sizeof(char)*(size + 1));
+	tmp = malloc(sizeof(char) * (size + 1));
 	i = 0;
 	while (i < size)
 	{
@@ -105,6 +105,5 @@ int	ft_export(t_env *env, char **cmd)
 		add_env(env, tmp);
 		i++;
 	}
-
 	return (SUCCESS);
 }

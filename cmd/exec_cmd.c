@@ -40,22 +40,33 @@ int	use_builtin(t_cmd *c, t_env *e)
 	return (result);
 }
 
-int	run_cmd(char **cmd)
+int	run_cmd(char **cmd, t_env *env)
 {
+	int			i;
 	const char	*path;
+	char		**path_env;
 
+	path_env = NULL;
 	execve(cmd[0], cmd, g_var.n_env);
-	path = ft_strjoin("/bin/", cmd[0]);
-	execve(path, cmd, g_var.n_env);
-	path = ft_strjoin("/usr/local/bin/", cmd[0]);
-	execve(path, cmd, g_var.n_env);
-	path = ft_strjoin("/usr/bin/", cmd[0]);
-	execve(path, cmd, g_var.n_env);
-	path = ft_strjoin("/user/sbin/", cmd[0]);
-	execve(path, cmd, g_var.n_env);
-	path = ft_strjoin("/sbin/", cmd[0]);
-	execve(path, cmd, g_var.n_env);
-	printf("Error: %s: command does not exist.\n", cmd[0]);
+	while (env && env->next)
+	{
+		if (ft_strcmp(env->name, "PATH") == 0)
+			path_env = ft_split(env->content, ':');
+		env = env->next;
+	}
+	if (path_env == NULL)
+	{
+		printf("minishell: PATH dose not exist.\n");
+		return (1);
+	}
+	i = -1;
+	while (path_env[++i])
+	{
+		path_env[i] = ft_strjoin(path_env[i], "/");
+		path = ft_strjoin(path_env[i], cmd[0]);
+		execve(path, cmd, g_var.n_env);
+	}
+	printf("minishell: %s: command does not exist.\n", cmd[0]);
 	return (1);
 }
 
@@ -63,17 +74,34 @@ void	not_builtin(t_cmd *c)
 {
 	int		status;
 	int		pid;
-	int		qmark;
+	int		fd[2];
+	// char	*buf = NULL;
+	// char buff[4];
 
-	qmark = 0;
+	if (pipe(fd) == -1)
+	{
+		perror("pipe\n");
+		exit(0);
+	}
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
 	if (pid > 0)
+	{
 		waitpid(pid, &status, 0);
+		// read(fd[0], buff, ft_strlen(buff));
+		// printf("buf =====>>>> |%s|\n", buff);
+		// if (buf != NULL)
+		// 	g_var.qmark = ft_atoi(buf);
+		// else
+		// 	g_var.qmark = 0;
+	}
 	else if (pid == 0)
 	{
-		g_var.qmark = run_cmd(c->cmd);
-		//printf("Qmakr changed %d\n",g_var.qmark);
+		g_var.qmark = run_cmd(c->cmd, g_var.env);
+		// printf("child__%d\n", g_var.qmark);
+		// buf = ft_itoa(g_var.qmark);
+		// write(fd[1], "n", 2);
+		// printf("child__buf =====>>>> |%s|\n", buf);
 		exit(0);
 	}
 }
@@ -85,7 +113,7 @@ int	exec_cmd(t_cmd *c)
 	e = g_var.env;
 	if (c->flag == 1)
 		g_var.qmark = ft_pipe(c);
-	if (c->flag == 6)
+	else if (c->flag == 6)
 		g_var.qmark = ft_semicolon(c);
 	else if (c->flag == 0)
 		g_var.qmark = use_builtin(c, e);

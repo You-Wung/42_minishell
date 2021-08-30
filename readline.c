@@ -76,6 +76,7 @@ int	start_read(void)
 			continue ;
 		add_history(input);
 		c = malloc_c(input);
+		g_var.size_pi = 0;
 		if (c && fill_cmd(c, input))
 		{
 			g_var.writing = 1;
