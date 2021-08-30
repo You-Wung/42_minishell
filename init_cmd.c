@@ -61,7 +61,8 @@ static int	check_size(char *input)
 	comma = 0;
 	while (*input)
 	{
-		if (*input == ' ' && !(comma % 2))
+		if ((*input == ' ' && !(comma % 2))
+			|| (is_flag(*input) && !(comma % 2)))
 			break ;
 		if (*input == '\'' || *input == '\"' || *input == '`')
 			comma++;
@@ -85,6 +86,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 		input++;
 	while (++i < size && *input)
 	{
+		printf("turn [%s]\n", input);
 		phrase = check_size(input);
 		if (phrase == 0)
 			break ;
@@ -113,10 +115,6 @@ char	*init_cmd(t_cmd *c, char *input)
 	size = count(input);
 	if (size == ERROR)
 		return (NULL);
-	//i = -1;
-	//while (input[++i]);
-	//if (is_flag(input[i - 1]))
-		//size--;
 	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	c->cmd[size] = NULL;
 	return (input_cmd(c, input, size));

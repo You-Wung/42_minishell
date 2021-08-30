@@ -82,8 +82,8 @@ int	start_read(void)
 			g_var.writing = 1;
 			g_var.qmark = exec_cmd(c);
 			g_var.writing = 0;
+			freee_c(c);
 		}
-		freee_c(c);
 		free(c);
 		free(input);
 	}
