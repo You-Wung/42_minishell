@@ -68,18 +68,20 @@ void	put_n_env(char **cmd, int j)
 
 	size = 0;
 	while (g_var.n_env[size])
+	{
+		if (ft_strcmp(g_var.n_env[size], cmd[j]) == 0)
+			return ;
 		size++;
-	tmp = malloc(sizeof(char) * (size + 1));
+	}
+	tmp = malloc(sizeof(char *) * (size + 2));
 	i = 0;
-	while (i < size - 1)
+	while (i < size)
 	{
 		tmp[i] = g_var.n_env[i];
 		i++;
 	}
-	tmp[i] = cmd[j];
-	i++;
-	tmp[i] = g_var.n_env[size - 1];
-	tmp[++i] = NULL;
+	tmp[i] = ft_strdup(cmd[j]);
+	tmp[size + 1] = NULL;
 	g_var.n_env = tmp;
 }
 
