@@ -2,58 +2,11 @@
 
 extern t_ext	g_var;
 
-int	use_redirect(t_cmd *c)
-{
-	int	result;
-
-	result = -2;
-	if (c->flag == 2)
-		result = ft_redirect_R(c);
-	if (c->flag == 3)
-		result = ft_redirect_L(c);
-	if (c->flag == 4)
-		result = ft_redirect_RR(c);
-	if (c->flag == 5)
-		result = ft_redirect_LL(c);
-	return (result);
-}
-
-int	use_builtin(t_cmd *c, t_env *e)
-{
-	int	result;
-
-	result = -2;
-	if (ft_strcmp(c->cmd[0], "exit") == 0)
-		result = ft_exit(c->cmd, c->flag);
-	if (ft_strcmp(c->cmd[0], "cd") == 0)
-		result = ft_cd(e, c->cmd);
-	if (ft_strcmp(c->cmd[0], "echo") == 0)
-		result = ft_echo(e, c->cmd);
-	if (ft_strcmp(c->cmd[0], "pwd") == 0)
-		result = ft_pwd();
-	if (ft_strcmp(c->cmd[0], "env") == 0)
-		result = ft_env(e);
-	if (ft_strcmp(c->cmd[0], "export") == 0)
-		result = ft_export(e, c->cmd);
-	if (ft_strcmp(c->cmd[0], "unset") == 0)
-		result = ft_unset(e, c->cmd);
-	return (result);
-}
-
-int	run_cmd(char **cmd, t_env *env)
+int	check_path_env(char **path_env, char **cmd)
 {
 	int			i;
 	const char	*path;
-	char		**path_env;
 
-	path_env = NULL;
-	execve(cmd[0], cmd, g_var.n_env);
-	while (env && env->next)
-	{
-		if (ft_strcmp(env->name, "PATH") == 0)
-			path_env = ft_split(env->content, ':');
-		env = env->next;
-	}
 	if (path_env == NULL)
 	{
 		printf("minishell: PATH dose not exist.\n");
@@ -66,17 +19,47 @@ int	run_cmd(char **cmd, t_env *env)
 		path = ft_strjoin(path_env[i], cmd[0]);
 		execve(path, cmd, g_var.n_env);
 	}
-	printf("minishell: %s: command does not exist.\n", cmd[0]);
+	return (0);
+}
+
+int	run_cmd(char **cmd, t_env *env)
+{
+	char		**path_env;
+
+	path_env = NULL;
+	execve(cmd[0], cmd, g_var.n_env);
+	while (env && env->next)
+	{
+		if (ft_strcmp(env->name, "PATH") == 0)
+			path_env = ft_split(env->content, ':');
+		env = env->next;
+	}
+	if (check_path_env(path_env, cmd) == 0)
+		printf("minishell: %s: command does not exist.\n", cmd[0]);
 	return (1);
+}
+
+void	notbui_child(t_cmd *c, int *fd)
+{
+	int		i;
+	char	*buf;
+	char	buff[4];
+
+	buf = ft_itoa(run_cmd(c->cmd, g_var.env));
+	i = -1;
+	while (buf[++i])
+		buff[i] = buf[i];
+	buff[++i] = '\0';
+	write(fd[1], buff, ft_strlen(buff));
+	exit(0);
 }
 
 void	not_builtin(t_cmd *c)
 {
-	int		status;
 	int		pid;
 	int		fd[2];
-	char	*buf = NULL;
-	char buff[4];
+	int		status;
+	char	buff[4];
 
 	if (pipe(fd) == -1)
 	{
@@ -95,18 +78,7 @@ void	not_builtin(t_cmd *c)
 			g_var.qmark = ft_atoi(buff);
 	}
 	else if (pid == 0)
-	{
-		buf = ft_itoa(run_cmd(c->cmd, g_var.env));
-		int i;
-
-		i = -1;
-		while (buf[++i])
-			buff[i] = buf[i];
-		buff[++i] = '\0';
-
-		write(fd[1], buff, ft_strlen(buff));
-		exit(0);
-	}
+		notbui_child(c, fd);
 }
 
 int	exec_cmd(t_cmd *c)

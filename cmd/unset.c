@@ -18,7 +18,6 @@ int	ft_unset(t_env *env, char **cmd)
 		if (ft_strcmp(env->next->name, find) == 0)
 		{
 			tmp = env->next->next;
-			// free(env->next);
 			env->next = tmp;
 			return (SUCCESS);
 		}
