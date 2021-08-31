@@ -48,7 +48,6 @@ static int	count(char *input)
 	}
 	if (comma_check(&m) == ERROR)
 		return (ERROR);
-	printf("[COUNT] ONE PHRASE SPLITED %d\n", rt);
 	return (rt);
 }
 
@@ -69,7 +68,6 @@ static int	check_size(char *input)
 		rt++;
 		input++;
 	}
-	printf("[CHECK SIZE] a word counted %d\n", rt);
 	return (rt);
 }
 
@@ -81,12 +79,10 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 
 	i = -1;
 	j = 0;
-	printf("input_cmd : %s\n", input);
 	while (*input && *input == ' ')
 		input++;
 	while (++i < size && *input)
 	{
-		printf("turn [%s]\n", input);
 		phrase = check_size(input);
 		if (phrase == 0)
 			break ;
