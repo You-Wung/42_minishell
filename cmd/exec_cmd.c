@@ -75,8 +75,8 @@ void	not_builtin(t_cmd *c)
 	int		status;
 	int		pid;
 	int		fd[2];
-	// char	*buf = NULL;
-	// char buff[4];
+	char	*buf = NULL;
+	char buff[4];
 
 	if (pipe(fd) == -1)
 	{
@@ -88,20 +88,23 @@ void	not_builtin(t_cmd *c)
 	if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-		// read(fd[0], buff, ft_strlen(buff));
-		// printf("buf =====>>>> |%s|\n", buff);
-		// if (buf != NULL)
-		// 	g_var.qmark = ft_atoi(buf);
-		// else
-		// 	g_var.qmark = 0;
+		close(fd[1]);
+		read(fd[0], buff, ft_strlen(buff));
+		close(fd[0]);
+		if (buff[0] != '\0')
+			g_var.qmark = ft_atoi(buff);
 	}
 	else if (pid == 0)
 	{
-		g_var.qmark = run_cmd(c->cmd, g_var.env);
-		// printf("child__%d\n", g_var.qmark);
-		// buf = ft_itoa(g_var.qmark);
-		// write(fd[1], "n", 2);
-		// printf("child__buf =====>>>> |%s|\n", buf);
+		buf = ft_itoa(run_cmd(c->cmd, g_var.env));
+		int i;
+
+		i = -1;
+		while (buf[++i])
+			buff[i] = buf[i];
+		buff[++i] = '\0';
+
+		write(fd[1], buff, ft_strlen(buff));
 		exit(0);
 	}
 }
