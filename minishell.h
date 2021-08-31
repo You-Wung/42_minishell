@@ -4,10 +4,10 @@
 /*include*/
 # include "./libft/libft.h"
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <unistd.h>
 # include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <signal.h>
@@ -51,6 +51,7 @@ typedef struct s_env
 	char			name[256];
 	char			content[256];
 	struct s_env	*next;
+	int				flag;
 }	t_env;
 
 /*전역변수*/
@@ -95,7 +96,7 @@ int		ft_redirect_L(t_cmd *c);
 int		ft_redirect_R(t_cmd *c);
 int		ft_redirect_RR(t_cmd *c);
 int		ft_redirect_LL(t_cmd *c);
-int		ft_unset(t_env *env, char **cmd);
+int		ft_unset(t_env **env, char **cmd);
 int		ft_pipe(t_cmd *c);
 int		ft_semicolon(t_cmd *c);
 

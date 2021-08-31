@@ -34,6 +34,6 @@ int	use_builtin(t_cmd *c, t_env *e)
 	if (ft_strcmp(c->cmd[0], "export") == 0)
 		result = ft_export(e, c->cmd);
 	if (ft_strcmp(c->cmd[0], "unset") == 0)
-		result = ft_unset(e, c->cmd);
+		result = ft_unset(&e, c->cmd);
 	return (result);
 }

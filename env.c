@@ -16,6 +16,7 @@ static void	input(char *env, t_env *buf)
 	j = -1;
 	while (env[++i])
 		buf->content[++j] = env[i];
+	buf->flag = 0;
 }
 
 void	init_env(char **env)
@@ -31,18 +32,9 @@ void	init_env(char **env)
 	e[i - 1].next = NULL;
 	j = -1;
 	while (++j < i - 1)
-		e[j].next = &e[j + 1];
+		e[j].next = &(e[j + 1]);
 	i = -1;
 	while (env[++i])
 		input(env[i], &e[i]);
 	g_var.env = e;
-	i = -1;
-	/* --- 체크용 --- */
-	// while (env[++i])
-	// {
-	// 	printf("NAME : %s\n",var.env[i].name);
-	// 	printf("CONT : %s\n",var.env[i].content);
-	// 	if (e[i].next)
-	// 		printf("NEXT : %s\n\n",var.env[i].next->name);
-	// }
 }
