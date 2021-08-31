@@ -71,6 +71,9 @@ char	*fill_cmd(t_cmd *c, char *input)
 			printf("minishell: Error\n");
 			return (NULL);
 		}
+		 printf("cmd[0]: [%s]\n",c[i].cmd[0]);
+        if (c[i].cmd[1])
+            printf("cmd[1]: [%s]\n",c[i].cmd[1]);
 	}
 	i = -1;
 	while (++i < size)
