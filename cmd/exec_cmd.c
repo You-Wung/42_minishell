@@ -27,11 +27,6 @@ int	run_cmd(char **cmd, t_env *env)
 	char		**path_env;
 
 	path_env = NULL;
-
-	// int i =0;
-	// while (g_var.n_env[i])
-	// 	printf(">> %s\n", g_var.n_env[i++]);
-
 	execve(cmd[0], cmd, g_var.n_env);
 	while (env && env->next)
 	{
@@ -90,7 +85,6 @@ int	exec_cmd(t_cmd *c)
 {
 	t_env	*e;
 
-printf("===============\n");
 	e = g_var.env;
 	if (c->flag == 1)
 		g_var.qmark = ft_pipe(c);
