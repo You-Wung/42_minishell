@@ -37,12 +37,4 @@ void	init_env(char **env)
 		input(env[i], &e[i]);
 	g_var.env = e;
 	i = -1;
-	/* --- 체크용 --- */
-	// while (env[++i])
-	// {
-	// 	printf("NAME : %s\n",var.env[i].name);
-	// 	printf("CONT : %s\n",var.env[i].content);
-	// 	if (e[i].next)
-	// 		printf("NEXT : %s\n\n",var.env[i].next->name);
-	// }
 }
