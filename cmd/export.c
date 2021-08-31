@@ -29,6 +29,7 @@ void	put_env(t_env *env, char *tmp)
 		i++;
 	}
 	env->content[i] = '\0';
+	env->flag = 1;
 }
 
 int	add_env(t_env *env, char **tmp)
@@ -60,30 +61,14 @@ int	add_env(t_env *env, char **tmp)
 	return (1);
 }
 
-void	put_n_env(char **cmd, int j)
+static void	free_tmp(char ***tmp)
 {
-	int		size;
-	int		i;
-	char	**tmp;
+	int	i;
 
-	size = 0;
-	while (g_var.n_env[size])
-	{
-		if (ft_strcmp(g_var.n_env[size], cmd[j]) == 0)
-			return ;
-		size++;
-	}
-	tmp = malloc(sizeof(char *) * (size + 2));
 	i = 0;
-	while (i < size)
-	{
-		tmp[i] = g_var.n_env[i];
-		i++;
-	}
-	tmp[i] = ft_strdup(cmd[j]);
-	tmp[size + 1] = NULL;
-		/*free_function(g_var.n_env); unset*/
-	//g_var.n_env = tmp;
+	while ((*tmp)[i])
+		free((*tmp)[i++]);
+	free(*tmp);
 }
 
 int	ft_export(t_env *env, char **cmd)
@@ -99,7 +84,6 @@ int	ft_export(t_env *env, char **cmd)
 	}
 	while (cmd[i])
 	{
-		put_n_env(cmd, i);
 		tmp = ft_split(cmd[i], '=');
 		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env_name(tmp[0][0]) == 0)
 		{
@@ -107,6 +91,7 @@ int	ft_export(t_env *env, char **cmd)
 			return (1);
 		}
 		add_env(env, tmp);
+		free_tmp(&tmp);
 		i++;
 	}
 	return (SUCCESS);
