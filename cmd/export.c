@@ -6,7 +6,7 @@ int	print_env(t_env *env)
 {
 	while (env && env->next != NULL)
 	{
-		printf("declare -x %s=%s\n", env->name, env->content);
+		printf("declare -x %s=\"%s\"\n", env->name, env->content);
 		env = env->next;
 	}
 	return (SUCCESS);
@@ -82,7 +82,8 @@ void	put_n_env(char **cmd, int j)
 	}
 	tmp[i] = ft_strdup(cmd[j]);
 	tmp[size + 1] = NULL;
-	g_var.n_env = tmp;
+		/*free_function(g_var.n_env); unset*/
+	//g_var.n_env = tmp;
 }
 
 int	ft_export(t_env *env, char **cmd)

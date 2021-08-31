@@ -3,9 +3,9 @@
 
 /*include*/
 # include "./libft/libft.h"
-# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
