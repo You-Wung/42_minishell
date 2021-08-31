@@ -67,17 +67,18 @@ void	put_n_env(char **cmd, int j)
 	char	**tmp;
 
 	size = 0;
-	j = 0;
 	while (g_var.n_env[size])
 		size++;
 	tmp = malloc(sizeof(char) * (size + 1));
 	i = 0;
-	while (i < size)
+	while (i < size - 1)
 	{
 		tmp[i] = g_var.n_env[i];
 		i++;
 	}
 	tmp[i] = cmd[j];
+	i++;
+	tmp[i] = g_var.n_env[size - 1];
 	tmp[++i] = NULL;
 	g_var.n_env = tmp;
 }
