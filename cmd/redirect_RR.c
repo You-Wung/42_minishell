@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_ext	g_var;
+extern t_ext	g_var;
 
 int	ft_redirect_RR(t_cmd *c)
 {

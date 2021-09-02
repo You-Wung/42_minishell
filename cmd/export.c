@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_ext	g_var;
+extern t_ext	g_var;
 
 int	print_env(t_env *env)
 {
@@ -29,7 +29,6 @@ void	put_env(t_env *env, char *tmp)
 		i++;
 	}
 	env->content[i] = '\0';
-	env->flag = 1;
 }
 
 int	add_env(t_env *env, char **tmp)
@@ -61,16 +60,6 @@ int	add_env(t_env *env, char **tmp)
 	return (1);
 }
 
-static void	free_tmp(char ***tmp)
-{
-	int	i;
-
-	i = 0;
-	while ((*tmp)[i])
-		free((*tmp)[i++]);
-	free(*tmp);
-}
-
 int	ft_export(t_env *env, char **cmd)
 {
 	int		i;
@@ -85,13 +74,14 @@ int	ft_export(t_env *env, char **cmd)
 	while (cmd[i])
 	{
 		tmp = ft_split(cmd[i], '=');
-		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env_name(tmp[0][0]) == 0)
+		if (vaild_env_name(tmp[0][0]) == 0)
 		{
-			printf("minichell: not a valid identifier.\n");
+			printf("minichell: %s: not a valid identifier.\n", cmd[i]);
 			return (1);
 		}
+		if (ft_strcmp(tmp[0], cmd[i]) == 0)
+			return (SUCCESS);
 		add_env(env, tmp);
-		free_tmp(&tmp);
 		i++;
 	}
 	return (SUCCESS);

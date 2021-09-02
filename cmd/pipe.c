@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_ext	g_var;
+extern t_ext	g_var;
 
 int	use_cmd(t_cmd *c)
 {
