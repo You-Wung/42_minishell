@@ -20,10 +20,9 @@ int	check_option_n(char *str)
 
 int	vaild_env_name(char c)
 {
-	if (!(('0' <= c && c <= '9')
-			|| ('a' <= c && c <= 'z')
-			|| ('A' <= c && c <= 'Z')
-			|| (c == '_')))
+	if (!('a' <= c && c <= 'z')
+			&& !('A' <= c && c <= 'Z')
+			&& !(c == '_'))
 		return (0);
 	return (1);
 }

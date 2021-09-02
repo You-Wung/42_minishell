@@ -29,7 +29,6 @@ void	put_env(t_env *env, char *tmp)
 		i++;
 	}
 	env->content[i] = '\0';
-	env->flag = 1;
 }
 
 int	add_env(t_env *env, char **tmp)
@@ -61,14 +60,29 @@ int	add_env(t_env *env, char **tmp)
 	return (1);
 }
 
-static void	free_tmp(char ***tmp)
+void	put_n_env(char **cmd, int j)
 {
-	int	i;
+	int		size;
+	int		i;
+	char	**tmp;
 
+	size = 0;
+	while (g_var.n_env[size])
+	{
+		if (ft_strcmp(g_var.n_env[size], cmd[j]) == 0)
+			return ;
+		size++;
+	}
+	tmp = malloc(sizeof(char *) * (size + 2));
 	i = 0;
-	while ((*tmp)[i])
-		free((*tmp)[i++]);
-	free(*tmp);
+	while (i < size)
+	{
+		tmp[i] = g_var.n_env[i];
+		i++;
+	}
+	tmp[i] = ft_strdup(cmd[j]);
+	tmp[size + 1] = NULL;
+	g_var.n_env = tmp;
 }
 
 int	ft_export(t_env *env, char **cmd)
@@ -84,14 +98,14 @@ int	ft_export(t_env *env, char **cmd)
 	}
 	while (cmd[i])
 	{
+		put_n_env(cmd, i);
 		tmp = ft_split(cmd[i], '=');
-		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env_name(tmp[0][0]) == 0)
+		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env_name(cmd[i][0]) == 0)
 		{
-			printf("minichell: not a valid identifier.\n");
+			printf("minichell: %s: not a valid identifier.\n", cmd[i]);
 			return (1);
 		}
 		add_env(env, tmp);
-		free_tmp(&tmp);
 		i++;
 	}
 	return (SUCCESS);
