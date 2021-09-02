@@ -100,6 +100,8 @@ int	ft_export(t_env *env, char **cmd)
 	{
 		put_n_env(cmd, i);
 		tmp = ft_split(cmd[i], '=');
+		if (tmp[1] == NULL)
+			return (SUCCESS);
 		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env_name(cmd[i][0]) == 0)
 		{
 			printf("minichell: %s: not a valid identifier.\n", cmd[i]);

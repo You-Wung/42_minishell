@@ -36,7 +36,7 @@ int	run_cmd(char **cmd, t_env *env)
 	}
 	if (check_path_env(path_env, cmd) == 0)
 		printf("minishell: %s: command does not exist.\n", cmd[0]);
-	return (1);
+	return (127);
 }
 
 void	notbui_child(t_cmd *c, int *fd)
@@ -72,7 +72,7 @@ void	not_builtin(t_cmd *c)
 	{
 		waitpid(pid, &status, 0);
 		close(fd[1]);
-		read(fd[0], buff, ft_strlen(buff));
+		read(fd[0], buff, 4);
 		close(fd[0]);
 		if (buff[0] != '\0')
 			g_var.qmark = ft_atoi(buff);
