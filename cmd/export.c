@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_ext	g_var;
+extern t_ext	g_var;
 
 int	print_env(t_env *env)
 {
@@ -60,31 +60,6 @@ int	add_env(t_env *env, char **tmp)
 	return (1);
 }
 
-void	put_n_env(char **cmd, int j)
-{
-	int		size;
-	int		i;
-	char	**tmp;
-
-	size = 0;
-	while (g_var.n_env[size])
-	{
-		if (ft_strcmp(g_var.n_env[size], cmd[j]) == 0)
-			return ;
-		size++;
-	}
-	tmp = malloc(sizeof(char *) * (size + 2));
-	i = 0;
-	while (i < size)
-	{
-		tmp[i] = g_var.n_env[i];
-		i++;
-	}
-	tmp[i] = ft_strdup(cmd[j]);
-	tmp[size + 1] = NULL;
-	g_var.n_env = tmp;
-}
-
 int	ft_export(t_env *env, char **cmd)
 {
 	int		i;
@@ -98,15 +73,14 @@ int	ft_export(t_env *env, char **cmd)
 	}
 	while (cmd[i])
 	{
-		put_n_env(cmd, i);
 		tmp = ft_split(cmd[i], '=');
-		if (tmp[1] == NULL)
-			return (SUCCESS);
-		if (ft_strcmp(tmp[0], cmd[i]) == 0 || vaild_env_name(cmd[i][0]) == 0)
+		if (vaild_env_name(tmp[0][0]) == 0)
 		{
 			printf("minichell: %s: not a valid identifier.\n", cmd[i]);
 			return (1);
 		}
+		if (ft_strcmp(tmp[0], cmd[i]) == 0)
+			return (SUCCESS);
 		add_env(env, tmp);
 		i++;
 	}

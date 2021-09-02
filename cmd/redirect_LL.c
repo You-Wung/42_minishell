@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_ext	g_var;
+extern t_ext	g_var;
 
 int	get_user_tmp(t_cmd *c)
 {

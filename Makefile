@@ -25,8 +25,8 @@ SRCS =	main.c\
 		cmd/redirect_LL.c\
 		cmd/redirect_R.c\
 		cmd/redirect_RR.c\
-		cmd/exec_cmd.c\
-		cmd/exec_builtin_cmd.c\
+		cmd/exec_cmd_1.c\
+		cmd/exec_cmd_2.c\
 		cmd/pipe.c\
 		cmd/semicolon.c
 
