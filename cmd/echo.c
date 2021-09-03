@@ -26,6 +26,8 @@ int	cha_env(char **buf, char *cmd, t_env *env, int j)
 	i = 0;
 	if (vaild_env_name(cmd[j]) == 0)
 	{
+		if ('0' <= cmd[j] && cmd[j] <= '9')
+			return (j);
 		*buf = ft_strjoin(*buf, "$");
 		return (j - 1);
 	}
