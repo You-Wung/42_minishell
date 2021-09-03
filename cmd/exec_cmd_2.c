@@ -2,6 +2,48 @@
 
 extern t_ext	g_var;
 
+void	notbui_child(t_cmd *c, int *fd)
+{
+	int		i;
+	char	*buf;
+	char	buff[4];
+
+	buf = ft_itoa(run_cmd(c->cmd, g_var.env));
+	i = -1;
+	while (buf[++i])
+		buff[i] = buf[i];
+	buff[++i] = '\0';
+	write(fd[1], buff, ft_strlen(buff));
+	exit(0);
+}
+
+void	not_builtin(t_cmd *c)
+{
+	int		pid;
+	int		fd[2];
+	int		status;
+	char	buff[4];
+
+	if (pipe(fd) == -1)
+	{
+		perror("pipe\n");
+		exit(0);
+	}
+	pid = fork();
+	g_var.pid[g_var.pnum++] = pid;
+	if (pid > 0)
+	{
+		waitpid(pid, &status, 0);
+		close(fd[1]);
+		read(fd[0], buff, 4);
+		close(fd[0]);
+		if (buff[0] != '\0')
+			g_var.qmark = ft_atoi(buff);
+	}
+	else if (pid == 0)
+		notbui_child(c, fd);
+}
+
 int	use_redirect(t_cmd *c)
 {
 	int	result;
@@ -18,96 +60,28 @@ int	use_redirect(t_cmd *c)
 	return (result);
 }
 
-int	cha_env(char **buf, char *cmd, t_env *env, int j)
+int	use_builtin(t_cmd *c, t_env *e)
 {
-	int		i;
-	char	env_name[256];
+	int	result;
+	int	i;
 
-	i = 0;
-	if (vaild_env_name(cmd[j]) == 0)
-	{
-		*buf = ft_strjoin(*buf, "$");
-		return (j - 1);
-	}
-	while (cmd[j] && vaild_env_name(cmd[j]) == 1)
-		env_name[i++] = cmd[j++];
-	env_name[i] = '\0';
-	while (env && env->next)
-	{
-		if (ft_strcmp(env->name, env_name) == 0)
-		{
-			*buf = ft_strjoin(*buf, env->content);
-			return (j - 1);
-		}
-		env = env->next;
-	}
-	return (j - 1);
-}
-
-int	rr(char **buf, char *cmd, t_env *env, int j)
-{
-	char	c[2];
-
-	c[0] = cmd[j];
-	c[1] = '\0';
-	if (cmd[j] == '\"')
-	{
-		while (cmd[++j] != '\"')
-		{
-			if (cmd[j] == '$')
-				j = cha_env(&(*buf), cmd, env, ++j);
-			else
-				*buf = ft_strjoin(*buf, c);
-		}
-	}
-	else if (cmd[j] == '\'')
-	{
-		while (cmd[++j] != '\'')
-			*buf = ft_strjoin(*buf, c);
-	}
-	else if (cmd[j] == '$')
-		j = cha_env(&(*buf), cmd, env, ++j);
-	else
-		*buf = ft_strjoin(*buf, c);
-	return (j);
-}
-
-void	cha_print(int i, t_env *env, char **cmd)
-{
-	int		j;
-	char	*buf;
-
-	buf = "";
-	j = -1;
-	while (cmd[i][++j])
-	{
-		j = rr(&buf, cmd[i], env, j);
-	}
-	cmd[i] = buf;
-}
-
-int	exec_cmd(t_cmd *c)
-{
-	t_env	*e;
-	int		i;
-
-	e = g_var.env;
-	if (c->flag == 1)
-		g_var.qmark = ft_pipe(c);
-	else if (c->flag == 6)
-		g_var.qmark = ft_semicolon(c);
-	else if (c->flag == 0)
-		g_var.qmark = use_builtin(c, e);
-	else
-		g_var.qmark = use_redirect(c);
+	result = -2;
+	if (ft_strcmp(c->cmd[0], "export") == 0)
+		result = ft_export(e, c->cmd);
+	if (ft_strcmp(c->cmd[0], "unset") == 0)
+		result = ft_unset(&e, c->cmd);
 	i = 0;
 	while (c->cmd[++i])
 		cha_print(i, e, c->cmd);
-	if (g_var.qmark == -2)
-	{
-		g_var.qmark = 0;
-		if (c->cmd[0])
-			not_builtin(c);
-	}
-	return (g_var.qmark);
+	if (ft_strcmp(c->cmd[0], "echo") == 0)
+		result = ft_echo(c->cmd);
+	if (ft_strcmp(c->cmd[0], "exit") == 0)
+		result = ft_exit(c->cmd, c->flag);
+	if (ft_strcmp(c->cmd[0], "cd") == 0)
+		result = ft_cd(e, c->cmd);
+	if (ft_strcmp(c->cmd[0], "pwd") == 0)
+		result = ft_pwd();
+	if (ft_strcmp(c->cmd[0], "env") == 0)
+		result = ft_env(e);
+	return (result);
 }
