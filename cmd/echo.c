@@ -77,7 +77,8 @@ void	cha_print(int i, t_env *env, char **cmd)
 	j = -1;
 	while (cmd[i][++j])
 		j = cha_cmd(&buf, cmd[i], env, j);
-	cmd[i] = buf;
+	ft_strlcpy(cmd[i], buf, ft_strlen(buf));
+	free(buf);
 }
 
 int	ft_echo(char **cmd)
