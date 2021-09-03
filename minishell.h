@@ -87,7 +87,7 @@ int		all_space(char *input);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);
-int		ft_echo(t_env *env, char **cmd);
+int		ft_echo(char **cmd);
 int		ft_env(t_env *env);
 int		ft_exit(char **cmd, int flag);
 int		ft_export(t_env *env, char **cmd);
@@ -108,5 +108,9 @@ int		use_builtin(t_cmd *c, t_env *e);
 int		use_redirect(t_cmd *c);
 int		run_cmd(char **cmd, t_env *env);
 int		use_redi_cmd(t_cmd *c);
+
+void	cha_print(int i, t_env *env, char **cmd);
+void	ft_charjoin(int j, char *cmd, char **buf);
+
 
 #endif

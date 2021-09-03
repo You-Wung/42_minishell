@@ -18,16 +18,7 @@ int	check_option_n(char *str)
 	return (1);
 }
 
-int	vaild_env_name(char c)
-{
-	if (!('a' <= c && c <= 'z')
-		&& !('A' <= c && c <= 'Z')
-		&& !(c == '_'))
-		return (0);
-	return (1);
-}
-
-int	echo_env(char *cmd, t_env *env, int j)
+int	cha_env(char **buf, char *cmd, t_env *env, int j)
 {
 	int		i;
 	char	env_name[256];
@@ -35,7 +26,7 @@ int	echo_env(char *cmd, t_env *env, int j)
 	i = 0;
 	if (vaild_env_name(cmd[j]) == 0)
 	{
-		printf("$");
+		*buf = ft_strjoin(*buf, "$");
 		return (j - 1);
 	}
 	while (cmd[j] && vaild_env_name(cmd[j]) == 1)
@@ -45,7 +36,7 @@ int	echo_env(char *cmd, t_env *env, int j)
 	{
 		if (ft_strcmp(env->name, env_name) == 0)
 		{
-			printf("%s", env->content);
+			*buf = ft_strjoin(*buf, env->content);
 			return (j - 1);
 		}
 		env = env->next;
@@ -53,36 +44,43 @@ int	echo_env(char *cmd, t_env *env, int j)
 	return (j - 1);
 }
 
-void	echo_print(int i, t_env *env, char **cmd)
+int	cha_cmd(char **buf, char *cmd, t_env *env, int j)
 {
-	int	j;
-
-	j = -1;
-	while (cmd[i][++j])
+	if (cmd[j] == '\"')
 	{
-		if (cmd[i][j] == '\"')
+		while (cmd[++j] != '\"')
 		{
-			while (cmd[i][++j] != '\"')
-			{
-				if (cmd[i][j] == '$')
-					j = echo_env(cmd[i], env, ++j);
-				else
-					printf("%c", cmd[i][j]);
-			}
+			if (cmd[j] == '$')
+				j = cha_env(&(*buf), cmd, env, ++j);
+			else
+				ft_charjoin(j, cmd, &(*buf));
 		}
-		else if (cmd[i][j] == '\'')
-		{
-			while (cmd[i][++j] != '\'')
-				printf("%c", cmd[i][j]);
-		}
-		else if (cmd[i][j] == '$')
-			j = echo_env(cmd[i], env, ++j);
-		else
-			printf("%c", cmd[i][j]);
 	}
+	else if (cmd[j] == '\'')
+	{
+		while (cmd[++j] != '\'')
+			ft_charjoin(j, cmd, &(*buf));
+	}
+	else if (cmd[j] == '$')
+		j = cha_env(&(*buf), cmd, env, ++j);
+	else
+		ft_charjoin(j, cmd, &(*buf));
+	return (j);
 }
 
-int	ft_echo(t_env *env, char **cmd)
+void	cha_print(int i, t_env *env, char **cmd)
+{
+	int		j;
+	char	*buf;
+
+	buf = "";
+	j = -1;
+	while (cmd[i][++j])
+		j = cha_cmd(&buf, cmd[i], env, j);
+	cmd[i] = buf;
+}
+
+int	ft_echo(char **cmd)
 {
 	int	i;
 	int	option_n;
@@ -96,9 +94,8 @@ int	ft_echo(t_env *env, char **cmd)
 	}
 	while (cmd[i])
 	{
-		echo_print(i, env, cmd);
-		i++;
-		if (cmd[i])
+		printf("%s", cmd[i]);
+		if (cmd[++i])
 			printf(" ");
 	}
 	if (option_n == 0)

@@ -28,7 +28,8 @@ SRCS =	main.c\
 		cmd/exec_cmd_1.c\
 		cmd/exec_cmd_2.c\
 		cmd/pipe.c\
-		cmd/semicolon.c
+		cmd/semicolon.c\
+		cmd/utils.c
 
 LIBFT = libft/ft_memset.c\
 		libft/ft_strlcpy.c\
