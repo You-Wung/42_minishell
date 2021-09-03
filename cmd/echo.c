@@ -80,7 +80,10 @@ void	cha_print(int i, t_env *env, char **cmd)
 	while (cmd[i][++j])
 		j = cha_cmd(&buf, cmd[i], env, j);
 	if (ft_strcmp(buf, "\0") == 0)
+	{
+		free(cmd[i]);
 		cmd[i] = NULL;
+	}
 	ft_strlcpy(cmd[i], buf, ft_strlen(buf));
 }
 
