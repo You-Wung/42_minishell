@@ -15,5 +15,5 @@ void	ft_charjoin(int j, char *cmd, char **buf)
 
 	c[0] = cmd[j];
 	c[1] = '\0';
-	*buf = ft_strjoin(*buf, c);
+	*buf = ft_strjoin(buf, c, 1);
 }

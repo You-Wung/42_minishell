@@ -74,7 +74,7 @@ void	init_env(char **env);
 int		start_read(void);
 char	*make_prompt(void);
 
-char	*fill_cmd(t_cmd *c, char *input);/*cmd채우는 함수*/
+char	*fill_cmd(t_cmd **c, char *input);/*cmd채우는 함수*/
 int		count_cmd(char *input);/* | > < ; 기준으로 커맨드 몇개로 잘릴까 */
 char	*init_cmd(t_cmd *c, char *input);/*실제로 cmd에 인덱스 넣어주는과정*/
 char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
@@ -84,6 +84,7 @@ int		is_flag(char c);
 char	*edit_input(char **input);
 void	check_qmark(char **str);
 int		all_space(char *input);
+void	set_vars(int *i, int *in, char **tmp, char **str);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);
@@ -108,9 +109,7 @@ int		use_builtin(t_cmd *c, t_env *e);
 int		use_redirect(t_cmd *c);
 int		run_cmd(char **cmd, t_env *env);
 int		use_redi_cmd(t_cmd *c);
-
 void	cha_print(int i, t_env *env, char **cmd);
 void	ft_charjoin(int j, char *cmd, char **buf);
-
 
 #endif

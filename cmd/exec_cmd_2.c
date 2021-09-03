@@ -2,46 +2,23 @@
 
 extern t_ext	g_var;
 
-void	notbui_child(t_cmd *c, int *fd)
-{
-	int		i;
-	char	*buf;
-	char	buff[4];
-
-	buf = ft_itoa(run_cmd(c->cmd, g_var.env));
-	i = -1;
-	while (buf[++i])
-		buff[i] = buf[i];
-	buff[++i] = '\0';
-	write(fd[1], buff, ft_strlen(buff));
-	exit(0);
-}
-
 void	not_builtin(t_cmd *c)
 {
-	int		pid;
-	int		fd[2];
-	int		status;
-	char	buff[4];
+	int	pid;
+	int	wstatus;
 
-	if (pipe(fd) == -1)
-	{
-		perror("pipe\n");
-		exit(0);
-	}
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
 	if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
-		close(fd[1]);
-		read(fd[0], buff, 4);
-		close(fd[0]);
-		if (buff[0] != '\0')
-			g_var.qmark = ft_atoi(buff);
+		waitpid(pid, &wstatus, 0);
+		g_var.qmark = WEXITSTATUS(wstatus);
 	}
 	else if (pid == 0)
-		notbui_child(c, fd);
+	{
+		g_var.qmark = run_cmd(c->cmd, g_var.env);
+		exit(g_var.qmark);
+	}
 }
 
 int	use_redirect(t_cmd *c)
@@ -60,6 +37,26 @@ int	use_redirect(t_cmd *c)
 	return (result);
 }
 
+int	use_echo(int result, t_cmd *c)
+{
+	int	pid;
+	int	wstatus;
+
+	pid = fork();
+	g_var.pid[g_var.pnum++] = pid;
+	if (pid > 0)
+	{
+		waitpid(pid, &wstatus, 0);
+		result = WEXITSTATUS(wstatus);
+	}
+	else if (pid == 0)
+	{
+		result = ft_echo(c->cmd);
+		exit(result);
+	}
+	return (result);
+}
+
 int	use_builtin(t_cmd *c, t_env *e)
 {
 	int	result;
@@ -68,20 +65,20 @@ int	use_builtin(t_cmd *c, t_env *e)
 	result = -2;
 	if (ft_strcmp(c->cmd[0], "export") == 0)
 		result = ft_export(e, c->cmd);
-	if (ft_strcmp(c->cmd[0], "unset") == 0)
+	else if (ft_strcmp(c->cmd[0], "unset") == 0)
 		result = ft_unset(&e, c->cmd);
-	i = 0;
+	i = -1;
 	while (c->cmd[++i])
 		cha_print(i, e, c->cmd);
-	if (ft_strcmp(c->cmd[0], "echo") == 0)
-		result = ft_echo(c->cmd);
 	if (ft_strcmp(c->cmd[0], "exit") == 0)
 		result = ft_exit(c->cmd, c->flag);
-	if (ft_strcmp(c->cmd[0], "cd") == 0)
-		result = ft_cd(e, c->cmd);
-	if (ft_strcmp(c->cmd[0], "pwd") == 0)
+	else if (ft_strcmp(c->cmd[0], "pwd") == 0)
 		result = ft_pwd();
-	if (ft_strcmp(c->cmd[0], "env") == 0)
+	else if (ft_strcmp(c->cmd[0], "env") == 0)
 		result = ft_env(e);
+	else if (ft_strcmp(c->cmd[0], "cd") == 0)
+		result = ft_cd(e, c->cmd);
+	else if (ft_strcmp(c->cmd[0], "echo") == 0)
+		result = use_echo(result, c);
 	return (result);
 }

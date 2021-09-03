@@ -63,20 +63,21 @@ void	check_qmark(char **str)
 
 	if (!ft_strchr(*str, '$') && !ft_strchr(*str, '?'))
 		return ;
-	rt = (char *)malloc(ft_strlen(*str) + count_qmark(*str) + 1);
-	i = 0;
-	in = 0;
-	while ((*str)[i])
+	rt = malloc(ft_strlen(*str) + count_qmark(*str) + 1);
+	set_vars(&i, &in, &tmp, str);
+	while (str[0][++i])
 	{
-		if ((*str)[i] == '\'' || (*str)[i] == '`')
-			return ;
-		if ((*str)[i] == '$' && (*str)[i + 1] == '?' && ++i)
+		if ((*str)[i] == '\'')
+		{
+			while ((*str)[i + 1] && (*str)[i] != '\'')
+				i++;
+		}
+		if ((*str)[i + 1] && (*str)[i] == '$' && (*str)[i + 1] == '?' && ++i)
 			in += exchange_qmark(rt, in);
 		else
-			rt[in++] = (*str)[i];
-		i++;
+			rt[in++] = str[0][i];
 	}
-	tmp = *str;
+	rt[in] = '\0';
 	free(tmp);
 	*str = rt;
 }

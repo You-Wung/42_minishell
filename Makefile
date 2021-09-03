@@ -2,8 +2,8 @@ NAME = minishell
 
 CC = gcc
 
-#CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include -fsanitize=address
+CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
+#CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include -fsanitize=address
 
 RM = rm -rf
 
@@ -15,6 +15,7 @@ SRCS =	main.c\
 		signal.c\
 		env.c\
 		utils.c\
+		utils2.c\
 		cmd/cd.c\
 		cmd/echo.c\
 		cmd/env.c\

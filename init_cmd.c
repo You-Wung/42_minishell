@@ -88,7 +88,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 			break ;
 		c->cmd[j] = (char *)malloc(phrase + 1);
 		ft_strlcpy(c->cmd[j++], input, phrase);
-		check_qmark(&c->cmd[j - 1]);
+		check_qmark(&(c->cmd[j - 1]));
 		input += phrase;
 		while (*input && *input == ' ')
 			input++;

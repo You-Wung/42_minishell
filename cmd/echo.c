@@ -4,7 +4,7 @@ extern t_ext	g_var;
 
 int	check_option_n(char *str)
 {
-	if (*str == '-')
+	if (*str && *str == '-')
 		str++;
 	else
 		return (0);
@@ -28,7 +28,7 @@ int	cha_env(char **buf, char *cmd, t_env *env, int j)
 	{
 		if ('0' <= cmd[j] && cmd[j] <= '9')
 			return (j);
-		*buf = ft_strjoin(*buf, "$");
+		*buf = ft_strjoin(buf, "$", 1);
 		return (j - 1);
 	}
 	while (cmd[j] && vaild_env_name(cmd[j]) == 1)
@@ -38,7 +38,7 @@ int	cha_env(char **buf, char *cmd, t_env *env, int j)
 	{
 		if (ft_strcmp(env->name, env_name) == 0)
 		{
-			*buf = ft_strjoin(*buf, env->content);
+			*buf = ft_strjoin(buf, env->content, 1);
 			return (j - 1);
 		}
 		env = env->next;
@@ -53,20 +53,20 @@ int	cha_cmd(char **buf, char *cmd, t_env *env, int j)
 		while (cmd[++j] != '\"')
 		{
 			if (cmd[j] == '$')
-				j = cha_env(&(*buf), cmd, env, ++j);
+				j = cha_env(buf, cmd, env, ++j);
 			else
-				ft_charjoin(j, cmd, &(*buf));
+				ft_charjoin(j, cmd, buf);
 		}
 	}
 	else if (cmd[j] == '\'')
 	{
 		while (cmd[++j] != '\'')
-			ft_charjoin(j, cmd, &(*buf));
+			ft_charjoin(j, cmd, buf);
 	}
 	else if (cmd[j] == '$')
-		j = cha_env(&(*buf), cmd, env, ++j);
+		j = cha_env(buf, cmd, env, ++j);
 	else
-		ft_charjoin(j, cmd, &(*buf));
+		ft_charjoin(j, cmd, buf);
 	return (j);
 }
 
@@ -75,16 +75,15 @@ void	cha_print(int i, t_env *env, char **cmd)
 	int		j;
 	char	*buf;
 
-	buf = "";
+	buf = malloc(1);
+	*buf = '\0';
 	j = -1;
 	while (cmd[i][++j])
 		j = cha_cmd(&buf, cmd[i], env, j);
-	if (ft_strcmp(buf, "\0") == 0)
-	{
-		free(cmd[i]);
-		cmd[i] = NULL;
-	}
-	ft_strlcpy(cmd[i], buf, ft_strlen(buf));
+	cmd[i] = ft_strdup("");
+	if (ft_strcmp(buf, "\0") != 0)
+		cmd[i] = ft_strjoin(&cmd[i], buf, 0);
+	free(buf);
 }
 
 int	ft_echo(char **cmd)
@@ -102,7 +101,8 @@ int	ft_echo(char **cmd)
 	while (cmd[i])
 	{
 		printf("%s", cmd[i]);
-		if (cmd[++i])
+		++i;
+		if (cmd[i])
 			printf(" ");
 	}
 	if (option_n == 0)

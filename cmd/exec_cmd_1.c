@@ -15,8 +15,8 @@ int	check_path_env(char **path_env, char **cmd)
 	i = -1;
 	while (path_env[++i])
 	{
-		path_env[i] = ft_strjoin(path_env[i], "/");
-		path = ft_strjoin(path_env[i], cmd[0]);
+		path_env[i] = ft_strjoin(&(path_env[i]), "/", 1);
+		path = ft_strjoin(&(path_env[i]), cmd[0], 1);
 		execve(path, cmd, g_var.n_env);
 	}
 	return (0);
@@ -26,7 +26,6 @@ int	run_cmd(char **cmd, t_env *env)
 {
 	char		**path_env;
 
-	path_env = NULL;
 	execve(cmd[0], cmd, g_var.n_env);
 	while (env && env->next)
 	{

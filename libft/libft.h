@@ -6,7 +6,7 @@
 /*   By: tyou <tyou@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 15:21:29 by tyou              #+#    #+#             */
-/*   Updated: 2021/08/01 00:23:24 by tyou             ###   ########.fr       */
+/*   Updated: 2021/09/03 21:39:40 by tyou             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void				*ft_memcpy(void *dst, const void *src, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memchr(const void *ptr, int value, size_t num);
 void				*ft_memccpy(void *dst, void *src, int c, size_t n);
-char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin(char **s1, char const *s2, int sign);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_itoa(int n);

@@ -56,7 +56,7 @@ int	count_cmd(char *input)
 	return (rt);
 }
 
-char	*fill_cmd(t_cmd *c, char *input)
+char	*fill_cmd(t_cmd **c, char *input)
 {
 	int	size;
 	int	i;
@@ -65,22 +65,19 @@ char	*fill_cmd(t_cmd *c, char *input)
 	size = count_cmd(input);
 	while (input && ++i < size)
 	{
-		input = init_cmd(&c[i], input);
+		input = init_cmd(c[i], input);
 		if (input == NULL)
 		{
 			printf("minishell: Error\n");
 			return (NULL);
 		}
-		 printf("cmd[0]: [%s]\n",c[i].cmd[0]);
-        if (c[i].cmd[1])
-            printf("cmd[1]: [%s]\n",c[i].cmd[1]);
 	}
 	i = -1;
 	while (++i < size)
 	{
-		if (c[i].flag == PIPE)
+		if (c[i]->flag == PIPE)
 			g_var.size_pi++;
-		if (c[i].flag == SEMI && i + 1 < size)
+		if (c[i]->flag == SEMI && i + 1 < size)
 			g_var.size_se++;
 	}
 	return (input);
