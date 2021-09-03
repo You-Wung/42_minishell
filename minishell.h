@@ -109,7 +109,7 @@ int		use_builtin(t_cmd *c, t_env *e);
 int		use_redirect(t_cmd *c);
 int		run_cmd(char **cmd, t_env *env);
 int		use_redi_cmd(t_cmd *c);
-void	cha_print(int i, t_env *env, char **cmd);
+void	cha_print(int i, t_cmd *c);
 void	ft_charjoin(int j, char *cmd, char **buf);
 
 #endif

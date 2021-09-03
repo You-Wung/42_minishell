@@ -2,6 +2,15 @@
 
 extern t_ext	g_var;
 
+int	vaild_env_name(char c)
+{
+	if (!('a' <= c && c <= 'z')
+		&& !('A' <= c && c <= 'Z')
+		&& !(c == '_'))
+		return (0);
+	return (1);
+}
+
 int	ft_unset2(t_env **env, char **cmd, char *find)
 {
 	if (vaild_env_name(cmd[1][0]) == 0)
