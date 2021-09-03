@@ -69,7 +69,7 @@ int	use_builtin(t_cmd *c, t_env *e)
 		result = ft_unset(&e, c->cmd);
 	i = -1;
 	while (c->cmd[++i])
-		cha_print(i, e, c->cmd);
+		cha_print(i, c);
 	if (ft_strcmp(c->cmd[0], "exit") == 0)
 		result = ft_exit(c->cmd, c->flag);
 	else if (ft_strcmp(c->cmd[0], "pwd") == 0)
