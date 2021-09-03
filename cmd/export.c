@@ -60,6 +60,16 @@ int	add_env(t_env *env, char **tmp)
 	return (1);
 }
 
+static void	free_tmp(char ***tmp)
+{
+	int	i;
+
+	i = 0;
+	while ((*tmp)[i])
+		free((*tmp)[i++]);
+	free(*tmp);
+}
+
 int	ft_export(t_env *env, char **cmd)
 {
 	int		i;
@@ -82,6 +92,7 @@ int	ft_export(t_env *env, char **cmd)
 		if (ft_strcmp(tmp[0], cmd[i]) == 0)
 			return (SUCCESS);
 		add_env(env, tmp);
+		free_tmp(&tmp);
 		i++;
 	}
 	return (SUCCESS);
