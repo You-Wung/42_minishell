@@ -84,7 +84,7 @@ int	ft_export(t_env *env, char **cmd)
 	while (cmd[i])
 	{
 		tmp = ft_split(cmd[i], '=');
-		if (vaild_env_name(tmp[0][0]) == 0)
+		if (vaild_env(tmp[0]) == 0)
 		{
 			printf("minishell: %s: not a valid identifier.\n", cmd[i]);
 			return (1);

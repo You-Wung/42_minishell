@@ -11,9 +11,22 @@ int	vaild_env_name(char c)
 	return (1);
 }
 
+int	vaild_env(char *c)
+{
+    int i;
+
+    i = 0;
+    if (vaild_env_name(c[i]) == 0)
+        return (0);
+    while (c[++i])
+        if (c[i] == '?')
+            return (0);
+    return (1);
+}
+
 int	ft_unset2(t_env **env, char **cmd, char *find)
 {
-	if (vaild_env_name(cmd[1][0]) == 0)
+	if (vaild_env(cmd[1]) == 0)
 	{
 		printf("minishell: %s: not a valid identifier.\n", cmd[1]);
 		return (1);
