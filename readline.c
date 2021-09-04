@@ -19,6 +19,7 @@ static t_cmd	*malloc_c(char *input)
 	int		size;
 
 	size = count_cmd(input);
+	g_var.first_input_size = size;
 	if (size == ERROR)
 	{
 		printf("minishell : error\n");
@@ -58,20 +59,14 @@ static void	freee_c(t_cmd **c)
 	int	j;
 
 	j = 0;
-	while (c[0][j].cmd)
+	while (j < g_var.first_input_size && c[0][j].cmd)
 	{
 		i = -1;
-		while(c[0][j].cmd[++i])
-			free(c[0][j].cmd)
-		//while ((*c)->cmd[++i])
-		//{
-			//printf("Free %s\n", (*c)->cmd[i]);
-			//free((*c)->cmd[i]);
-		//}
+		while ((c[0][j].cmd[++i]))
+			free((c[0][j].cmd[i]));
+		free((c[0][j].cmd));
 		j++;
 	}
-	free((*c)->cmd);
-
 	free(*c);
 }
 

@@ -68,6 +68,7 @@ typedef struct s_ext
 	t_env			*env;
 	char			**n_env;
 	int				qmark;
+	int				first_input_size;
 }	t_ext;
 
 void	init_env(char **env);

@@ -92,7 +92,7 @@ char	*edit_input(char **input)
 	int		i;
 	int		j;
 
-	if (**input == '<' && *(*input + 1) == '<')
+	if ((**input == '<' && *(*input + 1) == '<') || **input == ';')
 		return (NULL);
 	i = 0;
 	while (is_flag(*(*input + i)) || (*(*input + i) == ' '))
@@ -108,6 +108,7 @@ char	*edit_input(char **input)
 	i = 0;
 	while (*(input + i) && i < (int)ft_strlen(*input))
 		ret[++j] = *(*input + i++);
-	free(*input);
+	//free(*input);
+	//printf("ret : %s\n", ret);
 	return (ret);
 }
