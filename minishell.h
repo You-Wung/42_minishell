@@ -103,6 +103,7 @@ int		ft_pipe(t_cmd *c);
 int		ft_semicolon(t_cmd *c);
 
 int		vaild_env_name(char c);
+int		vaild_env(char *c);
 int		check_open(int in, t_cmd *c);
 int		exec_cmd(t_cmd *c);
 void	not_builtin(t_cmd *c);
