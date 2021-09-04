@@ -15,7 +15,7 @@ int	ft_unset2(t_env **env, char **cmd, char *find)
 {
 	if (vaild_env_name(cmd[1][0]) == 0)
 	{
-		printf("minichell: %s: not a valid identifier.\n", cmd[1]);
+		printf("minishell: %s: not a valid identifier.\n", cmd[1]);
 		return (1);
 	}
 	if (find == NULL)
