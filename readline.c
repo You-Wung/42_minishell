@@ -52,24 +52,39 @@ char	*make_prompt(void)
 	return (prompt);
 }
 
-static void	freee_c(t_cmd *c)
+static void	freee_c(t_cmd **c)
 {
 	int	i;
+	int	j;
 
-	i = -1;
-	while (c->cmd[++i])
-		free(c->cmd[i]);
-	free(c->cmd);
+	j = 0;
+	while (c[0][j].cmd)
+	{
+		i = -1;
+		while(c[0][j].cmd[++i])
+			free(c[0][j].cmd)
+		//while ((*c)->cmd[++i])
+		//{
+			//printf("Free %s\n", (*c)->cmd[i]);
+			//free((*c)->cmd[i]);
+		//}
+		j++;
+	}
+	free((*c)->cmd);
+
+	free(*c);
 }
 
 int	start_read(void)
 {
 	t_cmd	*c;
 	char	*input;
+	char	*tmp;
 
 	while (1)
 	{
 		input = readline(make_prompt());
+		tmp = input;
 		if (input == NULL)
 			input_is_null();
 		if (!(*input) || all_space(input))
@@ -77,15 +92,20 @@ int	start_read(void)
 		add_history(input);
 		c = malloc_c(input);
 		g_var.size_pi = 0;
-		if (c && fill_cmd(&c, input))
+		g_var.size_se = 0;
+		printf("------\n");
+		if (c && fill_cmd(&c, &input))
 		{
 			g_var.writing = 1;
+			printf("---starts---\n");
 			g_var.qmark = exec_cmd(c);
+			printf("---ends---\n");
 			g_var.writing = 0;
-			freee_c(c);
+			freee_c(&c);
 		}
-		free(c);
-		free(input);
+		printf("------\n");
+		//free(c);
+		free(tmp);
 	}
 	return (0);
 }

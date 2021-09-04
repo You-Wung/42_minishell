@@ -74,9 +74,9 @@ void	init_env(char **env);
 int		start_read(void);
 char	*make_prompt(void);
 
-char	*fill_cmd(t_cmd **c, char *input);/*cmd채우는 함수*/
+char	*fill_cmd(t_cmd **c, char **input);/*cmd채우는 함수*/
+char	*init_cmd(t_cmd *c, char **input);/*실제로 cmd에 인덱스 넣어주는과정*/
 int		count_cmd(char *input);/* | > < ; 기준으로 커맨드 몇개로 잘릴까 */
-char	*init_cmd(t_cmd *c, char *input);/*실제로 cmd에 인덱스 넣어주는과정*/
 char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
 int		check_input(char *input, t_match *m);
 void	init_signal(void);/*시그널 처리*/

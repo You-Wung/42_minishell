@@ -83,6 +83,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 		input++;
 	while (++i < size && *input)
 	{
+		//printf("_________SIGN_________\n");
 		phrase = check_size(input);
 		if (phrase == 0)
 			break ;
@@ -94,24 +95,28 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 			input++;
 		input = set_flag(c, input, &j);
 	}
+		//printf("_________SIGN2_________\n");
 	return (input);
 }
 
 /*실제로 cmd에 인덱스 넣어주는과정*/
-char	*init_cmd(t_cmd *c, char *input)
+char	*init_cmd(t_cmd *c, char **input)
 {
 	int	size;
+	int	i;
 
-	while (*input && *input == ' ')
-		input++;
-	if (is_flag(*input))
-		input = edit_input(&input);
-	if (input == NULL)
+	i = 0;
+	while ((*input)[i] && (*input)[i] == ' ')
+		i++;
+	if (is_flag(**input))
+		*input = edit_input(input);
+	if (*input == NULL)
 		return (NULL);
-	size = count(input);
+	size = count(*input);
 	if (size == ERROR)
 		return (NULL);
 	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	c->cmd[size] = NULL;
-	return (input_cmd(c, input, size));
+	//printf("_________SIGN3_________\n");
+	return (input_cmd(c, *input, size));
 }
