@@ -109,7 +109,7 @@ char	*init_cmd(t_cmd *c, char **input)
 	while ((*input)[i] && (*input)[i] == ' ')
 		i++;
 	if (is_flag(**input))
-		edit_input(input);
+		*input = edit_input(input);
 	if (*input == NULL)
 		return (NULL);
 	size = count(*input);

@@ -108,7 +108,6 @@ char	*edit_input(char **input)
 	i = 0;
 	while (*(input + i) && i < (int)ft_strlen(*input))
 		ret[++j] = *(*input + i++);
-	//free(*input);
-	//printf("ret : %s\n", ret);
+	printf("ret : %s\n", ret);
 	return (ret);
 }
