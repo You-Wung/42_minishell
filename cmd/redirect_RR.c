@@ -6,7 +6,7 @@ int	ft_redirect_RR(t_cmd *c)
 {
 	pid_t	pid;
 	int		out;
-	int		status;
+	int		wstatus;
 
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
@@ -16,11 +16,14 @@ int	ft_redirect_RR(t_cmd *c)
 		if (check_open(out, c) == 1)
 			return (1);
 		dup2(out, STDOUT_FILENO);
-		if (use_redi_cmd(c) == 1)
-			exit(0);
+		g_var.qmark = use_redi_cmd(c);
 		close(out);
+		exit(g_var.qmark);
 	}
 	else if (pid > 0)
-		waitpid(pid, &status, 0);
+	{
+		waitpid(pid, &wstatus, 0);
+		g_var.qmark = WEXITSTATUS(wstatus);
+	}
 	return (SUCCESS);
 }

@@ -60,39 +60,47 @@ int	add_env(t_env *env, char **tmp)
 	return (1);
 }
 
-static void	free_tmp(char ***tmp)
+int	use_export(t_env *env, char **cmd, int i)
 {
-	int	i;
+	char	**tmp;
+	int		j;
 
-	i = 0;
-	while ((*tmp)[i])
-		free((*tmp)[i++]);
-	free(*tmp);
+	tmp = ft_split(cmd[i], '=');
+	if (vaild_env(tmp[0]) == 0)
+	{
+		printf("minishell: %s: not a valid identifier.\n", cmd[i]);
+		return (1);
+	}
+	if (ft_strcmp(tmp[0], cmd[i]) == 0)
+	{
+		free(tmp[0]);
+		free(tmp);
+		return (SUCCESS);
+	}
+	add_env(env, tmp);
+	j = 0;
+	while (tmp[j])
+		free(tmp[j++]);
+	free(tmp);
+	return (2);
 }
 
 int	ft_export(t_env *env, char **cmd)
 {
 	int		i;
-	char	**tmp;
+	int		res;
 
 	i = 1;
-	if (cmd[1] == NULL)
+	if (cmd[i] == NULL)
 	{
 		print_env(env);
 		return (SUCCESS);
 	}
 	while (cmd[i])
 	{
-		tmp = ft_split(cmd[i], '=');
-		if (vaild_env(tmp[0]) == 0)
-		{
-			printf("minishell: %s: not a valid identifier.\n", cmd[i]);
-			return (1);
-		}
-		if (ft_strcmp(tmp[0], cmd[i]) == 0)
-			return (SUCCESS);
-		add_env(env, tmp);
-		free_tmp(&tmp);
+		res = use_export(env, cmd, i);
+		if (res != 2)
+			return (res);
 		i++;
 	}
 	return (SUCCESS);
