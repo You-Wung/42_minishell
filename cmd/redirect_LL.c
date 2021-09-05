@@ -26,7 +26,7 @@ int	get_user_tmp(t_cmd *c)
 	return (SUCCESS);
 }
 
-int	use_user_tmp(t_cmd *c)
+void	use_user_tmp(t_cmd *c)
 {
 	int		in;
 
@@ -34,13 +34,12 @@ int	use_user_tmp(t_cmd *c)
 	if (in < 0)
 	{
 		printf("minishell: no such file or directory\n");
-		return (1);
+		exit (1);
 	}
 	dup2(in, STDIN_FILENO);
-	if (use_redi_cmd(c) == 1)
-		exit(0);
+	g_var.qmark = use_redi_cmd(c);
 	close(in);
-	return (SUCCESS);
+	exit (g_var.qmark);
 }
 
 int	del_user_tmp(void)
@@ -69,7 +68,7 @@ int	del_user_tmp(void)
 int	ft_redirect_LL(t_cmd *c)
 {
 	pid_t	pid;
-	int		status;
+	int		wstatus;
 
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
@@ -81,13 +80,13 @@ int	ft_redirect_LL(t_cmd *c)
 	if (pid == 0)
 	{
 		if (get_user_tmp(c) != SUCCESS)
-			return (1);
-		if (use_user_tmp(c) != SUCCESS)
-			return (1);
+			exit (1);
+		use_user_tmp(c);
 	}
 	else if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, &wstatus, 0);
+		g_var.qmark = WEXITSTATUS(wstatus);
 		if (del_user_tmp() == -1)
 			return (-1);
 	}

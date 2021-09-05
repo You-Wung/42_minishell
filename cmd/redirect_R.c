@@ -12,12 +12,11 @@ int	use_redi_cmd(t_cmd *c)
 		return (g_var.qmark);
 	if (c->flag == 0 || 1 < c->flag)
 		g_var.qmark = use_builtin(c, e);
-	if (g_var.qmark != -2)
-		exit(1);
-	else
+	if (g_var.qmark == -2)
 	{
 		g_var.qmark = 0;
-		g_var.qmark = run_cmd(c->cmd, g_var.env);
+		if (c->cmd[0])
+			g_var.qmark = run_cmd(c->cmd, g_var.env);
 	}
 	return (g_var.qmark);
 }
@@ -26,7 +25,7 @@ int	ft_redirect_R(t_cmd *c)
 {
 	pid_t	pid;
 	int		out;
-	int		status;
+	int		wstatus;
 
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
@@ -36,11 +35,14 @@ int	ft_redirect_R(t_cmd *c)
 		if (check_open(out, c) == 1)
 			return (1);
 		dup2(out, STDOUT_FILENO);
-		if (use_redi_cmd(c) == 1)
-			exit(0);
+		g_var.qmark = use_redi_cmd(c);
 		close(out);
+		exit(g_var.qmark);
 	}
 	else if (pid > 0)
-		waitpid(pid, &status, 0);
-	return (SUCCESS);
+	{
+		waitpid(pid, &wstatus, 0);
+		g_var.qmark = WEXITSTATUS(wstatus);
+	}
+	return (g_var.qmark);
 }
