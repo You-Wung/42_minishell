@@ -86,7 +86,9 @@ char	*edit_input(char **input);
 void	check_qmark(char **str);
 int		all_space(char *input);
 void	set_vars(int *i, int *in, char **tmp, char **str);
-
+int		flag_check(char *input);
+void	input_plus_after(char *s1, char *s2, int *in);
+//< test wc -l
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);
 int		ft_echo(char **cmd);

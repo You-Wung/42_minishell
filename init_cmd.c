@@ -108,15 +108,16 @@ char	*init_cmd(t_cmd *c, char **input)
 	i = 0;
 	while ((*input)[i] && (*input)[i] == ' ')
 		i++;
-	if (is_flag(**input))
+	size = count(*input);
+	if (size == ERROR)
+		return (NULL);
+	if (ft_strchr(*input, '>') || ft_strchr(*input, '<')
+		|| ft_strchr(*input, ';') || ft_strchr(*input, '|'))
 		*input = edit_input(input);
 	if (*input == NULL)
 		return (NULL);
 	size = count(*input);
-	if (size == ERROR)
-		return (NULL);
 	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	c->cmd[size] = NULL;
-	//printf("_________SIGN3_________\n");
 	return (input_cmd(c, *input, size));
 }
