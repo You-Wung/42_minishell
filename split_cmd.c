@@ -63,10 +63,8 @@ char	*fill_cmd(t_cmd **c, char **input)
 
 	i = -1;
 	size = count_cmd(*input);
-	//printf("size: %d\n", size);
 	while (*input && ++i < size)
 	{
-		//printf("input : %s\n", *input);
 		*input = init_cmd(&(c[0][i]), input);
 		if (*input == NULL)
 		{

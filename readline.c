@@ -99,7 +99,6 @@ int	start_read(void)
 			freee_c(&c);
 		}
 		printf("------\n");
-		//free(c);
 		free(tmp);
 	}
 	return (0);
