@@ -29,6 +29,24 @@ int	ft_redirect_R(t_cmd *c)
 
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
+
+// char *tmp;
+// int	i;
+// int	j;
+
+// i = -1;
+// tmp = "";
+// while (c[0].cmd[++i])
+// 	tmp = ft_strjoin(tmp, c[0].cmd[i]);
+// i = 0;
+// while (c[0].cmd[++i])
+// 	tmp = ft_strjoin(tmp, c[1].cmd[i]);
+// printf("%s\n", tmp);
+
+// char	**temp;
+// temp = ft_split(tmp, ' ');
+
+
 	if (pid == 0)
 	{
 		out = open(c[1].cmd[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -46,5 +64,23 @@ int	ft_redirect_R(t_cmd *c)
 		if (g_var.qmark == 127)
 			printf("minishell: %s: command not found.\n", c[0].cmd[0]);
 	}
+
+	// if (pid == 0)
+	// {
+	// 	out = open(c[1].cmd[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	// 	if (check_open(out, c) == 1)
+	// 		return (1);
+	// 	dup2(out, STDOUT_FILENO);
+	// 	g_var.qmark = use_redi_cmd(c);
+	// 	close(out);
+	// 	exit(g_var.qmark);
+	// }
+	// else if (pid > 0)
+	// {
+	// 	waitpid(pid, &wstatus, 0);
+	// 	g_var.qmark = WEXITSTATUS(wstatus);
+	// 	if (g_var.qmark == 127)
+	// 		printf("minishell: %s: command not found.\n", c[0].cmd[0]);
+	// }
 	return (g_var.qmark);
 }
