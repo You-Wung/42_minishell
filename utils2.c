@@ -12,9 +12,9 @@ int	flag_check(char *input)
 	int	i;
 	int	comma;
 
-	i = 0;
+	i = -1;
 	comma = 0;
-	while (input[i])
+	while (input[++i])
 	{
 		if ((is_flag(input[i]) && is_flag(input[i + 1])
 				&& is_flag(input[i + 2])) && comma % 2 == 0)
@@ -32,18 +32,18 @@ int	flag_check(char *input)
 			if (is_flag(input[i]))
 				return (1);
 		}
-		i++;
 	}
 	printf("NO ERROR\n");
 	return (0);
 }
 
-void	input_plus_after(char *s1, char *s2, int *in)
+void	input_plus_after(char *s1, char **s2, int *in)
 {
 	int	i;
 
 	i = -1;
-	while (s2[++i])
-		s1[i] = s2[i];
+	while ((*s2)[++i])
+		s1[i] = (*s2)[i];
+	free(*s2);
 	*in = *in + i;
 }

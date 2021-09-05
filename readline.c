@@ -88,17 +88,14 @@ int	start_read(void)
 		c = malloc_c(input);
 		g_var.size_pi = 0;
 		g_var.size_se = 0;
-		printf("------\n");
-		if (c && fill_cmd(&c, &input))
+		if (c && fill_cmd(&c, &input) && ++g_var.writing)
 		{
-			g_var.writing = 1;
 			printf("---starts---\n");
 			g_var.qmark = exec_cmd(c);
 			printf("---ends---\n");
 			g_var.writing = 0;
 			freee_c(&c);
 		}
-		printf("------\n");
 		free(tmp);
 	}
 	return (0);

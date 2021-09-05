@@ -8,11 +8,9 @@ static int	comma_check(t_match *m)
 
 	i = 0;
 	if (m->comma % 2 == 1 && ++i)
-		printf("quote\n");
+		printf("quote: ");
 	if (m->dcomma % 2 == 1 && ++i)
-		printf("double quote\n");
-	if (m->backtick % 2 == 1 && ++i)
-		printf("backtick\n");
+		printf("double quote: ");
 	if (!i)
 		return (0);
 	g_var.qmark = 1;
@@ -35,14 +33,12 @@ static int	count(char *input)
 		input++;
 	while (check_input(input, &m))
 	{
-		if (*input == '\'' && m.dcomma % 2 == 0 && m.backtick % 2 == 0)
+		if (*input == '\'' && m.dcomma % 2 == 0)
 			m.comma++;
-		if (*input == '\"' && m.comma % 2 == 0 && m.backtick % 2 == 0)
+		if (*input == '\"' && m.comma % 2 == 0)
 			m.dcomma++;
-		if (*input == '`' && m.dcomma % 2 == 0 && m.comma % 2 == 0)
-			m.backtick++;
 		if (*input == ' ' && *(input + 1) != ' ' && !is_flag(*(input + 1))
-			&& !(m.comma % 2) && !(m.dcomma % 2) && !(m.backtick % 2))
+			&& !(m.comma % 2) && !(m.dcomma % 2))
 			rt++;
 		input++;
 	}
@@ -53,18 +49,20 @@ static int	count(char *input)
 
 static int	check_size(char *input)
 {
-	int	comma;
-	int	rt;
+	t_match	m;
+	int		rt;
 
 	rt = 0;
-	comma = 0;
+	ft_memset(&m, 0, sizeof(t_match));
 	while (*input)
 	{
-		if ((*input == ' ' && !(comma % 2))
-			|| (is_flag(*input) && !(comma % 2)))
+		if ((*input == ' ' && !(m.comma % 2) && !(m.dcomma % 2))
+			|| (is_flag(*input) && !(m.comma % 2) && !(m.dcomma % 2)))
 			break ;
-		if (*input == '\'' || *input == '\"' || *input == '`')
-			comma++;
+		if (*input == '\'')
+			m.comma++;
+		if (*input == '\"')
+			m.dcomma++;
 		rt++;
 		input++;
 	}
@@ -83,7 +81,6 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 		input++;
 	while (++i < size && *input)
 	{
-		//printf("_________SIGN_________\n");
 		phrase = check_size(input);
 		if (phrase == 0)
 			break ;
@@ -95,7 +92,6 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 			input++;
 		input = set_flag(c, input, &j);
 	}
-		//printf("_________SIGN2_________\n");
 	return (input);
 }
 
@@ -111,8 +107,7 @@ char	*init_cmd(t_cmd *c, char **input)
 	size = count(*input);
 	if (size == ERROR)
 		return (NULL);
-	if (ft_strchr(*input, '>') || ft_strchr(*input, '<')
-		|| ft_strchr(*input, ';') || ft_strchr(*input, '|'))
+	if (ft_strchr(*input, '>') || ft_strchr(*input, '<'))
 		*input = edit_input(input);
 	if (*input == NULL)
 		return (NULL);
