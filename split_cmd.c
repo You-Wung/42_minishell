@@ -77,9 +77,9 @@ char	*fill_cmd(t_cmd **c, char **input)
 	i = -1;
 	while (++i < size)
 	{
-		if (c[i]->flag == PIPE)
+		if (c[0][i].flag == PIPE)
 			g_var.size_pi++;
-		if (c[i]->flag == SEMI && i + 1 < size)
+		if (c[0][i].flag == SEMI && i + 1 < size)
 			g_var.size_se++;
 	}
 	return (*input);
