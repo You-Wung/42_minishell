@@ -74,16 +74,17 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 	j = 0;
 	exec_pipe(&c[j], fd[i], 2);
 	close(fd[i][1]);
-	if (g_var.qmark == 127)
-		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
 	while (i < g_var.size_pi - 1)
 	{
+		g_var.qmark = 0;
 		temp_fd[0] = fd[i][0];
 		temp_fd[1] = fd[i + 1][1];
-		exec_pipe(&c[j++], temp_fd, 3);
+		exec_pipe(&c[j], temp_fd, 3);
 		close(fd[i][0]);
 		close(fd[++i][1]);
-		
+		if (g_var.qmark == 127)
+			printf("minishell: %s: command not found.\n", c[j].cmd[0]);
+		j++;
 	}
 	exec_pipe(&c[j], fd[i], 1);
 	if (g_var.qmark == 127)
@@ -97,7 +98,6 @@ int	ft_pipe(t_cmd *c)
 
 	int (*fd)[2];
 	g_var.size_pi++;
-	printf("%d\n", g_var.size_pi);
 	fd = malloc(sizeof(int) * 2 * g_var.size_pi);
 	i = 0;
 	while (i < g_var.size_pi)
