@@ -15,12 +15,11 @@ int	use_cmd(t_cmd *c)
 		g_var.qmark = use_builtin(c, e);
 	else
 		g_var.qmark = use_redirect(c);
-	if (g_var.qmark != -2)
-		exit(1);
-	else
+	if (g_var.qmark == -2)
 	{
 		g_var.qmark = 0;
-		g_var.qmark = run_cmd(c->cmd, g_var.env);
+		if (c->cmd[0])
+			g_var.qmark = run_cmd(c->cmd, g_var.env);
 	}
 	return (g_var.qmark);
 }
@@ -39,13 +38,14 @@ void	exec_pipe2(t_cmd *c, int fd[2], int flags)
 	}
 	close(fd[0]);
 	close(fd[1]);
+	g_var.qmark = 0;
 	g_var.qmark = use_cmd(c);
 }
 
 void	exec_pipe(t_cmd *c, int fd[2], int flags)
 {
 	pid_t	pid;
-	int		status;
+	int		wstatus;
 
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
@@ -53,13 +53,14 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 		perror("fork");
 	if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, &wstatus, 0);
+		g_var.qmark = WEXITSTATUS(wstatus);
 		return ;
 	}
 	if (pid == 0)
 	{
 		exec_pipe2(c, fd, flags);
-		exit(0);
+		exit(g_var.qmark);
 	}
 }
 
@@ -73,16 +74,20 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 	j = 0;
 	exec_pipe(&c[j], fd[i], 2);
 	close(fd[i][1]);
+	if (g_var.qmark == 127)
+		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
 	while (i < g_var.size_pi - 1)
 	{
 		temp_fd[0] = fd[i][0];
 		temp_fd[1] = fd[i + 1][1];
-		exec_pipe(&c[j], temp_fd, 3);
-		j++;
+		exec_pipe(&c[j++], temp_fd, 3);
 		close(fd[i][0]);
 		close(fd[++i][1]);
+		
 	}
 	exec_pipe(&c[j], fd[i], 1);
+	if (g_var.qmark == 127)
+		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
 	close(fd[i][0]);
 }
 
@@ -92,6 +97,7 @@ int	ft_pipe(t_cmd *c)
 
 	int (*fd)[2];
 	g_var.size_pi++;
+	printf("%d\n", g_var.size_pi);
 	fd = malloc(sizeof(int) * 2 * g_var.size_pi);
 	i = 0;
 	while (i < g_var.size_pi)

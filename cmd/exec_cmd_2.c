@@ -17,6 +17,8 @@ void	not_builtin(t_cmd *c)
 	else if (pid == 0)
 	{
 		g_var.qmark = run_cmd(c->cmd, g_var.env);
+		if (g_var.qmark == 127)
+			printf("minishell: %s: command not found.\n", c->cmd[0]);
 		exit(g_var.qmark);
 	}
 }
