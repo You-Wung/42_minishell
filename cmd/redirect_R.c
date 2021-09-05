@@ -43,6 +43,8 @@ int	ft_redirect_R(t_cmd *c)
 	{
 		waitpid(pid, &wstatus, 0);
 		g_var.qmark = WEXITSTATUS(wstatus);
+		if (g_var.qmark == 127)
+			printf("minishell: %s: command not found.\n", c[0].cmd[0]);
 	}
 	return (g_var.qmark);
 }

@@ -2,16 +2,13 @@
 
 extern t_ext	g_var;
 
-int	check_path_env(char **path_env, char **cmd)
+void	check_path_env(char **path_env, char **cmd)
 {
 	int			i;
 	const char	*path;
 
 	if (path_env == NULL)
-	{
-		printf("minishell: PATH dose not exist.\n");
-		return (1);
-	}
+		return ;
 	i = -1;
 	while (path_env[++i])
 	{
@@ -19,13 +16,13 @@ int	check_path_env(char **path_env, char **cmd)
 		path = ft_strjoin(path_env[i], cmd[0]);
 		execve(path, cmd, g_var.n_env);
 	}
-	return (0);
 }
 
 int	run_cmd(char **cmd, t_env *env)
 {
 	char		**path_env;
 
+	path_env = NULL;
 	execve(cmd[0], cmd, g_var.n_env);
 	while (env && env->next)
 	{
@@ -33,8 +30,7 @@ int	run_cmd(char **cmd, t_env *env)
 			path_env = ft_split(env->content, ':');
 		env = env->next;
 	}
-	if (check_path_env(path_env, cmd) == 0)
-		printf("minishell: %s: command does not exist.\n", cmd[0]);
+	check_path_env(path_env, cmd);
 	return (127);
 }
 
