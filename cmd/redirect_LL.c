@@ -65,6 +65,13 @@ int	del_user_tmp(void)
 	return (0);
 }
 
+void	re_LL_child(t_cmd *c)
+{
+	if (get_user_tmp(c) != SUCCESS)
+		exit (1);
+	use_user_tmp(c);
+}
+
 int	ft_redirect_LL(t_cmd *c)
 {
 	pid_t	pid;
@@ -78,11 +85,7 @@ int	ft_redirect_LL(t_cmd *c)
 		return (ERROR);
 	}
 	if (pid == 0)
-	{
-		if (get_user_tmp(c) != SUCCESS)
-			exit (1);
-		use_user_tmp(c);
-	}
+		re_LL_child(c);
 	else if (pid > 0)
 	{
 		waitpid(pid, &wstatus, 0);

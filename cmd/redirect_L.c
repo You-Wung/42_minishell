@@ -12,24 +12,33 @@ int	check_open(int in, t_cmd *c)
 	return (0);
 }
 
+void	re_L_child(t_cmd *c)
+{
+	int	in;
+
+	in = open(c[1].cmd[0], O_RDONLY);
+	if (check_open(in, c) == 1)
+		exit (1);
+	dup2(in, STDIN_FILENO);
+	g_var.qmark = use_redi_cmd(c);
+	close(in);
+	exit(g_var.qmark);
+}
+
 int	ft_redirect_L(t_cmd *c)
 {
 	pid_t	pid;
-	int		in;
 	int		wstatus;
 
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
-	if (pid == 0)
+	if (pid < 0)
 	{
-		in = open(c[1].cmd[0], O_RDONLY);
-		if (check_open(in, c) == 1)
-			return (1);
-		dup2(in, STDIN_FILENO);
-		g_var.qmark = use_redi_cmd(c);
-		close(in);
-		exit(g_var.qmark);
+		printf("fork error\n");
+		return (ERROR);
 	}
+	if (pid == 0)
+		re_L_child(c);
 	else if (pid > 0)
 	{
 		waitpid(pid, &wstatus, 0);

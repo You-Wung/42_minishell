@@ -21,24 +21,33 @@ int	use_redi_cmd(t_cmd *c)
 	return (g_var.qmark);
 }
 
+void	re_R_child(t_cmd *c)
+{
+	int	out;
+
+	out = open(c[1].cmd[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (check_open(out, c) == 1)
+		exit (1);
+	dup2(out, STDOUT_FILENO);
+	g_var.qmark = use_redi_cmd(c);
+	close(out);
+	exit(g_var.qmark);
+}
+
 int	ft_redirect_R(t_cmd *c)
 {
 	pid_t	pid;
-	int		out;
 	int		wstatus;
 
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
-	if (pid == 0)
+	if (pid < 0)
 	{
-		out = open(c[1].cmd[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
-		if (check_open(out, c) == 1)
-			return (1);
-		dup2(out, STDOUT_FILENO);
-		g_var.qmark = use_redi_cmd(c);
-		close(out);
-		exit(g_var.qmark);
+		printf("fork error\n");
+		return (ERROR);
 	}
+	if (pid == 0)
+		re_R_child(c);
 	else if (pid > 0)
 	{
 		waitpid(pid, &wstatus, 0);

@@ -114,5 +114,6 @@ int		run_cmd(char **cmd, t_env *env);
 int		use_redi_cmd(t_cmd *c);
 void	cha_print(int i, t_cmd *c);
 void	ft_charjoin(int j, char *cmd, char **buf);
+void	use_pipe(t_cmd *c, int (*fd)[2]);
 
 #endif
