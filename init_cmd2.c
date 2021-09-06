@@ -40,27 +40,25 @@ int	check_input(char *input, t_match *m)
 	return (0);
 }
 
-static char	*set_after(char *input)
+static char	*set_after(char *input, int in)
 {
-	char	*rt;
+	char	*ret;
 	int		i;
 
-	i = -1;
-	rt = malloc(ft_strlen(input));
-	while (is_flag(input[++i]))
-		rt[i] = input[i];
-	while (input[i] && input[i] == ' ')
+	i = 0;
+	ret = malloc(sizeof(char) * ft_strlen(input) + 1);
+	while (is_flag(input[in]))
+		ret[i++] = input[in++];
+	while (input[in] && input[in] == ' ')
 	{
-		rt[i] = ' ';
-		i++;
+		ret[i++] = ' ';
+		in++;
 	}
-	while (input[i] && input[i] != ' ')
-	{
-		rt[i] = input[i];
-		i++;
-	}
-	rt[i] = '\0';
-	return (rt);
+	while (input[in] && input[in] != ' ')
+		ret[i++] = input[in++];
+	ret[i] = '\0';
+	printf("ret: %s\n", ret);
+	return (ret);
 }
 
 static char	*save_cmd(char *input, int i)
@@ -70,13 +68,12 @@ static char	*save_cmd(char *input, int i)
 	char	*ret;
 	char	*after;
 
-	ret = malloc(ft_strlen(input));
-	//ft_memset(ret, ' ', ft_strlen(input));
-	in = -1;
+	ret = (char *)malloc(sizeof(char) * ft_strlen(input) + 1);
+	in = 0;
 	in2 = 0;
-	while (!is_flag(input[++in]))
-		ret[in2++] = input[in];
-	after = set_after(&(input[in]));
+	while (input[in] && !is_flag(input[in]))
+		ret[in2++] = input[in++];
+	after = set_after(input, in);
 	while (is_flag(input[in]) || input[in] == ' ')
 		in++;
 	while (input[in] && input[in] != ' ')
