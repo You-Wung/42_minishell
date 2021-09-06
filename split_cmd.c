@@ -16,6 +16,7 @@ static int	find_error(char *c)
 	c--;
 	if (*c == '>' || *c == '<' || *c == '|')
 		return (ERROR);
+	printf("return 0 \n");
 	return (0);
 }
 
@@ -38,14 +39,14 @@ int	count_cmd(char *input)
 	chogiwha(&c, &rt, &i);
 	while (input[++i])
 	{
-		if (input[i] == '\'' || input[i] == '\"' || input[i] == '`')
+		if (input[i] == '\'' || input[i] == '\"')
 		{
 			if (c == input[i])
 				c = 0;
 			else if (!c)
 				c = input[i];
 		}
-		if (c && find_error(&input[i]) == ERROR)
+		if (!c && find_error(&input[i]) == ERROR)
 			return (ERROR);
 		if (is_flag(input[i]) && input[i + 1] && !c)
 			rt++;
@@ -63,6 +64,8 @@ char	*fill_cmd(t_cmd **c, char **input)
 
 	i = -1;
 	size = count_cmd(*input);
+	if (size == ERROR)
+		return (NULL);
 	while (*input && ++i < size)
 	{
 		if (!flag_check(*input))
@@ -73,13 +76,6 @@ char	*fill_cmd(t_cmd **c, char **input)
 			return (NULL);
 		}
 	}
-	i = -1;
-	while (++i < size)
-	{
-		if (c[0][i].flag == PIPE)
-			g_var.size_pi++;
-		if (c[0][i].flag == SEMI && i + 1 < size)
-			g_var.size_se++;
-	}
+	count_flag(c, size);
 	return (*input);
 }

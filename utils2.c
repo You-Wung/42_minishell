@@ -1,10 +1,39 @@
 #include "minishell.h"
 
+extern t_ext	g_var;
+
+void	count_flag(t_cmd **c, int size)
+{
+	int	i;
+
+	i = -1;
+	while (++i < size)
+	{
+		if (c[0][i].flag == PIPE)
+			g_var.size_pi++;
+		if (c[0][i].flag == SEMI && i + 1 < size)
+			g_var.size_se++;
+	}
+}
+
 void	set_vars(int *i, int *in, char **tmp, char **str)
 {
 	*i = -1;
 	*in = 0;
 	*tmp = *str;
+}
+
+int	flag_check2(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] == ' ')
+		i++;
+	if (input[i] == ';')
+		return (1);
+	else
+		return (0);
 }
 
 int	flag_check(char *input)
@@ -33,8 +62,7 @@ int	flag_check(char *input)
 				return (1);
 		}
 	}
-	printf("NO ERROR\n");
-	return (0);
+	return (flag_check2(input));
 }
 
 void	input_plus_after(char *s1, char **s2, int *in)

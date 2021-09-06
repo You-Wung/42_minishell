@@ -57,7 +57,7 @@ static char	*set_after(char *input, int in)
 	while (input[in] && input[in] != ' ')
 		ret[i++] = input[in++];
 	ret[i] = '\0';
-	printf("ret: %s\n", ret);
+	printf("[%s]\n", ret);
 	return (ret);
 }
 
@@ -68,6 +68,7 @@ static char	*save_cmd(char *input, int i)
 	char	*ret;
 	char	*after;
 
+	printf("input : [%s]\n", input);
 	ret = (char *)malloc(sizeof(char) * ft_strlen(input) + 1);
 	in = 0;
 	in2 = 0;
@@ -105,11 +106,10 @@ char	*edit_input(char **input)
 		if (*(*input + i) == '\'')
 			m.dcomma++;
 		if (is_flag(*(*input + i)) && !(m.comma % 2) && !(m.dcomma % 2))
-		{
-			cnt++;
-			if (cnt == 2)
+			if (++cnt == 2)
 				return (save_cmd(*input, i));
-		}
+		if (*(*input + i) == '|' || *(*input + i) == ';')
+			return (*input);
 	}
 	if (*(*input + i) == '\0')
 		return (save_cmd(*input, i));
