@@ -16,7 +16,6 @@ static int	find_error(char *c)
 	c--;
 	if (*c == '>' || *c == '<' || *c == '|')
 		return (ERROR);
-	printf("return 0 \n");
 	return (0);
 }
 

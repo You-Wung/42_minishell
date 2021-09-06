@@ -29,6 +29,7 @@ void	put_env(t_env *env, char *tmp)
 		i++;
 	}
 	env->content[i] = '\0';
+	env->flag = 1;
 }
 
 int	add_env(t_env *env, char **tmp)

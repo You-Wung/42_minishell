@@ -55,10 +55,10 @@ int	ft_unset(t_env **env, char **cmd)
 	{
 		if (ft_strcmp((*env)->next->name, find) == 0)
 		{
-			tmp = (*env)->next->next;
-			if ((*env)->next->flag)
-				free((*env)->next);
-			(*env)->next = tmp;
+			tmp = (*env)->next;
+			(*env)->next = (*env)->next->next;
+			if (tmp->flag)
+				free(tmp);
 			return (SUCCESS);
 		}
 		*env = (*env)->next;

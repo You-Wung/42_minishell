@@ -39,10 +39,10 @@ int	exec_cmd(t_cmd *c)
 	t_env	*e;
 
 	e = g_var.env;
-	if (c->flag == 0)
-		g_var.qmark = use_builtin(c, e);
 	if (g_var.size_pi != 0)
 		g_var.qmark = ft_pipe(c);
+	if (c->flag == 0)
+		g_var.qmark = use_builtin(c, e);
 	else if (c->flag == 6)
 		g_var.qmark = ft_semicolon(c);
 	else
