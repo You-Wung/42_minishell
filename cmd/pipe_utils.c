@@ -13,7 +13,7 @@ int	use_cmd(t_cmd *c)
 		return (g_var.qmark);
 	if (c->flag <= 1)
 		g_var.qmark = use_builtin(c, e);
-	if (c->flag == 3)
+	if (2 <= c->flag && c->flag <= 5)
 		g_var.qmark = use_redirect(c);
 	if (g_var.qmark == -2)
 	{
@@ -67,7 +67,7 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 
 int	check_flag_pipe(int j, t_cmd *c)
 {
-	if (c[j].flag == 3)
+	if (2 <= c[j].flag && c[j].flag <= 5)
 		j += 2;
 	else
 		j++;
@@ -95,6 +95,7 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 		if (g_var.qmark == 127)
 			printf("minishell: %s: command not found.\n", c[j].cmd[0]);
 		j = check_flag_pipe(j, c);
+		printf("%s %s\n", c[j].cmd[0], c[j].cmd[1]);
 	}
 	exec_pipe(&c[j], fd[i], 1);
 	if (g_var.qmark == 127)

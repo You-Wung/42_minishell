@@ -90,9 +90,7 @@ int	start_read(void)
 		g_var.size_se = 0;
 		if (c && fill_cmd(&c, &input) && ++g_var.writing)
 		{
-			printf("---starts---\n");
 			g_var.qmark = exec_cmd(c);
-			printf("---ends---\n");
 			g_var.writing = 0;
 			freee_c(&c);
 		}
