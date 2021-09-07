@@ -38,23 +38,23 @@ int	flag_check2(char *input)
 
 int	flag_check(char *input)
 {
-	int	i;
-	int	comma;
+	int		i;
+	t_match	m;
 
 	i = -1;
-	comma = 0;
+	ft_memset(&m, 0, sizeof(t_match));
 	while (input[++i])
 	{
-		if ((is_flag(input[i]) && is_flag(input[i + 1])
-				&& is_flag(input[i + 2])) && comma % 2 == 0)
+		set_comma_index(input[i], &m);
+		if (is_flag(input[i]) && is_flag(input[i + 1])
+			&& is_flag(input[i + 2]) && check_comma_index(m))
 			return (1);
-		if (comma % 2 == 0 && is_flag(input[i])
-			&& is_flag(input[i + 1]) && (input[i] != input[i + 1]))
+		if (is_flag(input[i]) && is_flag(input[i + 1])
+			&& (input[i] != input[i + 1]) && check_comma_index(m))
 			return (1);
-		if ((input[i] == '|' && input[i + 1] == '|')
-			|| (input[i] == ';' && input[i + 1] == ';'))
+		if (input[i] == '|' && input[i + 1] == '|' && check_comma_index(m))
 			return (1);
-		if (is_flag(input[i]) && ++i)
+		if (is_flag(input[i]) && input[i + 1] == ' ' && check_comma_index(m))
 		{
 			while (input[i] == ' ')
 				i++;

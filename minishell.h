@@ -88,6 +88,8 @@ void	set_vars(int *i, int *in, char **tmp, char **str);
 int		flag_check(char *input);
 void	input_plus_after(char *s1, char **s2, int *in);
 void	count_flag(t_cmd **c, int size);
+int		check_comma_index(t_match m);
+void	set_comma_index(char c, t_match *m);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);
