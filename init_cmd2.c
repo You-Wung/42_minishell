@@ -57,7 +57,6 @@ static char	*set_after(char *input, int in)
 	while (input[in] && input[in] != ' ')
 		ret[i++] = input[in++];
 	ret[i] = '\0';
-	printf("[%s]\n", ret);
 	return (ret);
 }
 
@@ -68,7 +67,6 @@ static char	*save_cmd(char *input, int i)
 	char	*ret;
 	char	*after;
 
-	printf("input : [%s]\n", input);
 	ret = (char *)malloc(sizeof(char) * ft_strlen(input) + 1);
 	in = 0;
 	in2 = 0;
