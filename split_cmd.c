@@ -38,6 +38,11 @@ int	count_cmd(char *input)
 	if (input[0] == '\0')
 		return (0);
 	chogiwha(&m, &rt, &i);
+	while (input[++i] && (input[i] == '\'' || input[i] == '\"'))
+		;
+	if (!input[i])
+		return (ERROR);
+	i = -1;
 	while (input[++i])
 	{
 		set_comma_index(input[i], &m);
