@@ -88,7 +88,7 @@ int	start_read(void)
 		tmp = input;
 		if (input == NULL)
 			input_is_null();
-		if (!(*input) || all_space(input))
+		if (!(*input) || all_space(&input))
 			continue ;
 		add_history(input);
 		c = malloc_c(input);
@@ -109,7 +109,6 @@ int	start_read(void)
 			//	printf("%d: %p\n",i, c[0].cmd[i]);
 			//printf("%d: %p\n",i, c[0].cmd[i]);
 			//printf("END--------------\n");
-
 			g_var.writing = 0;
 		}
 		freee_c(&c);

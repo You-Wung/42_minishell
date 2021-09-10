@@ -13,5 +13,6 @@ int	ft_pipe(t_cmd *c)
 	while (i < g_var.size_pi)
 		pipe(fd[i++]);
 	use_pipe(c, fd);
+	free(fd);
 	return (0);
 }

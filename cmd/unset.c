@@ -24,44 +24,60 @@ int	vaild_env(char *c)
 	return (1);
 }
 
-int	ft_unset2(t_env **env, char **cmd, char *find)
+int	ft_unset2(t_env *env, char **cmd, char *find, int i)
 {
-	if (vaild_env(cmd[1]) == 0)
+
+	if (vaild_env(cmd[i]) == 0)
 	{
-		printf("minishell: %s: not a valid identifier.\n", cmd[1]);
+		printf("minishell: %s: not a valid identifier.\n", cmd[i]);
 		return (1);
 	}
 	if (find == NULL)
 		return (SUCCESS);
-	if ((*env)->next == NULL && ft_strcmp((*env)->name, find) == 0)
+	if (env->next == NULL && ft_strcmp(env->name, find) == 0)
 	{
-		free((*env));
+		free(env);
 		return (SUCCESS);
 	}
 	return (2);
 }
 
-int	ft_unset(t_env **env, char **cmd)
+int	ft_unset3(t_env *env, char **cmd, char *find, int i)
 {
 	t_env	*tmp;
-	char	*find;
 	int		result;
 
-	find = cmd[1];
-	result = ft_unset2(env, cmd, find);
+	result = ft_unset2(env, cmd, find, i);
 	if (result != 2)
 		return (result);
-	while ((*env) && (*env)->next)
+	while (env && env->next)
 	{
-		if (ft_strcmp((*env)->next->name, find) == 0)
+		if (ft_strcmp(env->next->name, find) == 0)
 		{
-			tmp = (*env)->next;
-			(*env)->next = (*env)->next->next;
+			tmp = env->next;
+			env->next = env->next->next;
 			if (tmp->flag)
 				free(tmp);
 			return (SUCCESS);
 		}
-		*env = (*env)->next;
+		env = env->next;
 	}
 	return (SUCCESS);
+}
+
+int	ft_unset(t_env **env, char **cmd)
+{
+	int		i;
+	char	*find;
+	int		result;
+
+	i = 0;
+	result = 0;
+	while (cmd[++i])
+	{
+		find = cmd[i];
+		if (ft_unset3(*env, cmd, find, i) != SUCCESS)
+			result = 1;
+	}
+	return (result);
 }

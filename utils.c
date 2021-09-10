@@ -82,14 +82,17 @@ void	check_qmark(char **str)
 	*str = rt;
 }
 
-int	all_space(char *input)
+int	all_space(char **input)
 {
 	int	i;
 
 	i = 0;
-	while (input[i] == ' ' || input[i] == '\t')
+	while (input[0][i] == ' ' || input[0][i] == '\t')
 		i++;
-	if (!input[i])
+	if (!input[0][i])
+	{
+		free(*input);
 		return (1);
+	}
 	return (0);
 }

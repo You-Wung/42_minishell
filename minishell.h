@@ -84,7 +84,7 @@ void	init_signal(void);/*시그널 처리*/
 int		is_flag(char c);
 char	*edit_input(char **input);
 void	check_qmark(char **str);
-int		all_space(char *input);
+int		all_space(char **input);
 void	set_vars(int *i, int *in, char **tmp, char **str);
 int		flag_check(char *input);
 void	input_plus_after(char *s1, char **s2, int *in);
