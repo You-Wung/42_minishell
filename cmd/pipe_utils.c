@@ -26,13 +26,13 @@ int	use_cmd(t_cmd *c)
 
 void	exec_pipe2(t_cmd *c, int fd[2], int flags)
 {
-	if (flags == 1 || flags == 3)
+	if (flags == 1 || flags == 2)
 	{
 		if (ft_strcmp(c->cmd[0], "echo") != 0)
 			if (dup2(fd[0], STDIN_FILENO) < 0)
 				perror("dup2");
 	}
-	if (flags == 2 || flags == 3)
+	if (flags == 2)
 	{
 		if (dup2(fd[1], STDOUT_FILENO) < 0)
 			perror("dup2");
@@ -82,14 +82,12 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 
 	i = 0;
 	j = 0;
-	exec_pipe(&c[j], fd[i], 2);
-	close(fd[i][1]);
 	while (i < g_var.size_pi - 1)
 	{
 		g_var.qmark = 0;
 		temp_fd[0] = fd[i][0];
 		temp_fd[1] = fd[i + 1][1];
-		exec_pipe(&c[j], temp_fd, 3);
+		exec_pipe(&c[j], temp_fd, 2);
 		close(fd[i][0]);
 		close(fd[++i][1]);
 		if (g_var.qmark == 127)
