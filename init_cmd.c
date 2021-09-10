@@ -33,14 +33,18 @@ static int	count(char *input)
 		input++;
 	while (check_input(input, &m))
 	{
-		if (*input == '\'' && m.dcomma % 2 == 0)
-			m.comma++;
-		if (*input == '\"' && m.comma % 2 == 0)
-			m.dcomma++;
-		if (*input == ' ' && *(input + 1) != ' ' && !is_flag(*(input + 1))
-			&& !(m.comma % 2) && !(m.dcomma % 2))
-			rt++;
-		input++;
+		set_comma_index(*input, &m);
+		if (*input == ' ' && check_comma_index(m))
+		{
+			while (*input == ' ')
+				input++;
+			if (!is_flag(*input))
+				rt++;
+			if (*input == '\0')
+				return (rt);
+		}
+		else
+			input++;
 	}
 	if (comma_check(&m) == ERROR)
 		return (ERROR);
@@ -98,8 +102,9 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 /*실제로 cmd에 인덱스 넣어주는과정*/
 char	*init_cmd(t_cmd *c, char **input)
 {
-	int	size;
-	int	i;
+	char	*tmp;
+	int		size;
+	int		i;
 
 	i = 0;
 	while ((*input)[i] && (*input)[i] == ' ')
@@ -108,10 +113,18 @@ char	*init_cmd(t_cmd *c, char **input)
 	if (size == ERROR)
 		return (NULL);
 	if (ft_strchr(*input, '>') || ft_strchr(*input, '<'))
+	{
+		//printf("*input : %p\n",*input);
+		tmp = *input;
 		*input = edit_input(input);
-	if (*input == NULL)
-		return (NULL);
-	size = count(*input);
+		//printf("*input : %p\n",*input);
+		if (*input == NULL)
+			return (NULL);
+		if (tmp != *input)
+			g_var.fre = *input;
+		size = count(*input);
+	}
+	//printf("size : cmd[%d] = NULL\n", size);
 	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	c->cmd[size] = NULL;
 	return (input_cmd(c, *input, size));

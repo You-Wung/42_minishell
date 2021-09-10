@@ -27,17 +27,16 @@ char	*set_flag(t_cmd *c, char *input, int *sign)
 
 int	check_input(char *input, t_match *m)
 {
-	int	c;
-	int	dc;
-
-	c = m->comma % 2;
-	dc = m->dcomma % 2;
-	if (*input && (c || dc || *input != '>')
-		&& (c || dc || *input != ';')
-		&& (c || dc || *input != '<')
-		&& (c || dc || *input != '|'))
-		return (1);
-	return (0);
+	if (!(*input) || (check_comma_index(*m) && *input == '>')
+		|| (check_comma_index(*m) && *input == ';')
+		|| (check_comma_index(*m) && *input == '<')
+		|| (check_comma_index(*m) && *input == '|'))
+		return (0);
+	while (*input && *input == ' ')
+		input++;
+	if (!*input)
+		return (0);
+	return (1);
 }
 
 static char	*set_after(char *input, int in)

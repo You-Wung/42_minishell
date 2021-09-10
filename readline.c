@@ -59,15 +59,21 @@ static void	freee_c(t_cmd **c)
 	int	j;
 
 	j = 0;
-	while (j < g_var.first_input_size && c[0][j].cmd)
+	while (j < g_var.first_input_size && &(c[0][j]) && c[0][j].cmd)
 	{
 		i = -1;
+		//int z;
+		//for(z = 0; c[0][j].cmd[z]; z++)
+		//	printf("%d: %p\n",z, c[0][j].cmd[z]);
+		//printf("%d: %p\n",z, c[0][j].cmd[z]);
 		while ((c[0][j].cmd[++i]))
 			free((c[0][j].cmd[i]));
+		free((c[0][j].cmd[i]));
 		free((c[0][j].cmd));
 		j++;
 	}
-	free(*c);
+	if (*c)
+		free(*c);
 }
 
 int	start_read(void)
@@ -86,15 +92,29 @@ int	start_read(void)
 			continue ;
 		add_history(input);
 		c = malloc_c(input);
-		g_var.size_pi = 0;
-		g_var.size_se = 0;
-		g_var.pnum = 0;
+		g_var_set();
 		if (c && fill_cmd(&c, &input) && ++g_var.writing)
-		{
+		{	
+			//printf("---%p---\n", c[0].cmd);
+			//int i;
+			//for(i = 0; c[0].cmd[i]; i++)
+			//	printf("%d: %p\n",i, c[0].cmd[i]);
+			//printf("%d: %p\n",i, c[0].cmd[i]);
+
 			g_var.qmark = exec_cmd(c);
+			
+			//printf("--------------\n");
+			//printf("---%p---\n", c[0].cmd);
+			//for(i = 0; c[0].cmd[i]; i++)
+			//	printf("%d: %p\n",i, c[0].cmd[i]);
+			//printf("%d: %p\n",i, c[0].cmd[i]);
+			//printf("END--------------\n");
+
 			g_var.writing = 0;
-			freee_c(&c);
 		}
+		freee_c(&c);
+		if (g_var.fre)
+			free(g_var.fre);
 		free(tmp);
 	}
 	return (0);

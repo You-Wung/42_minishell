@@ -68,6 +68,7 @@ typedef struct s_ext
 	char			**n_env;
 	int				qmark;
 	int				first_input_size;
+	char			*fre;
 }	t_ext;
 
 void	init_env(char **env);
@@ -90,6 +91,9 @@ void	input_plus_after(char *s1, char **s2, int *in);
 void	count_flag(t_cmd **c, int size);
 int		check_comma_index(t_match m);
 void	set_comma_index(char c, t_match *m);
+int		error_check(char *str);
+void	g_var_set(void);
+int		input_edited(void);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

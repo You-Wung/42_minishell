@@ -54,13 +54,6 @@ int	flag_check(char *input)
 			return (1);
 		if (input[i] == '|' && input[i + 1] == '|' && check_comma_index(m))
 			return (1);
-		//if (is_flag(input[i]) && input[i + 1] == ' ' && check_comma_index(m))
-		//{
-		//	while (input[i] == ' ')
-		//		i++;
-		//	if (is_flag(input[i]))
-		//		return (1);
-		//}
 	}
 	return (flag_check2(input));
 }

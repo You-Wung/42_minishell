@@ -4,6 +4,8 @@ extern t_ext	g_var;
 
 static int	find_error(char *c)
 {
+	if (error_check(c) == ERROR)
+		return (ERROR);
 	if ((*c == '|' && is_flag(*(c + 1)))
 		|| (*c == ';' && is_flag(*(c + 1)))
 		|| (is_flag(*c) && is_flag(*(c + 1) && is_flag(*(c - 1))))
@@ -19,9 +21,9 @@ static int	find_error(char *c)
 	return (0);
 }
 
-static void	chogiwha(char *a, int *b, int *c)
+static void	chogiwha(t_match *m, int *b, int *c)
 {
-	*a = 0;
+	ft_memset(m, 0, sizeof(t_match));
 	*b = 1;
 	*c = -1;
 }
@@ -31,23 +33,17 @@ int	count_cmd(char *input)
 {
 	int		rt;
 	int		i;
-	char	c;
+	t_match	m;
 
 	if (input[0] == '\0')
 		return (0);
-	chogiwha(&c, &rt, &i);
+	chogiwha(&m, &rt, &i);
 	while (input[++i])
 	{
-		if (input[i] == '\'' || input[i] == '\"')
-		{
-			if (c == input[i])
-				c = 0;
-			else if (!c)
-				c = input[i];
-		}
-		if (!c && find_error(&input[i]) == ERROR)
+		set_comma_index(input[i], &m);
+		if (check_comma_index(m) && find_error(&input[i]) == ERROR)
 			return (ERROR);
-		if (is_flag(input[i]) && input[i + 1] && !c)
+		if (is_flag(input[i]) && input[i + 1] && check_comma_index(m))
 			rt++;
 		if ((input[i] == '>' && input[i + 1] == '>')
 			|| (input[i] == '<' && input[i + 1] == '<'))
@@ -58,8 +54,8 @@ int	count_cmd(char *input)
 
 char	*fill_cmd(t_cmd **c, char **input)
 {
-	int	size;
-	int	i;
+	int		size;
+	int		i;
 
 	i = -1;
 	size = count_cmd(*input);
