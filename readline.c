@@ -26,6 +26,7 @@ static t_cmd	*malloc_c(char *input)
 		return (NULL);
 	}
 	c = (t_cmd *)malloc(sizeof(t_cmd) * size);
+	ft_memset(c, 0, sizeof(t_cmd) * size);
 	return (c);
 }
 
@@ -59,17 +60,20 @@ static void	freee_c(t_cmd **c)
 	int	j;
 
 	j = 0;
-	while (j < g_var.first_input_size && &(c[0][j]) && c[0][j].cmd)
+	while (j < g_var.first_input_size && &(c[0][j]))
 	{
 		i = -1;
 		//int z;
 		//for(z = 0; c[0][j].cmd[z]; z++)
 		//	printf("%d: %p\n",z, c[0][j].cmd[z]);
 		//printf("%d: %p\n",z, c[0][j].cmd[z]);
-		while ((c[0][j].cmd[++i]))
+		if (c[0][j].cmd)
+		{
+			while ((c[0][j].cmd[++i]))
+				free((c[0][j].cmd[i]));
 			free((c[0][j].cmd[i]));
-		free((c[0][j].cmd[i]));
-		free((c[0][j].cmd));
+			free((c[0][j].cmd));
+		}
 		j++;
 	}
 	if (*c)

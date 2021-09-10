@@ -37,6 +37,7 @@ int	count_cmd(char *input)
 
 	if (input[0] == '\0')
 		return (0);
+	ft_memset(&m, 0, sizeof(t_match));
 	chogiwha(&m, &rt, &i);
 	while (input[++i] && (input[i] == '\'' || input[i] == '\"'))
 		;

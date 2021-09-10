@@ -11,9 +11,9 @@ int	check_comma_index(t_match m)
 
 void	set_comma_index(char c, t_match *m)
 {
-	if (c == '\'')
+	if (c == '\'' && m->dcomma % 2 == 0)
 		m->comma++;
-	else if (c == '\"')
+	else if (c == '\"' && m->comma % 2 == 0)
 		m->dcomma++;
 }
 
@@ -29,11 +29,14 @@ void	set_comma_index(char c, t_match *m)
 	*/
 int	error_check(char *str)
 {
-	int	smth;
+	int		smth;
+	t_match	m;
 
+	ft_memset(&m, 0, sizeof(t_match));
 	while (*str)
 	{
 		smth = 0;
+		set_comma_index(*str, &m);
 		if (is_flag(*str) && *(str + 1))
 		{
 			if (*str == *(str + 1))
@@ -43,7 +46,7 @@ int	error_check(char *str)
 				str++;
 			while (*str && *str != ' ' && !is_flag(*str) && ++smth)
 				str++;
-			if (*str && is_flag(*str) && !smth)
+			if (*str && is_flag(*str) && check_comma_index(m) && !smth)
 				return (ERROR);
 		}
 		str++;

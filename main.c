@@ -37,6 +37,7 @@ int	main(int argc, char **argv, char **env)
 	g_var.qmark = 0;
 	g_var.n_env = env;
 	g_var.fre = NULL;
+	g_var.first_input_size = 0;
 	init_env(env);
 	init_signal();
 	start_read();
