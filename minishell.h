@@ -18,7 +18,7 @@
 # include <errno.h>
 
 /*define of color*/
-# define COLOR_SET "\x1b[1;95m"
+# define COLOR_SET "\x1b[1;94m"
 # define COLOR_RESET "\x1b[0m"
 /*define for flag*/
 # define PIPE 1/* | */
@@ -94,6 +94,7 @@ void	set_comma_index(char c, t_match *m);
 int		error_check(char *str);
 void	g_var_set(void);
 int		input_edited(void);
+int		full_check(char *str);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

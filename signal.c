@@ -15,6 +15,7 @@ void	sigint_handler(int signo)
 		{
 			if (g_var.pid[i] > 0)
 				kill(g_var.pid[i], SIGINT);
+			g_var.pid[i] = 0;
 			i++;
 		}
 		return ;

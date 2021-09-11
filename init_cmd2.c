@@ -94,15 +94,19 @@ char	*edit_input(char **input)
 	i = -1;
 	cnt = 0;
 	ft_memset(&m, 0, sizeof(t_match));
-	if ((**input == '<' && *(*input + 1) == '<') || **input == ';')
+	if (**input == '<' && *(*input + 1) == '<')
 		return (NULL);
+		printf("----------------\n");
+	while (*(*input + ++i) && (*(*input + i) == '<' || *(*input + i) == '>'
+			|| *(*input + i) != ' '))
+		;
+	if (!*(*input + i))
+		return (*input);
+	i = -1;
 	while (*(*input + ++i))
 	{
-		if (*(*input + i) == '\"')
-			m.comma++;
-		if (*(*input + i) == '\'')
-			m.dcomma++;
-		if (is_flag(*(*input + i)) && !(m.comma % 2) && !(m.dcomma % 2))
+		set_comma_index(*(*input + i), &m);
+		if (is_flag(*(*input + i)) && check_comma_index(m))
 			if (++cnt == 2)
 				return (save_cmd(*input, i));
 		if (*(*input + i) == '|' || *(*input + i) == ';')

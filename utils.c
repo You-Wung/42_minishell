@@ -17,11 +17,11 @@ static int	count_qmark(char *str)
 
 	rt = 0;
 	i = 0;
-	while (str[i + 2])
+	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			rt++;
+			rt += 3;
 			i += 2;
 		}
 		else
@@ -33,24 +33,23 @@ static int	count_qmark(char *str)
 static int	exchange_qmark(char *rt, int in)
 {
 	char	*buf;
-	char	*for_free;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	if (g_var.qmark == 0)
 	{
 		rt[in] = '0';
 		return (1);
 	}
 	buf = ft_itoa(g_var.qmark);
-	for_free = buf;
-	while (*buf)
+	while (buf[j])
 	{
-		rt[in++] = *buf;
+		rt[in++] = buf[j++];
 		i++;
-		buf++;
 	}
-	free(for_free);
+	free(buf);
 	return (i);
 }
 

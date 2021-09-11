@@ -8,8 +8,8 @@ static int	find_error(char *c)
 		return (ERROR);
 	if ((*c == '|' && is_flag(*(c + 1)))
 		|| (*c == ';' && is_flag(*(c + 1)))
-		|| (is_flag(*c) && is_flag(*(c + 1) && is_flag(*(c - 1))))
-		|| (is_flag(*c) && is_flag(*(c + 1) && is_flag(*(c - 1))))
+		|| (is_flag(*c) && is_flag(*(c + 1)) && *c != *(c + 1))
+		|| (is_flag(*c) && is_flag(*(c + 1)) && *c != *(c + 1))
 		|| (*c == '>' && *(c + 1) == '<')
 		|| (*c == '<' && *(c + 1) == '>'))
 		return (ERROR);
@@ -35,13 +35,12 @@ int	count_cmd(char *input)
 	int		i;
 	t_match	m;
 
-	if (input[0] == '\0')
-		return (0);
 	ft_memset(&m, 0, sizeof(t_match));
 	chogiwha(&m, &rt, &i);
-	while (input[++i] && (input[i] == '\'' || input[i] == '\"'))
+	while (input[++i] && (input[i] == '\'' || input[i] == '\"'
+			|| input[i] == '|' || input[i] == ' '))
 		;
-	if (!input[i])
+	if (!input[i] || full_check(input))
 		return (ERROR);
 	i = -1;
 	while (input[++i])

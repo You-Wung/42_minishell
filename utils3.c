@@ -49,6 +49,8 @@ int	error_check(char *str)
 			if (*str && is_flag(*str) && check_comma_index(m) && !smth)
 				return (ERROR);
 		}
+		if (!*str)
+			break ;
 		str++;
 	}
 	return (0);
@@ -60,4 +62,23 @@ void	g_var_set(void)
 	g_var.size_se = 0;
 	g_var.pnum = 0;
 	g_var.fre = NULL;
+}
+
+int	full_check(char *str)
+{
+	int	i;
+
+	if ((*str >= 33 && *str <= 47) || (*str == ':' || *str == ';'
+			|| *str == '=') || (*str >= 63 && *str <= 64)
+		|| (*str >= 91 && *str <= 96) || (*str >= 123 && *str <= 126))
+		return (1);
+	i = 0;
+	while (str[i] && (str[i] == '>' || str[i] == '<' || str[i] != ' '))
+		i++;
+	while (str[i] && str[i] == ' ')
+		i++;
+	
+	//if (!str[i])
+		//return (1);
+	return (0);
 }
