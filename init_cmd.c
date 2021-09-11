@@ -60,13 +60,10 @@ static int	check_size(char *input)
 	ft_memset(&m, 0, sizeof(t_match));
 	while (*input)
 	{
-		if ((*input == ' ' && !(m.comma % 2) && !(m.dcomma % 2))
-			|| (is_flag(*input) && !(m.comma % 2) && !(m.dcomma % 2)))
+		if ((*input == ' ' && check_comma_index(m))
+			|| (is_flag(*input) && check_comma_index(m)))
 			break ;
-		if (*input == '\'')
-			m.comma++;
-		if (*input == '\"')
-			m.dcomma++;
+		set_comma_index(*input, &m);
 		rt++;
 		input++;
 	}
