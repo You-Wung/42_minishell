@@ -16,6 +16,8 @@ static int	find_error(char *c)
 	while (*c)
 		c++;
 	c--;
+	while (*c == ' ')
+		c--;
 	if (*c == '>' || *c == '<' || *c == '|')
 		return (ERROR);
 	return (0);
