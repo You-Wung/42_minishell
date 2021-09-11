@@ -96,7 +96,6 @@ char	*edit_input(char **input)
 	ft_memset(&m, 0, sizeof(t_match));
 	if (**input == '<' && *(*input + 1) == '<')
 		return (NULL);
-		printf("----------------\n");
 	while (*(*input + ++i) && (*(*input + i) == '<' || *(*input + i) == '>'
 			|| *(*input + i) != ' '))
 		;

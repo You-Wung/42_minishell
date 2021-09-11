@@ -22,7 +22,7 @@ static int	comma_check(t_match *m)
 	에러코드를 뱉어야한다.
 	이 함수에서 에러처리해줘야함.
 */
-static int	count(char *input)
+int	count(char *input)
 {
 	t_match	m;
 	int		rt;
@@ -114,17 +114,14 @@ char	*init_cmd(t_cmd *c, char **input)
 		return (NULL);
 	if (ft_strchr(*input, '>') || ft_strchr(*input, '<'))
 	{
-		//printf("*input : %p\n",*input);
 		tmp = *input;
 		*input = edit_input(input);
-		//printf("*input : %p\n",*input);
 		if (*input == NULL)
 			return (NULL);
 		if (tmp != *input)
 			g_var.fre = *input;
 		size = count(*input);
 	}
-	//printf("size : cmd[%d] = NULL\n", size);
 	c->cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	c->cmd[size] = NULL;
 	return (input_cmd(c, *input, size));

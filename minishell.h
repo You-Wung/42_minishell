@@ -95,6 +95,7 @@ int		error_check(char *str);
 void	g_var_set(void);
 int		input_edited(void);
 int		full_check(char *str);
+int		count(char *input);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);
@@ -123,5 +124,6 @@ int		use_redi_cmd(t_cmd *c);
 void	cha_print(int i, t_cmd *c);
 void	ft_charjoin(int j, char *cmd, char **buf);
 void	use_pipe(t_cmd *c, int (*fd)[2]);
+int		single_redirection(char *input);
 
 #endif

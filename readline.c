@@ -114,8 +114,8 @@ int	start_read(void)
 			//printf("%d: %p\n",i, c[0].cmd[i]);
 			//printf("END--------------\n");
 			g_var.writing = 0;
-			freee_c(&c);
 		}
+		freee_c(&c);
 		if (g_var.fre)
 			free(g_var.fre);
 		free(tmp);

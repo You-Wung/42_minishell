@@ -66,6 +66,8 @@ char	*fill_cmd(t_cmd **c, char **input)
 	size = count_cmd(*input);
 	if (size == ERROR)
 		return (NULL);
+	if (single_redirection(*input))
+		return (NULL);
 	while (*input && ++i < size)
 	{
 		if (!flag_check(*input))
