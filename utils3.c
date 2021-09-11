@@ -66,7 +66,7 @@ void	g_var_set(void)
 
 int	full_check(char *str)
 {
-	if ((*str >= 33 && *str <= 47) || (*str == ':' || *str == ';'
+	if ((*str >= 33 && *str <= 46) || (*str == ':' || *str == ';'
 			|| *str == '=') || (*str >= 63 && *str <= 64)
 		|| (*str >= 91 && *str <= 96) || (*str >= 123 && *str <= 126))
 		return (1);

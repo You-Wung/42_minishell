@@ -3,7 +3,7 @@ NAME = minishell
 CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-# CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include -fsanitize=address
+#CFLAGS = -Werror -Wall -Wextra -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include -fsanitize=address
 
 RM = rm -rf
 

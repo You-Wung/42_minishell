@@ -38,7 +38,7 @@ int	count_cmd(char *input)
 	ft_memset(&m, 0, sizeof(t_match));
 	chogiwha(&m, &rt, &i);
 	while (input[++i] && (input[i] == '\'' || input[i] == '\"'
-			|| input[i] == '|' || input[i] == ' '))
+			|| input[i] == ' ' || is_flag(input[i])))
 		;
 	if (!input[i] || full_check(input))
 		return (ERROR);
