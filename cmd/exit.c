@@ -47,6 +47,11 @@ int	ft_exit(char **cmd, int flag)
 	else if (cmd[1])
 	{
 		exit_status = ft_atoi(cmd[1]);
+		// if (ft_strlen(cmd[1]) > 20)
+			// printf("minishell: %s: numeric argument required\n", cmd[1]);
+		// printf("%d\n", exit_status);
+		// 0 ~  18, 446, 744, 073 ,709, 551, 615
+		// if (ft_strcmp(cmd[1], ft_itoa(exit_status)) != 0)
 		end_shell(flag, exit_status);
 	}
 	return (exit_status);
