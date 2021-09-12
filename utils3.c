@@ -69,9 +69,8 @@ int	full_check(char *str)
 {
 	while (*str && *str == ' ')
 		str++;
-	if ((*str >= 33
-			&& *str <= 46 && *str != '$') || (*str == ':' || *str == ';'
-			|| *str == '=') || (*str >= 63 && *str <= 64)
+	if ((*str == 33) || (*str >= 40 && *str <= 45) || (*str == ':'
+			|| *str == ';' || *str == '=') || (*str >= 63 && *str <= 64)
 		|| (*str >= 91 && *str <= 96) || (*str >= 123 && *str <= 126))
 	{
 		g_var.qmark = 1;

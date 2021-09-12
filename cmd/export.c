@@ -19,6 +19,11 @@ void	put_env(t_env *env, char *tmp)
 
 	j = 0;
 	i = 0;
+	if (tmp == NULL)
+	{
+		env->content[j] = '\0';
+		return ;
+	}
 	while (i < (int)ft_strlen(tmp))
 	{
 		if (tmp[i] != '\"' || tmp[i] != '\'')

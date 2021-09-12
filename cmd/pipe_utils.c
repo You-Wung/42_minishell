@@ -95,7 +95,7 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 		j = check_flag_pipe(j, c);
 	}
 	exec_pipe(&c[j], fd[i], 1);
-	if (g_var.qmark == 127)
+	if (c[j].flag == 0 && g_var.qmark == 127)
 		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
 	close(fd[i][0]);
 }

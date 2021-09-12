@@ -65,14 +65,14 @@ int	use_builtin(t_cmd *c, t_env *e)
 	int	i;
 
 	result = -2;
+	i = -1;
+	while (c->cmd[++i])
+		cha_print(i, c);
 	if (ft_strcmp(c->cmd[0], "export") == 0)
 		result = ft_export(e, c->cmd);
 	else if (ft_strcmp(c->cmd[0], "unset") == 0)
 		result = ft_unset(&e, c->cmd);
-	i = -1;
-	while (c->cmd[++i])
-		cha_print(i, c);
-	if (ft_strcmp(c->cmd[0], "exit") == 0)
+	else if (ft_strcmp(c->cmd[0], "exit") == 0)
 		result = ft_exit(c->cmd, c->flag);
 	else if (ft_strcmp(c->cmd[0], "pwd") == 0)
 		result = ft_pwd();
