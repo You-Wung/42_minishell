@@ -14,5 +14,5 @@ int	ft_pipe(t_cmd *c)
 		pipe(fd[i++]);
 	use_pipe(c, fd);
 	free(fd);
-	return (0);
+	return (g_var.qmark);
 }
