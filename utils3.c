@@ -56,12 +56,13 @@ int	error_check(char *str)
 	return (0);
 }
 
-void	g_var_set(void)
+int	g_var_set(void)
 {
 	g_var.size_pi = 0;
 	g_var.size_se = 0;
 	g_var.pnum = 0;
 	g_var.fre = NULL;
+	return (1);
 }
 
 int	full_check(char *str)
@@ -72,6 +73,9 @@ int	full_check(char *str)
 			&& *str <= 46 && *str != '$') || (*str == ':' || *str == ';'
 			|| *str == '=') || (*str >= 63 && *str <= 64)
 		|| (*str >= 91 && *str <= 96) || (*str >= 123 && *str <= 126))
+	{
+		g_var.qmark = 1;
 		return (1);
+	}
 	return (0);
 }

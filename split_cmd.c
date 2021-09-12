@@ -80,9 +80,6 @@ char	*fill_cmd(t_cmd **c, char **input)
 			return (NULL);
 		}
 	}
-	//printf("1. %s\n", c[0][0].cmd[0]);
-	//printf("2. %s\n", c[0][0].cmd[1]);
-	//printf("3. %s\n", c[0][0].cmd[2]);
 	count_flag(c, size);
 	return (*input);
 }

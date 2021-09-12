@@ -92,7 +92,7 @@ void	count_flag(t_cmd **c, int size);
 int		check_comma_index(t_match m);
 void	set_comma_index(char c, t_match *m);
 int		error_check(char *str);
-void	g_var_set(void);
+int		g_var_set(void);
 int		input_edited(void);
 int		full_check(char *str);
 int		count(char *input);
