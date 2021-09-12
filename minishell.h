@@ -100,7 +100,7 @@ int		count(char *input);
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);
 int		ft_echo(char **cmd);
-int		ft_env(t_env *env);
+int		ft_env(t_env *env, t_cmd *c);
 int		ft_exit(char **cmd, int flag);
 int		ft_export(t_env *env, char **cmd);
 int		ft_pwd(void);
@@ -113,6 +113,7 @@ int		ft_pipe(t_cmd *c);
 int		ft_semicolon(t_cmd *c);
 
 int		vaild_env_name(char c);
+int		equl_num(char *c);
 int		vaild_env(char *c);
 int		check_open(int in, t_cmd *c);
 int		exec_cmd(t_cmd *c);

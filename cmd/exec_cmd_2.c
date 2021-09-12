@@ -26,6 +26,7 @@ void	not_builtin(t_cmd *c)
 int	use_redirect(t_cmd *c)
 {
 	int	result;
+	int	i;
 
 	result = -2;
 	if (c->flag == 2)
@@ -36,6 +37,9 @@ int	use_redirect(t_cmd *c)
 		result = ft_redirect_RR(c);
 	if (c->flag == 5)
 		result = ft_redirect_LL(c);
+	i = 1;
+	if (c[++i].cmd != NULL)
+		printf("minishell: %s: can't use more than 2 redirect.\n", c[i].cmd[0]);
 	return (result);
 }
 
@@ -77,7 +81,7 @@ int	use_builtin(t_cmd *c, t_env *e)
 	else if (ft_strcmp(c->cmd[0], "pwd") == 0)
 		result = ft_pwd();
 	else if (ft_strcmp(c->cmd[0], "env") == 0)
-		result = ft_env(e);
+		result = ft_env(e, c);
 	else if (ft_strcmp(c->cmd[0], "cd") == 0)
 		result = ft_cd(e, c->cmd);
 	else if (ft_strcmp(c->cmd[0], "echo") == 0)

@@ -2,16 +2,6 @@
 
 extern t_ext	g_var;
 
-int	print_env(t_env *env)
-{
-	while (env && env->next != NULL)
-	{
-		printf("declare -x %s=\"%s\"\n", env->name, env->content);
-		env = env->next;
-	}
-	return (SUCCESS);
-}
-
 void	put_env(t_env *env, char *tmp)
 {
 	int	i;
@@ -66,28 +56,56 @@ int	add_env(t_env *env, char **tmp)
 	return (1);
 }
 
+void	free_2char(char **tmp)
+{
+	int	j;
+
+	j = 0;
+	while (tmp[j])
+		free(tmp[j++]);
+	free(tmp);
+}
+
+void	check_equl(int i, char **cmd, char **tmp)
+{
+	int		equl;
+	int		k;
+	char	*fre;
+	char	*con;
+
+	equl = equl_num(cmd[i]);
+	if (equl != 1)
+	{
+		con = ft_strchr(cmd[i], '=');
+		k = -1;
+		while (++k < equl - 1)
+		{
+			fre = tmp[1];
+			tmp[1] = ft_strjoin("=", tmp[1]);
+			free(fre);
+		}
+	}
+}
+
 int	use_export(t_env *env, char **cmd, int i)
 {
 	char	**tmp;
-	int		j;
 
 	tmp = ft_split(cmd[i], '=');
 	if (vaild_env(tmp[0]) == 0)
 	{
 		printf("minishell: %s: not a valid identifier.\n", cmd[i]);
+		free_2char(tmp);
 		return (1);
 	}
+	check_equl(i, cmd, tmp);
 	if (ft_strcmp(tmp[0], cmd[i]) == 0)
 	{
-		free(tmp[0]);
-		free(tmp);
+		free_2char(tmp);
 		return (SUCCESS);
 	}
 	add_env(env, tmp);
-	j = 0;
-	while (tmp[j])
-		free(tmp[j++]);
-	free(tmp);
+	free_2char(tmp);
 	return (2);
 }
 
@@ -99,7 +117,11 @@ int	ft_export(t_env *env, char **cmd)
 	i = 1;
 	if (cmd[i] == NULL)
 	{
-		print_env(env);
+		while (env && env->next != NULL)
+		{
+			printf("declare -x %s=\"%s\"\n", env->name, env->content);
+			env = env->next;
+		}
 		return (SUCCESS);
 	}
 	while (cmd[i])
