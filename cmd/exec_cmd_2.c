@@ -26,7 +26,7 @@ void	not_builtin(t_cmd *c)
 int	use_redirect(t_cmd *c)
 {
 	int	result;
-	int	i;
+	// int	i;
 
 	result = -2;
 	if (c->flag == 2)
@@ -37,9 +37,9 @@ int	use_redirect(t_cmd *c)
 		result = ft_redirect_RR(c);
 	if (c->flag == 5)
 		result = ft_redirect_LL(c);
-	i = 1;
-	if (c[++i].cmd != NULL)
-		printf("minishell: %s: can't use more than 2 redirect.\n", c[i].cmd[0]);
+	// i = 1;
+	// if (c[++i].cmd != NULL)
+	// 	printf("minishell: %s: can't use more than 2 redirect.\n", c[i].cmd[0]);
 	return (result);
 }
 
