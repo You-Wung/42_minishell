@@ -28,25 +28,6 @@ int	use_cmd(t_cmd *c)
 	return (g_var.qmark);
 }
 
-void	exec_pipe2(t_cmd *c, int fd[2], int flags)
-{
-	if (flags == 1 || flags == 2)
-	{
-		if (ft_strcmp(c->cmd[0], "echo") != 0)
-			if (dup2(fd[0], STDIN_FILENO) < 0)
-				perror("dup2");
-	}
-	if (flags == 2)
-	{
-		if (dup2(fd[1], STDOUT_FILENO) < 0)
-			perror("dup2");
-	}
-	close(fd[0]);
-	close(fd[1]);
-	g_var.qmark = 0;
-	g_var.qmark = use_cmd(c);
-}
-
 void	exec_pipe(t_cmd *c, int fd[2], int flags)
 {
 	pid_t	pid;
@@ -59,8 +40,20 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 		return ;
 	if (pid == 0)
 	{
-		exec_pipe2(c, fd, flags);
-		exit(g_var.qmark);
+		if (flags == 1 || flags == 2)
+		{
+			if (ft_strcmp(c->cmd[0], "echo") != 0)
+				if (dup2(fd[0], STDIN_FILENO) < 0)
+					perror("dup2");
+		}
+		if (flags == 2 | flags == 3)
+		{
+			if (dup2(fd[1], STDOUT_FILENO) < 0)
+				perror("dup2");
+		}
+		close(fd[0]);
+		close(fd[1]);
+		exit(use_cmd(c));
 	}
 }
 
@@ -73,27 +66,35 @@ int	check_flag_pipe(int j, t_cmd *c)
 	return (j);
 }
 
-void	use_pipe(t_cmd *c, int (*fd)[2])
+int	use(t_cmd *c, int (*fd)[2], int i, int j)
 {
 	int	temp_fd[2];
+
+	temp_fd[0] = fd[i][0];
+	temp_fd[1] = fd[i + 1][1];
+	exec_pipe(&c[j], temp_fd, 2);
+	close(fd[i][0]);
+	close(fd[i + 1][1]);
+	if (g_var.qmark == 127)
+		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
+	return (check_flag_pipe(j, c));
+}
+
+void	use_pipe(t_cmd *c, int (*fd)[2])
+{
 	int	wstatus;
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (i < g_var.size_pi - 1)
-	{
-		g_var.qmark = 0;
-		temp_fd[0] = fd[i][0];
-		temp_fd[1] = fd[i + 1][1];
-		exec_pipe(&c[j], temp_fd, 2);
-		close(fd[i][0]);
-		close(fd[++i][1]);
-		if (g_var.qmark == 127)
-			printf("minishell: %s: command not found.\n", c[j].cmd[0]);
-		j = check_flag_pipe(j, c);
-	}
+	exec_pipe(&c[j], fd[i], 3);
+	close(fd[i][1]);
+	if (g_var.qmark == 127)
+		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
+	j = check_flag_pipe(j, c);
+	while (i < g_var.size_pi - 2)
+		j = use(c, fd, i++, j);
 	exec_pipe(&c[j], fd[i], 1);
 	if (c[j].flag == 0 && g_var.qmark == 127)
 		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
