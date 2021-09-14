@@ -26,7 +26,6 @@
 # define L_RE 3/* < */
 # define R_APP 4/* >> */
 # define L_APP 5/* << */
-# define SEMI 6/* ; */
 
 # define ERROR -1
 # define SUCCESS 0
@@ -63,10 +62,10 @@ typedef struct s_ext
 	int				pnum;
 	int				writing;	
 	int				size_pi;
-	int				size_se;
 	t_env			*env;
 	char			**n_env;
 	int				qmark;
+	int				sig_qmark;
 	int				first_input_size;
 	char			*fre;
 }	t_ext;

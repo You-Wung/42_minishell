@@ -9,6 +9,7 @@ void	sigint_handler(int signo)
 	signo = 0;
 	if (g_var.writing)
 	{
+		g_var.sig_qmark = 130;
 		write(STDOUT_FILENO, "^C\n", 3);
 		i = 0;
 		while (i < 100)
@@ -22,7 +23,7 @@ void	sigint_handler(int signo)
 	}
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
-	// rl_replace_line("", 0);
+	 rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -30,7 +31,10 @@ static void	sigquit_handler(int signo)
 {
 	signo = 0;
 	if (g_var.writing)
+	{
 		write(STDOUT_FILENO, "^\\Quit: 3\n", 11);
+		g_var.sig_qmark = 131;
+	}
 	else
 	{
 		rl_on_new_line();

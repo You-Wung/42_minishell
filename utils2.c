@@ -11,8 +11,6 @@ void	count_flag(t_cmd **c, int size)
 	{
 		if (c[0][i].flag == PIPE)
 			g_var.size_pi++;
-		if (c[0][i].flag == SEMI && i + 1 < size)
-			g_var.size_se++;
 	}
 }
 

@@ -7,7 +7,7 @@ static int	find_error(char *c)
 	if (error_check(c) == ERROR)
 		return (ERROR);
 	if ((*c == '|' && is_flag(*(c + 1)))
-		|| (*c == ';' && is_flag(*(c + 1)))
+		|| *c == ';'
 		|| (is_flag(*c) && is_flag(*(c + 1)) && *c != *(c + 1))
 		|| (is_flag(*c) && is_flag(*(c + 1)) && *c != *(c + 1))
 		|| (*c == '>' && *(c + 1) == '<')

@@ -53,5 +53,7 @@ int	exec_cmd(t_cmd *c)
 		if (c->cmd[0])
 			not_builtin(c);
 	}
+	if (g_var.sig_qmark)
+		return (g_var.sig_qmark);
 	return (g_var.qmark);
 }
