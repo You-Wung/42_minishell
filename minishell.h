@@ -50,6 +50,7 @@ typedef struct s_env
 	char			content[256];
 	struct s_env	*next;
 	int				flag;
+	int				print;
 }	t_env;
 
 /*전역변수*/
@@ -109,9 +110,11 @@ int		ft_redirect_RR(t_cmd *c);
 int		ft_redirect_LL(t_cmd *c);
 int		ft_unset(t_env **env, char **cmd);
 int		ft_pipe(t_cmd *c);
-int		ft_semicolon(t_cmd *c);
 
 int		vaild_env_name(char c);
+void	put_env(t_env *env, char *tmp);
+void	print_env(t_env *env);
+int		use_export(t_env *env, char **cmd, int i);
 int		equl_num(char *c);
 int		vaild_env(char *c);
 int		check_open(int in, t_cmd *c);

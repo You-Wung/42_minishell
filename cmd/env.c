@@ -1,80 +1,108 @@
 #include "../minishell.h"
 
-int	vaild_env_name(char c)
+char	*spl_name(char *cmd)
 {
-	if (!('a' <= c && c <= 'z')
-		&& !('A' <= c && c <= 'Z')
-		&& !(c == '_'))
-		return (0);
-	return (1);
+	char	*name;
+	int		k;
+
+	k = 0;
+	while (cmd[k] != '=')
+		k++;
+	name = malloc(sizeof(char) * k + 1);
+	k = -1;
+	while (cmd[++k] != '=')
+		name[k] = cmd[k];
+	name[++k] = '\0';
+	return (name);
 }
 
-int	vaild_env(char *c)
+char	*make_tmp(t_env *e, char *cmd, char **tmp, int j)
 {
+	char	*name;
+	int		i;
+
+	name = spl_name(cmd);
+	i = 0;
+	while (i < j)
+	{
+		if (ft_strcmp(name, tmp[i]) == 0)
+			return (NULL);
+		i++;
+	}
+	while (e)
+	{
+		if (ft_strcmp(e->name, name) == 0)
+			e->print = 0;
+		e = e->next;
+	}
+	return (name);
+}
+
+void	main_env(t_env *env, t_cmd *c, char **tmp, int size)
+{
+	int	j;
 	int	i;
 
-	i = 0;
-	if (vaild_env_name(c[i]) == 0)
-		return (0);
-	while (c[++i])
-		if (c[i] == '?')
-			return (0);
-	return (1);
-}
-
-int	equl_num(char *c)
-{
-	int	num;
-
-	num = 0;
-	while (*c)
+	j = 0;
+	print_env(env);
+	while (tmp[j])
 	{
-		if (*c == '=')
-			num++;
-		c++;
+		i = size;
+		while (0 < --i)
+		{
+			if (ft_strcmp(c->cmd[i], "env") != 0)
+			{
+				if (ft_strcmp(spl_name(c->cmd[i]), tmp[j]) == 0)
+				{
+					j++;
+					printf("%s\n", c->cmd[i]);
+					break ;
+				}
+			}
+		}
 	}
-	return (num);
 }
 
+int	check_error_env(t_cmd *c, int i)
+{
+	if (ft_strcmp(c->cmd[i], "=") == 0)
+	{
+		printf("minishell: env: =: Invalid argument\n");
+		return (1);
+	}
+	else if (equl_num(c->cmd[i]) == 0)
+	{
+		printf("minishell: env: %s: error.\n", c->cmd[i]);
+		return (127);
+	}
+	return (0);
+}
 
 int	ft_env(t_env *env, t_cmd *c)
 {
+	char	*tmp[256];
 	int		i;
+	int		j;
+	int		size;
 
 	i = 0;
+	j = 0;
 	while (c->cmd[++i])
 	{
 		if (ft_strcmp(c->cmd[i], "env") != 0)
 		{
-			if (ft_strcmp(c->cmd[i], "=") == 0)
-			{
-				printf("minishell: env: =: Invalid argument\n");
-				return (1);
-			}
-			else if (equl_num(c->cmd[i]) == 0)
-			{
-				printf("minishell: env: %s: error.\n", c->cmd[i]);
-				return (127);
-			}
+			size = check_error_env(c, i) != 0;
+			if (size != 0)
+				return (size);
+			tmp[j] = make_tmp(env, c->cmd[i], tmp, j);
+			if (tmp[j] != NULL)
+				j++;
 		}
 	}
-
-	while (env && env->next)
-	{
-		printf("%s=%s\n", env->name, env->content);
-		env = env->next;
-	}
-	if (env)
-		printf("%s=%s\n", env->name, env->content);
-
-
-	// i = 0;
-	// while (c->cmd[++i])
-	// 	if (ft_strcmp(c->cmd[i], "env") != 0)
-	// 	{
-			
-	// 		printf("%s\n", c->cmd[i]);
-	// 	}
-
+	tmp[j] = NULL;
+	size = 0;
+	while (c->cmd[size])
+		size++;
+	main_env(env, c, tmp, size);
 	return (0);
 }

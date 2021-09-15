@@ -19,6 +19,21 @@ int	ft_unset2(t_env *env, char **cmd, char *find, int i)
 	return (2);
 }
 
+int	first_unset(t_env *env, char *find)
+{
+	t_env	*tmp;
+
+	if (ft_strcmp(env->name, find) == 0)
+	{
+		tmp = env;
+		g_var.env = env->next;
+		if (tmp->flag)
+			free(tmp);
+		return (SUCCESS);
+	}
+	return (2);
+}
+
 int	ft_unset3(t_env *env, char **cmd, char *find, int i)
 {
 	t_env	*tmp;
@@ -27,15 +42,8 @@ int	ft_unset3(t_env *env, char **cmd, char *find, int i)
 	result = ft_unset2(env, cmd, find, i);
 	if (result != 2)
 		return (result);
-	// if (ft_strcmp(env->name, find) == 0)
-	// {
-	// 	tmp = env;
-	// 	env = env->next;
-	// 	if (tmp->flag)
-	// 		free(tmp);
-	// 	printf("%s_ok\n", env->name);
-	// 	return (SUCCESS);
-	// }
+	if (first_unset(env, find) == SUCCESS)
+		return (SUCCESS);
 	while (env && env->next)
 	{
 		if (ft_strcmp(env->next->name, find) == 0)

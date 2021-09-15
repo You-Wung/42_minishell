@@ -43,8 +43,6 @@ int	exec_cmd(t_cmd *c)
 		g_var.qmark = ft_pipe(c);
 	else if (c->flag == 0)
 		g_var.qmark = use_builtin(c, e);
-	else if (c->flag == 6)
-		g_var.qmark = ft_semicolon(c);
 	else
 		g_var.qmark = use_redirect(c);
 	if (g_var.qmark == -2)
