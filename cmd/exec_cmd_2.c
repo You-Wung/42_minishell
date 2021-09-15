@@ -63,6 +63,26 @@ int	use_echo(int result, t_cmd *c)
 	return (result);
 }
 
+int	use_env(int result, t_cmd *c, t_env *env)
+{
+	int	pid;
+	int	wstatus;
+
+	pid = fork();
+	g_var.pid[g_var.pnum++] = pid;
+	if (pid > 0)
+	{
+		waitpid(pid, &wstatus, 0);
+		result = WEXITSTATUS(wstatus);
+	}
+	else if (pid == 0)
+	{
+		result = ft_env(env, c);
+		exit(result);
+	}
+	return (result);
+}
+
 int	use_builtin(t_cmd *c, t_env *e)
 {
 	int	result;
@@ -81,7 +101,7 @@ int	use_builtin(t_cmd *c, t_env *e)
 	else if (ft_strcmp(c->cmd[0], "pwd") == 0)
 		result = ft_pwd();
 	else if (ft_strcmp(c->cmd[0], "env") == 0)
-		result = ft_env(e, c);
+		result = use_env(result, c, e);
 	else if (ft_strcmp(c->cmd[0], "cd") == 0)
 		result = ft_cd(e, c->cmd);
 	else if (ft_strcmp(c->cmd[0], "echo") == 0)

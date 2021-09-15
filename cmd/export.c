@@ -2,31 +2,6 @@
 
 extern t_ext	g_var;
 
-void	put_env(t_env *env, char *tmp)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	i = 0;
-	if (tmp == NULL)
-	{
-		env->content[j] = '\0';
-		return ;
-	}
-	while (i < (int)ft_strlen(tmp))
-	{
-		if (tmp[i] != '\"' || tmp[i] != '\'')
-		{
-			env->content[j] = tmp[i];
-			j++;
-		}
-		i++;
-	}
-	env->content[i] = '\0';
-	env->flag = 1;
-}
-
 int	add_env(t_env *env, char **tmp)
 {
 	int		i;
@@ -112,7 +87,6 @@ int	use_export(t_env *env, char **cmd, int i)
 int	ft_export(t_env *env, char **cmd)
 {
 	int		i;
-	int		res;
 
 	i = 1;
 	if (cmd[i] == NULL)
@@ -126,9 +100,7 @@ int	ft_export(t_env *env, char **cmd)
 	}
 	while (cmd[i])
 	{
-		res = use_export(env, cmd, i);
-		if (res != 2)
-			return (res);
+		use_export(env, cmd, i);
 		i++;
 	}
 	return (SUCCESS);

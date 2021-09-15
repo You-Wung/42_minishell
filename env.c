@@ -17,6 +17,7 @@ static void	input(char *env, t_env *buf)
 	while (env[++i])
 		buf->content[++j] = env[i];
 	buf->flag = 0;
+	buf->print = 1;
 }
 
 void	init_env(char **env)

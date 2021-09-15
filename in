@@ -1,0 +1,16 @@
+Makefile
+cmd
+env.c
+in
+init_cmd.c
+init_cmd2.c
+libft
+main.c
+minishell
+minishell.h
+readline.c
+signal.c
+split_cmd.c
+utils.c
+utils2.c
+utils3.c
