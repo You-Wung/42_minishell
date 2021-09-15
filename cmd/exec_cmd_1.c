@@ -18,6 +18,17 @@ void	check_path_env(char **path_env, char **cmd)
 	}
 }
 
+static int	permission_check(char **cmd)
+{
+	open(cmd[0], O_RDWR);
+	if (errno == EACCES)
+	{
+		printf("minishell : Permission denied\n");
+		return (126);
+	}
+	return (127);
+}
+
 int	run_cmd(char **cmd, t_env *env)
 {
 	char		**path_env;
@@ -31,7 +42,7 @@ int	run_cmd(char **cmd, t_env *env)
 		env = env->next;
 	}
 	check_path_env(path_env, cmd);
-	return (127);
+	return (permission_check(cmd));
 }
 
 int	exec_cmd(t_cmd *c)

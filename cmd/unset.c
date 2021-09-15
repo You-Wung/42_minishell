@@ -48,7 +48,6 @@ int	ft_unset3(t_env *env, char **cmd, char *find, int i)
 	{
 		if (ft_strcmp(env->next->name, find) == 0)
 		{
-			printf("ok\n");
 			tmp = env->next;
 			env->next = env->next->next;
 			if (tmp->flag)

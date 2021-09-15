@@ -11,6 +11,9 @@ void	count_flag(t_cmd **c, int size)
 	{
 		if (c[0][i].flag == PIPE)
 			g_var.size_pi++;
+		if (c[0][i].flag == R_RE || c[0][i].flag == L_RE
+			|| c[0][i].flag == R_APP || c[0][i].flag == L_APP)
+			g_var.size_re++;
 	}
 }
 

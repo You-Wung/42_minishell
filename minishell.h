@@ -63,6 +63,7 @@ typedef struct s_ext
 	int				pnum;
 	int				writing;	
 	int				size_pi;
+	int				size_re;
 	t_env			*env;
 	char			**n_env;
 	int				qmark;

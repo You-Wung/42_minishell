@@ -72,7 +72,7 @@ int	check_error_env(t_cmd *c, int i)
 	}
 	else if (equl_num(c->cmd[i]) == 0)
 	{
-		printf("minishell: env: %s: error.\n", c->cmd[i]);
+		printf("minishell: env: %s: error\n", c->cmd[i]);
 		return (127);
 	}
 	return (0);

@@ -32,10 +32,9 @@ static t_cmd	*malloc_c(char *input)
 
 char	*make_prompt(void)
 {
-	static char	prompt[1027];
-	int			i;
+	static char	prompt[20];
 
-	ft_memset(&prompt[0], 0, 1027);
+	ft_memset(&prompt[0], 0, 20);
 	prompt[0] = 'm';
 	prompt[1] = 'i';
 	prompt[2] = 'n';
@@ -45,12 +44,9 @@ char	*make_prompt(void)
 	prompt[6] = 'e';
 	prompt[7] = 'l';
 	prompt[8] = 'l';
-	i = 0;
-	while (prompt[i])
-		i++;
-	prompt[i++] = '$';
-	prompt[i++] = ' ';
-	prompt[i] = '\0';
+	prompt[9] = '$';
+	prompt[10] = ' ';
+	prompt[11] = '\0';
 	return (prompt);
 }
 
