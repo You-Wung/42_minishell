@@ -21,13 +21,11 @@ static void	pull_options(char *input, int i, int opt)
 {
 	int		in;
 	char	buf[1024];
-	int		cnt;
 	t_match	m;
 	int		j;
 
 	j = 0;
 	in = -1;
-	cnt = 0;
 	ft_memset(&m, 0, sizeof(t_match));
 	if (ft_strlen(input) > 1023)
 		return ;
@@ -37,7 +35,7 @@ static void	pull_options(char *input, int i, int opt)
 	{
 		set_comma_index(input[i], &m);
 		if (check_comma_index(m) && (input[i] == '>' || input[i] == '<'))
-			break ;
+			return ;
 		buf[in++] = input[i];
 		j = i - 1;
 		while (input[++j])
@@ -71,9 +69,10 @@ void	modify_input_for_option(char *input)
 			while (input[++i] && input[i] != ' '
 				&& input[i] != '>' && input[i] != '<')
 				;
-			if ((input[i]) && ((input[i] == '>' && input[i - 1] == '>')
-					|| (input[i] == '<' && input[i - 1] == '<')))
-				i++;
+			//if ((input[i]) && ((input[i] == '>' && input[i - 1] == '>')
+					//|| (input[i] == '<' && input[i - 1] == '<')))
+				//i++;
+			printf("PULLOPTION: [%s]\n", &input[i]);
 			if (input[i] && input[i] != '>' && input[i] != '<')
 				pull_options(input, i, find_opt(input));
 		}
