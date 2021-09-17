@@ -17,8 +17,7 @@ void	not_builtin(t_cmd *c)
 	else if (pid == 0)
 	{
 		g_var.qmark = run_cmd(c->cmd, g_var.env);
-		if (g_var.qmark == 127)
-			printf("minishell: %s: command not found.\n", c->cmd[0]);
+		print_error(g_var.qmark, c->cmd[0]);
 		exit(g_var.qmark);
 	}
 }
@@ -26,20 +25,11 @@ void	not_builtin(t_cmd *c)
 int	use_redirect(t_cmd *c)
 {
 	int	result;
-	// int	i;
 
 	result = -2;
-	if (c->flag == 2)
-		result = ft_redirect_R(c);
-	if (c->flag == 3)
-		result = ft_redirect_L(c);
-	if (c->flag == 4)
-		result = ft_redirect_RR(c);
-	if (c->flag == 5)
-		result = ft_redirect_LL(c);
-	// i = 1;
-	// if (c[++i].cmd != NULL)
-	// 	printf("minishell: %s: can't use more than 2 redirect.\n", c[i].cmd[0]);
+	if (c->flag == R_RE || c->flag == L_RE
+		|| c->flag == R_APP || c->flag == L_APP)
+		result = ft_redirect(c);
 	return (result);
 }
 

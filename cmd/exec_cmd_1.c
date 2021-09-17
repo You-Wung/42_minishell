@@ -18,14 +18,19 @@ void	check_path_env(char **path_env, char **cmd)
 	}
 }
 
+void	print_error(int qmark, char *str)
+{
+	if (qmark == 127)
+		printf("minishell: %s: command not found.\n", str);
+	if (qmark == 126)
+		printf("minishell: Permission denied\n");
+}
+
 static int	permission_check(char **cmd)
 {
 	open(cmd[0], O_RDWR);
 	if (errno == EACCES)
-	{
-		printf("minishell : Permission denied\n");
 		return (126);
-	}
 	return (127);
 }
 
