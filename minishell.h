@@ -59,7 +59,7 @@ typedef struct s_env
 typedef struct s_ext
 {
 	struct termios	restore;
-	pid_t			pid[100];
+	pid_t			pid[256];
 	int				pnum;
 	int				writing;	
 	int				size_pi;
