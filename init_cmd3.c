@@ -62,13 +62,14 @@ void	modify_input_for_option(char *input)
 		if ((input[i] == '>' || input[i] == '<') && check_comma_index(m))
 		{
 			printf("FIRST : %d\t %s\n", i, &input[i]);
+			i++;
 			if (input[i] == '>' || input[i] == '<')
 				i++;
-			while (input[++i] && input[i] == ' ')
-				;
-			while (input[++i] && input[i] != ' '
+			while (input[i] && input[i] == ' ')
+				i++;
+			while (input[i] && input[i] != ' '
 				&& input[i] != '>' && input[i] != '<')
-				;
+				i++;
 			//if ((input[i]) && ((input[i] == '>' && input[i - 1] == '>')
 					//|| (input[i] == '<' && input[i - 1] == '<')))
 				//i++;

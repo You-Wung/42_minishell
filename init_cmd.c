@@ -92,7 +92,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 		while (*input && *input == ' ')
 			input++;
 		input = set_flag(c, input, &j);
-		if (ft_strcmp(c->cmd[j - 1], "./minishell") == 0)
+		if (ft_strcmp(c->cmd[0], "./minishell") == 0)
 			return (NULL);
 	}
 	return (input);
