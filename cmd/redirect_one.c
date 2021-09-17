@@ -2,32 +2,41 @@
 
 extern t_ext	g_var;
 
-static int	redirect_one(char *str, int flag)
+void	redirect_one_L_APP(char *str)
+{
+	char	*buf;
+
+	while (1)
+	{
+		buf = readline(" > ");
+		if (ft_strcmp(buf, str) == 0)
+			break ;
+		free(buf);
+	}
+}
+
+int	redirect_one(char *str, int flag)
 {
 	int		file;
-	char	*buf;
 
 	file = 0;
 	if (flag == L_APP)
 	{
-		while (1)
-		{
-			buf = readline(" > ");
-			if (ft_strcmp(buf, str) == 0)
-				break ;
-			free(buf);
-		}
+		redirect_one_L_APP(str);
 		return (0);
 	}
 	else if (flag == L_RE)
 		file = open(str, O_RDONLY);
-	else if (flag == R_APP || flag == R_RE)
-		file = open(str, O_RDWR | O_CREAT, 0644);
+	else if (flag == R_APP)
+		file = open(str, O_RDWR | O_CREAT | O_APPEND, 0644);
+	else if (flag == R_RE)
+		file = open(str, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (file < 0)
 	{
 		printf("minishell: no such file or directory: %s\n", str);
 		return (1);
 	}
+	close(file);
 	return (0);
 }
 

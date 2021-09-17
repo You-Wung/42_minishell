@@ -75,8 +75,7 @@ int	use(t_cmd *c, int (*fd)[2], int i, int j)
 	exec_pipe(&c[j], temp_fd, 2);
 	close(fd[i][0]);
 	close(fd[i + 1][1]);
-	if (g_var.qmark == 127)
-		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
+		print_error(g_var.qmark, c[j].cmd[0]);
 	return (check_flag_pipe(j, c));
 }
 
@@ -90,15 +89,17 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 	j = 0;
 	exec_pipe(&c[j], fd[i], 3);
 	close(fd[i][1]);
-	if (g_var.qmark == 127)
-		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
+		print_error(g_var.qmark, c[j].cmd[0]);
 	j = check_flag_pipe(j, c);
 	while (i < g_var.size_pi - 2)
 		j = use(c, fd, i++, j);
 	exec_pipe(&c[j], fd[i], 1);
-	if (c[j].flag == 0 && g_var.qmark == 127)
-		printf("minishell: %s: command not found.\n", c[j].cmd[0]);
 	close(fd[i][0]);
+		print_error(g_var.qmark, c[j].cmd[0]);
+	j = 0;
 	while (wait(&wstatus) > 0)
+	{
 		g_var.qmark = WEXITSTATUS(wstatus);
+		print_error(g_var.qmark, "pipe");
+	}
 }

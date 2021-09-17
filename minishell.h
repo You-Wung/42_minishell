@@ -106,13 +106,11 @@ int		ft_env(t_env *env, t_cmd *c);
 int		ft_exit(char **cmd, int flag);
 int		ft_export(t_env *env, char **cmd);
 int		ft_pwd(void);
-int		ft_redirect_L(t_cmd *c);
-int		ft_redirect_R(t_cmd *c);
-int		ft_redirect_RR(t_cmd *c);
-int		ft_redirect_LL(t_cmd *c);
+int		ft_redirect(t_cmd *c);
 int		ft_unset(t_env **env, char **cmd);
 int		ft_pipe(t_cmd *c);
 
+void	print_error(int qmark, char *str);
 int		vaild_env_name(char c);
 void	put_env(t_env *env, char *tmp);
 void	print_env(t_env *env);
