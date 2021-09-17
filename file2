@@ -1,0 +1,22 @@
+total 280
+drwxr-xr-x  21 taewung  staff    672  9 18 01:08 .
+drwxr-xr-x   8 taewung  staff    256  9 17 15:56 ..
+drwxr-xr-x  15 taewung  staff    480  9 18 00:37 .git
+-rw-r--r--   1 taewung  staff   1043  9 17 15:56 Makefile
+drwxr-xr-x  19 taewung  staff    608  9 17 23:35 cmd
+-rw-r--r--   1 taewung  staff    561  9 17 15:56 env.c
+-rw-r--r--   1 taewung  staff      0  9 18 01:08 file
+-rw-r--r--   1 taewung  staff      0  9 18 01:08 file2
+-rw-r--r--   1 taewung  staff   2302  9 17 15:56 init_cmd.c
+-rw-r--r--   1 taewung  staff   2287  9 18 01:08 init_cmd2.c
+-rw-r--r--   1 taewung  staff   1546  9 18 00:37 init_cmd3.c
+drwxr-xr-x  83 taewung  staff   2656  9 18 01:06 libft
+-rw-r--r--   1 taewung  staff   1920  9 17 15:56 main.c
+-rwxr-xr-x   1 taewung  staff  88952  9 18 01:06 minishell
+-rw-r--r--   1 taewung  staff   3361  9 17 23:35 minishell.h
+-rw-r--r--   1 taewung  staff   1685  9 17 17:06 readline.c
+-rw-r--r--   1 taewung  staff   1327  9 17 23:43 signal.c
+-rw-r--r--   1 taewung  staff   1764  9 17 15:56 split_cmd.c
+-rw-r--r--   1 taewung  staff   1289  9 17 15:56 utils.c
+-rw-r--r--   1 taewung  staff   1192  9 17 15:56 utils2.c
+-rw-r--r--   1 taewung  staff   1518  9 17 18:25 utils3.c
