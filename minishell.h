@@ -97,6 +97,7 @@ int		g_var_set(void);
 int		input_edited(void);
 int		full_check(char *str);
 int		count(char *input);
+void	modify_input_for_option(char *input);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

@@ -11,6 +11,7 @@ SRCS =	main.c\
 		split_cmd.c\
 		init_cmd.c\
 		init_cmd2.c\
+		init_cmd3.c\
 		signal.c\
 		env.c\
 		utils.c\
