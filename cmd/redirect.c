@@ -4,23 +4,36 @@ extern t_ext	g_var;
 
 void	redi_L_APP(char *str)
 {
-	int		file;
 	char	*buf;
+	int		wstatus;
+	int		file;
+	int		pid;
 
-	file = open("./cmd/user_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while (1)
+	pid = fork();
+	g_var.writing = 2;
+	if (pid == 0)
 	{
-		buf = readline(" > ");
-		if (!buf || ft_strcmp(buf, str) == 0)
-			break ;
-		if (buf)
+		file = open("./cmd/user_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		while (1)
 		{
-			write(file, buf, ft_strlen(buf));
-			write(file, "\n", 1);
+			buf = readline(" > ");
+			if (!buf || ft_strcmp(buf, str) == 0)
+				exit(0);
+			if (buf)
+			{
+				write(file, buf, ft_strlen(buf));
+				write(file, "\n", 1);
+			}
+			free(buf);
 		}
-		free(buf);
+		close(file);
 	}
-	close(file);
+	else if (pid > 0)
+	{
+		g_var.writing = 3;
+		waitpid(pid, &wstatus, 0);
+		g_var.writing = 0;
+	}
 }
 
 int	redi_one(char *str, int flag)

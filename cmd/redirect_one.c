@@ -28,19 +28,6 @@ void	redirect_one_L_APP(char *str)
 	}
 }
 
-//void	redirect_one_L_APP(char *str)
-//{
-//	char	*buf;
-
-//	while (1)
-//	{
-//		buf = readline(" > ");
-//		if (!buf || ft_strcmp(buf, str) == 0)
-//			break ;
-//		free(buf);
-//	}
-//}
-
 int	redirect_one(char *str, int flag)
 {
 	int		file;
