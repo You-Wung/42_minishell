@@ -130,5 +130,7 @@ void	use_pipe(t_cmd *c, int (*fd)[2]);
 int		single_redirection(char *input);
 int		use_redi_cmd(t_cmd *c);
 int		use_cmd(t_cmd *c);
+void	redi_L_APP_op(int flag, char *str);
+void	redi_L_APP(char *str, int flag);
 
 #endif
