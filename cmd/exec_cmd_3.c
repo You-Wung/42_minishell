@@ -46,3 +46,18 @@ int	use_cmd(t_cmd *c)
 	}
 	return (g_var.qmark);
 }
+
+int	is_have_path(char *str)
+{
+
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}

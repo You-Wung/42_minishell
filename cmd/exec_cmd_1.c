@@ -39,14 +39,19 @@ int	run_cmd(char **cmd, t_env *env)
 	char		**path_env;
 
 	path_env = NULL;
-	execve(cmd[0], cmd, g_var.n_env);
-	while (env && env->next)
+
+	if (is_have_path(cmd[0]) == 1)
+		execve(cmd[0], cmd, g_var.n_env);
+	else
 	{
-		if (ft_strcmp(env->name, "PATH") == 0)
-			path_env = ft_split(env->content, ':');
-		env = env->next;
+		while (env && env->next)
+		{
+			if (ft_strcmp(env->name, "PATH") == 0)
+				path_env = ft_split(env->content, ':');
+			env = env->next;
+		}
+		check_path_env(path_env, cmd);
 	}
-	check_path_env(path_env, cmd);
 	return (permission_check(cmd));
 }
 
