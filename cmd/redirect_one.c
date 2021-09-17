@@ -2,30 +2,27 @@
 
 extern t_ext	g_var;
 
-void	redirect_one_L_APP(char *str)
+void	redi_L_APP_op(int flag, char *str)
 {
+	int		file;
 	char	*buf;
-	int		wstatus;
-	int		pid;
 
-	pid = fork();
-	g_var.writing = 2;
-	if (pid == 0)
+	if (flag == 1)
+		file = open("./cmd/user_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
 	{
-		while (1)
+		buf = readline(" > ");
+		if (!buf || ft_strcmp(buf, str) == 0)
+			exit(0);
+		if (buf && flag == 1)
 		{
-			buf = readline(" > ");
-			if (!buf || ft_strcmp(buf, str) == 0)
-				exit(0);
-			free(buf);
+			write(file, buf, ft_strlen(buf));
+			write(file, "\n", 1);
 		}
+		free(buf);
 	}
-	else if (pid > 0)
-	{
-		g_var.writing = 3;
-		waitpid(pid, &wstatus, 0);
-		g_var.writing = 0;
-	}
+	if (flag == 1)
+		close(file);
 }
 
 int	redirect_one(char *str, int flag)
@@ -35,7 +32,7 @@ int	redirect_one(char *str, int flag)
 	file = 0;
 	if (flag == L_APP)
 	{
-		redirect_one_L_APP(str);
+		redi_L_APP(str, 0);
 		return (0);
 	}
 	else if (flag == L_RE)

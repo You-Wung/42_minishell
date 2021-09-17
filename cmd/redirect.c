@@ -2,32 +2,15 @@
 
 extern t_ext	g_var;
 
-void	redi_L_APP(char *str)
+void	redi_L_APP(char *str, int flag)
 {
-	char	*buf;
 	int		wstatus;
-	int		file;
 	int		pid;
 
 	pid = fork();
 	g_var.writing = 2;
 	if (pid == 0)
-	{
-		file = open("./cmd/user_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		while (1)
-		{
-			buf = readline(" > ");
-			if (!buf || ft_strcmp(buf, str) == 0)
-				exit(0);
-			if (buf)
-			{
-				write(file, buf, ft_strlen(buf));
-				write(file, "\n", 1);
-			}
-			free(buf);
-		}
-		close(file);
-	}
+		redi_L_APP_op(flag, str);
 	else if (pid > 0)
 	{
 		g_var.writing = 3;
@@ -47,7 +30,7 @@ int	redi_one(char *str, int flag)
 		file = open(str, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (flag == L_APP)
 	{
-		redi_L_APP(str);
+		redi_L_APP(str, 1);
 		file = open("./cmd/user_tmp", O_RDONLY);
 	}
 	if (flag == L_RE)
