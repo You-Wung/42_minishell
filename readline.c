@@ -5,8 +5,10 @@ extern t_ext	g_var;
 static void	input_is_null(void)
 {
 	printf("%c[1A", 27);
-	printf("%c[1000D", 27);
-	printf("%sexit\n", make_prompt());
+	if (g_var.writing == -1)
+		printf(" >  %sexit\n", make_prompt());
+	else
+		printf("%s exit\n", make_prompt());
 	printf(COLOR_RESET);
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_var.restore);
 	exit(0);
