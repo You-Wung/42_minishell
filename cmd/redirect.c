@@ -11,7 +11,7 @@ void	redi_L_APP(char *str)
 	while (1)
 	{
 		buf = readline(" > ");
-		if (ft_strcmp(buf, str) == 0)
+		if (!buf || ft_strcmp(buf, str) == 0)
 			break ;
 		if (buf)
 		{
