@@ -12,6 +12,8 @@ void	redi_L_APP_op(int flag, char *str)
 	while (1)
 	{
 		buf = readline(" > ");
+		if (!buf)
+			printf("%c[1A %c[3C", 27, 27);
 		if (!buf || ft_strcmp(buf, str) == 0)
 			exit(0);
 		if (buf && flag == 1)
