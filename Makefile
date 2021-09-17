@@ -27,6 +27,7 @@ SRCS =	main.c\
 		cmd/redirect.c\
 		cmd/exec_cmd_1.c\
 		cmd/exec_cmd_2.c\
+		cmd/exec_cmd_3.c\
 		cmd/pipe.c\
 		cmd/pipe_utils.c\
 		cmd/utils.c\
