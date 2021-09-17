@@ -17,6 +17,16 @@ static int	find_opt(char *input)
 	return (0);
 }
 
+static int	prep(int *j, int *in, t_match *m, char *input)
+{
+	*j = 0;
+	*in = -1;
+	ft_memset(m, 0, sizeof(t_match));
+	if (ft_strlen(input) > 1023)
+		return (1);
+	return (0);
+}
+
 static void	pull_options(char *input, int i, int opt)
 {
 	int		in;
@@ -24,10 +34,7 @@ static void	pull_options(char *input, int i, int opt)
 	t_match	m;
 	int		j;
 
-	j = 0;
-	in = -1;
-	ft_memset(&m, 0, sizeof(t_match));
-	if (ft_strlen(input) > 1023)
+	if (prep(&j, &in, &m, input))
 		return ;
 	while (++in < opt)
 		buf[in] = input[in];
@@ -61,7 +68,6 @@ void	modify_input_for_option(char *input)
 		set_comma_index(*input, &m);
 		if ((input[i] == '>' || input[i] == '<') && check_comma_index(m))
 		{
-			printf("FIRST : %d\t %s\n", i, &input[i]);
 			i++;
 			if (input[i] == '>' || input[i] == '<')
 				i++;
@@ -70,10 +76,6 @@ void	modify_input_for_option(char *input)
 			while (input[i] && input[i] != ' '
 				&& input[i] != '>' && input[i] != '<')
 				i++;
-			//if ((input[i]) && ((input[i] == '>' && input[i - 1] == '>')
-					//|| (input[i] == '<' && input[i - 1] == '<')))
-				//i++;
-			printf("PULLOPTION: [%s]\n", &input[i]);
 			if (input[i] && input[i] != '>' && input[i] != '<')
 				pull_options(input, i, find_opt(input));
 		}

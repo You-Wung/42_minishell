@@ -2,35 +2,11 @@
 
 extern t_ext	g_var;
 
-//void	sigint_handler(int signo)
-//{
-//	int	i;
-
-//	signo = 0;
-//	if (g_var.writing == 1)
-//	{
-//		write(STDOUT_FILENO, "^C\n", 3);
-//		i = 0;
-//		while (i < 100)
-//		{
-//			if (g_var.pid[i] > 0)
-//				kill(g_var.pid[i], SIGINT);
-//			g_var.pid[i] = 0;
-//			i++;
-//		}
-//		return ;
-//	}
-//	write(STDOUT_FILENO, "\n", 1);
-//	rl_on_new_line();
-//	rl_replace_line("", 0);
-//	rl_redisplay();
-//}
-
-void	sigint_handler(int signo)
+static void	sigint2(void)
 {
 	int	i;
 
-	signo = 0;
+	i = 0;
 	if (g_var.writing == 2)
 	{
 		write(STDOUT_FILENO, "\n", 1);
@@ -38,7 +14,6 @@ void	sigint_handler(int signo)
 	}
 	else if (g_var.writing == 3)
 	{
-		i = 0;
 		while (i < 256)
 		{
 			if (g_var.pid[i] > 0)
@@ -46,6 +21,15 @@ void	sigint_handler(int signo)
 			g_var.pid[i++] = 0;
 		}
 	}
+}
+
+void	sigint_handler(int signo)
+{
+	int	i;
+
+	signo = 0;
+	if (g_var.writing == 2 || g_var.writing == 3)
+		sigint2();
 	else if (g_var.writing)
 	{
 		write(STDOUT_FILENO, "^C\n", 3);
@@ -62,7 +46,7 @@ void	sigint_handler(int signo)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -78,10 +62,10 @@ static void	sigquit_handler(int signo)
 	else if (g_var.writing == 0 || g_var.writing == 2)
 	{
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		 rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	// rl_replace_line("", 0);
+	 rl_replace_line("", 0);
 }
 
 void	init_signal(void)

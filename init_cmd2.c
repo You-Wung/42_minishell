@@ -81,9 +81,7 @@ static char	*save_cmd(char *input, int i)
 	while (input[in])
 		ret[in2++] = input[in++];
 	ret[in2] = '\0';
-	printf("ret : [%s]\n", ret);
 	modify_input_for_option(ret);
-	printf("ret : [%s]\n", ret);
 	return (ret);
 }
 
