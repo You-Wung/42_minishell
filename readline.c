@@ -23,6 +23,7 @@ static t_cmd	*malloc_c(char *input)
 	if (size == ERROR)
 	{
 		printf("minishell : error\n");
+		g_var.qmark = 258;
 		return (NULL);
 	}
 	c = (t_cmd *)malloc(sizeof(t_cmd) * size);

@@ -77,6 +77,7 @@ char	*fill_cmd(t_cmd **c, char **input)
 		if (*input == NULL || flag_check(*input))
 		{
 			printf("minishell: Error\n");
+			g_var.qmark = 258;
 			return (NULL);
 		}
 	}
