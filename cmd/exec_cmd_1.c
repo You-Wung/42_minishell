@@ -39,7 +39,6 @@ int	run_cmd(char **cmd, t_env *env)
 	char		**path_env;
 
 	path_env = NULL;
-
 	if (is_have_path(cmd[0]) == 1)
 		execve(cmd[0], cmd, g_var.n_env);
 	else

@@ -32,18 +32,19 @@ void	sigint_handler(int signo)
 		sigint2();
 	else if (g_var.writing)
 	{
+		g_var.sig_qmark = 130;
 		write(STDOUT_FILENO, "^C\n", 3);
 		i = 0;
 		while (i < 256)
 		{
 			if (g_var.pid[i] > 0)
 				kill(g_var.pid[i], SIGINT);
-			g_var.pid[i] = 0;
-			i++;
+			g_var.pid[i++] = 0;
 		}
 	}
 	else if (g_var.writing <= 0)
 	{
+		g_var.sig_qmark = 1;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -56,6 +57,7 @@ static void	sigquit_handler(int signo)
 	signo = 0;
 	if (g_var.writing == 1)
 	{
+		g_var.sig_qmark = 131;
 		write(STDOUT_FILENO, "^\\Quit: 3\n", 11);
 		g_var.sig_qmark = 131;
 	}

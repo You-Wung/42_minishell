@@ -99,7 +99,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 }
 
 /*실제로 cmd에 인덱스 넣어주는과정*/
-char	*init_cmd(t_cmd *c, char **input)
+char	*init_cmd(t_cmd *c, char **input, int cnt)
 {
 	char	*tmp;
 	int		size;
@@ -111,7 +111,7 @@ char	*init_cmd(t_cmd *c, char **input)
 	size = count(*input);
 	if (size == ERROR)
 		return (NULL);
-	if (ft_strchr(*input, '>') || ft_strchr(*input, '<'))
+	if ((ft_strchr(*input, '>') || ft_strchr(*input, '<')) && !cnt)
 	{
 		tmp = *input;
 		*input = edit_input(input);

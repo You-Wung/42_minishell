@@ -37,12 +37,18 @@ static int	exchange_qmark(char *rt, int in)
 
 	i = 0;
 	j = 0;
-	if (g_var.qmark == 0)
+	if (g_var.qmark == 0 && g_var.sig_qmark == 0)
 	{
 		rt[in] = '0';
 		return (1);
 	}
-	buf = ft_itoa(g_var.qmark);
+	if (g_var.sig_qmark)
+	{
+		buf = ft_itoa(g_var.sig_qmark);
+		g_var.sig_qmark = 0;
+	}
+	else
+		buf = ft_itoa(g_var.qmark);
 	while (buf[j])
 	{
 		rt[in++] = buf[j++];

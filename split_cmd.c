@@ -73,7 +73,7 @@ char	*fill_cmd(t_cmd **c, char **input)
 	while (*input && ++i < size)
 	{
 		if (!flag_check(*input))
-			*input = init_cmd(&(c[0][i]), input);
+			*input = init_cmd(&(c[0][i]), input, i);
 		if (*input == NULL || flag_check(*input))
 		{
 			printf("minishell: Error\n");
