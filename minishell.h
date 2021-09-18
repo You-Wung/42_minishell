@@ -107,7 +107,7 @@ int		ft_env(t_env *env, t_cmd *c);
 int		ft_exit(char **cmd, int flag);
 int		ft_export(t_env *env, char **cmd);
 int		ft_pwd(void);
-int		ft_redirect(t_cmd *c);
+int		ft_redirect(t_cmd *c, int s_re);
 int		ft_unset(t_env **env, char **cmd);
 int		ft_pipe(t_cmd *c);
 

@@ -25,11 +25,21 @@ void	not_builtin(t_cmd *c)
 int	use_redirect(t_cmd *c)
 {
 	int	result;
+	int	s_re;
+	int	i;
 
+	s_re = 0;
+	i = 0;
+	while (c[i].flag != 1 && c[i].flag != 0)
+	{
+		if (2 <= c[i].flag && c[i].flag <= 5)
+			s_re++;
+		i++;
+	}
 	result = -2;
 	if (c->flag == R_RE || c->flag == L_RE
 		|| c->flag == R_APP || c->flag == L_APP)
-		result = ft_redirect(c);
+		result = ft_redirect(c, s_re);
 	return (result);
 }
 
