@@ -28,12 +28,12 @@ int	redi_one(char *str, int flag)
 		file = open(str, O_RDWR | O_CREAT | O_APPEND, 0644);
 	else if (flag == R_RE)
 		file = open(str, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (flag == L_APP)
+	else if (flag == L_APP)
 	{
 		redi_L_APP(str, 1);
 		file = open("./cmd/user_tmp", O_RDONLY);
 	}
-	if (flag == L_RE)
+	else if (flag == L_RE)
 		file = open(str, O_RDONLY);
 	if (file < 0)
 	{
@@ -70,7 +70,7 @@ int	check_L(t_cmd *c, int *in, int *out, int s_re)
 	{
 		file = redi_one(c[n].cmd[0], c[n - 1].flag);
 		if (file == -1)
-			return (1);
+			return (-1);
 		if (file != -1
 			&& (c[n - 1].flag == L_RE || c[n - 1].flag == L_APP))
 			*in = file;
@@ -92,7 +92,7 @@ int	ft_redirect(t_cmd *c, int s_re)
 	in = 0;
 	out = 0;
 	n = check_L(c, &in, &out, s_re);
-	if (n == 1)
+	if (n == -1)
 		return (1);
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
