@@ -49,8 +49,7 @@ int	use_cmd(t_cmd *c)
 
 int	is_have_path(char *str)
 {
-
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
