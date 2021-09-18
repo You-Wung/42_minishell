@@ -28,12 +28,12 @@ int	redi_one(char *str, int flag)
 		file = open(str, O_RDWR | O_CREAT | O_APPEND, 0644);
 	else if (flag == R_RE)
 		file = open(str, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	else if (flag == L_APP)
+	if (flag == L_APP)
 	{
 		redi_L_APP(str, 1);
 		file = open("./cmd/user_tmp", O_RDONLY);
 	}
-	else if (flag == L_RE)
+	if (flag == L_RE)
 		file = open(str, O_RDONLY);
 	if (file < 0)
 	{
@@ -66,6 +66,8 @@ int	check_L(t_cmd *c, int *in, int *out, int s_re)
 	int		n;
 
 	n = 0;
+	*in = 0;
+	*out = 0;
 	while (++n < s_re)
 	{
 		file = redi_one(c[n].cmd[0], c[n - 1].flag);
@@ -84,13 +86,10 @@ int	check_L(t_cmd *c, int *in, int *out, int s_re)
 int	ft_redirect(t_cmd *c, int s_re)
 {
 	pid_t	pid;
-	int		wstatus;
 	int		n;
 	int		in;
 	int		out;
 
-	in = 0;
-	out = 0;
 	n = check_L(c, &in, &out, s_re);
 	if (n == -1)
 		return (1);
@@ -103,21 +102,11 @@ int	ft_redirect(t_cmd *c, int s_re)
 	}
 	else if (pid == 0)
 	{
-		if (in != 0)
-			dup2(in, STDIN_FILENO);
-		if (out != 0)
-			dup2(out, STDOUT_FILENO);
+		in_out(&in, &out, 1);
 		redi_child(c, n, s_re);
-		if (in != 0)
-			close(in);
-		if (out != 0)
-			close(out);
+		in_out(&in, &out, 0);
 	}
 	else if (pid > 0)
-	{
-		waitpid(pid, &wstatus, 0);
-		g_var.qmark = WEXITSTATUS(wstatus);
-		print_error(g_var.qmark, c->cmd[0]);
-	}
-	return (SUCCESS);
+		redi_parent(pid, c);
+	return (g_var.qmark);
 }
