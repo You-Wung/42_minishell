@@ -17,6 +17,7 @@ SRCS =	main.c\
 		utils.c\
 		utils2.c\
 		utils3.c\
+		utils4.c\
 		cmd/cd.c\
 		cmd/echo.c\
 		cmd/env.c\

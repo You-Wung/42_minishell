@@ -67,6 +67,7 @@ static int	check_size(char *input)
 		rt++;
 		input++;
 	}
+	printf("CHECKSIZE : %d\n", rt);
 	return (rt);
 }
 
@@ -99,7 +100,7 @@ static char	*input_cmd(t_cmd *c, char *input, int size)
 }
 
 /*실제로 cmd에 인덱스 넣어주는과정*/
-char	*init_cmd(t_cmd *c, char **input, int cnt)
+char	*init_cmd(t_cmd *c, char **input)
 {
 	char	*tmp;
 	int		size;
@@ -111,10 +112,11 @@ char	*init_cmd(t_cmd *c, char **input, int cnt)
 	size = count(*input);
 	if (size == ERROR)
 		return (NULL);
-	if ((ft_strchr(*input, '>') || ft_strchr(*input, '<')) && !cnt)
+	if ((ft_strchr(*input, '>') || ft_strchr(*input, '<')) && ed_co(*input))
 	{
 		tmp = *input;
 		*input = edit_input(input);
+		//printf("----DONE----[%s]\n", *input);
 		if (*input == NULL)
 			return (NULL);
 		if (tmp != *input)

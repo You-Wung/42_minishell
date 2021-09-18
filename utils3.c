@@ -9,12 +9,13 @@ int	check_comma_index(t_match m)
 	return (0);
 }
 
-void	set_comma_index(char c, t_match *m)
+int	set_comma_index(char c, t_match *m)
 {
 	if (c == '\'' && m->dcomma % 2 == 0)
 		m->comma++;
 	else if (c == '\"' && m->comma % 2 == 0)
 		m->dcomma++;
+	return (1);
 }
 
 /*

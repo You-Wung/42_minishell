@@ -66,16 +66,17 @@ void	modify_input_for_option(char *input)
 	while (input[i] && input[i] != '|')
 	{
 		set_comma_index(*input, &m);
-		if ((input[i] == '>' || input[i] == '<') && check_comma_index(m))
+		if ((input[i] == '>' || input[i] == '<') && check_comma_index(m) && ++i)
 		{
-			i++;
 			if (input[i] == '>' || input[i] == '<')
 				i++;
 			while (input[i] && input[i] == ' ')
 				i++;
-			while (input[i] && input[i] != ' '
+			while (input[i] && input[i] != ' ' && input[i] != '|'
 				&& input[i] != '>' && input[i] != '<')
 				i++;
+			if (input[i] == '|')
+				return ;
 			if (input[i] && input[i] != '>' && input[i] != '<')
 				pull_options(input, i, find_opt(input));
 		}

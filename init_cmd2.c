@@ -54,6 +54,7 @@ static char	*set_after(char *input, int in)
 	while (input[in] && input[in] != ' ')
 		after[i++] = input[in++];
 	after[i] = '\0';
+	//printf("\t\tAFTER:%s\n", after);
 	return (after);
 }
 
@@ -96,6 +97,7 @@ char	*edit_input(char **input)
 	ft_memset(&m, 0, sizeof(t_match));
 	if (**input == '<' && *(*input + 1) == '<')
 		return (NULL);
+	//printf("----EDIT INPUT START----[%s]\n", *input);
 	while (*(*input + ++i))
 	{
 		set_comma_index(*(*input + i), &m);
@@ -104,7 +106,7 @@ char	*edit_input(char **input)
 			if (++cnt == 2)
 				return (save_cmd(*input, i));
 		if (*(*input + i) == '|')
-			return (*input);
+			return (save_cmd(*input, i));
 	}
 	if (*(*input + i) == '\0')
 		return (save_cmd(*input, i));

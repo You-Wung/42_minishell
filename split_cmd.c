@@ -4,10 +4,11 @@ extern t_ext	g_var;
 
 static int	find_error(char *c)
 {
-	if (error_check(c) == ERROR)
-		return (ERROR);
-	if ((*c == '|' && is_flag(*(c + 1)))
-		|| *c == ';'
+	//if (error_check(c) == ERROR)
+		//return (ERROR);
+	//if ((*c == '|' && is_flag(*(c + 1)))
+		//|| *c == ';'
+		if (*c == ';'
 		|| (is_flag(*c) && is_flag(*(c + 1)) && *c != *(c + 1))
 		|| (is_flag(*c) && is_flag(*(c + 1)) && *c != *(c + 1))
 		|| (*c == '>' && *(c + 1) == '<')
@@ -73,7 +74,7 @@ char	*fill_cmd(t_cmd **c, char **input)
 	while (*input && ++i < size)
 	{
 		if (!flag_check(*input))
-			*input = init_cmd(&(c[0][i]), input, i);
+			*input = init_cmd(&(c[0][i]), input);
 		if (*input == NULL || flag_check(*input))
 		{
 			printf("minishell: Error\n");

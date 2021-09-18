@@ -77,7 +77,7 @@ int		start_read(void);
 char	*make_prompt(void);
 
 char	*fill_cmd(t_cmd **c, char **input);/*cmd채우는 함수*/
-char	*init_cmd(t_cmd *c, char **input, int cnt);/*실제로 cmd에 인덱스 넣어주는과정*/
+char	*init_cmd(t_cmd *c, char **input);/*실제로 cmd에 인덱스 넣어주는과정*/
 int		count_cmd(char *input);/* | > < ; 기준으로 커맨드 몇개로 잘릴까 */
 char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
 int		check_input(char *input, t_match *m);
@@ -91,13 +91,14 @@ int		flag_check(char *input);
 void	input_plus_after(char *s1, char **s2, int *in);
 void	count_flag(t_cmd **c, int size);
 int		check_comma_index(t_match m);
-void	set_comma_index(char c, t_match *m);
+int		set_comma_index(char c, t_match *m);
 int		error_check(char *str);
 int		g_var_set(void);
 int		input_edited(void);
 int		full_check(char *str);
 int		count(char *input);
 void	modify_input_for_option(char *input);
+int		ed_co(char *input);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);
