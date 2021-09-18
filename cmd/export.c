@@ -87,8 +87,11 @@ int	use_export(t_env *env, char **cmd, int i)
 int	ft_export(t_env *env, char **cmd)
 {
 	int		i;
+	int		result;
+	int		re;
 
 	i = 1;
+	result = 0;
 	if (cmd[i] == NULL)
 	{
 		while (env && env->next != NULL)
@@ -100,8 +103,10 @@ int	ft_export(t_env *env, char **cmd)
 	}
 	while (cmd[i])
 	{
-		use_export(env, cmd, i);
+		re = use_export(env, cmd, i);
+		if (re != SUCCESS)
+			result = re;
 		i++;
 	}
-	return (SUCCESS);
+	return (result);
 }

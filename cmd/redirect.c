@@ -43,7 +43,7 @@ int	redi_one(char *str, int flag)
 	return (file);
 }
 
-void	redi_child(t_cmd *c, int n, int in, int out)
+void	redi_child(t_cmd *c, int n, int s_re)
 {
 	int	file;
 
@@ -51,36 +51,26 @@ void	redi_child(t_cmd *c, int n, int in, int out)
 	if (file == -1)
 		exit(1);
 	if (c[n - 1].flag == L_RE || c[n - 1].flag == L_APP)
-	{
-		if (out != 0)
-			dup2(out, STDOUT_FILENO);
 		dup2(file, STDIN_FILENO);
-	}
 	else if (c[n - 1].flag == R_APP || c[n - 1].flag == R_RE)
-	{
-		if (in != 0)
-			dup2(in, STDIN_FILENO);
 		dup2(file, STDOUT_FILENO);
-	}
-	if (n == g_var.size_re)
+	if (n == s_re)
 		g_var.qmark = use_redi_cmd(c);
 	close(file);
-	if (in != 0)
-		close(in);
 	exit(g_var.qmark);
 }
 
-int	check_L(t_cmd *c, int *in, int *out)
+int	check_L(t_cmd *c, int *in, int *out, int s_re)
 {
 	int		file;
 	int		n;
 
 	n = 0;
-	while (++n < g_var.size_re)
+	while (++n < s_re)
 	{
 		file = redi_one(c[n].cmd[0], c[n - 1].flag);
 		if (file == -1)
-			return (-1);
+			return (1);
 		if (file != -1
 			&& (c[n - 1].flag == L_RE || c[n - 1].flag == L_APP))
 			*in = file;
@@ -91,7 +81,7 @@ int	check_L(t_cmd *c, int *in, int *out)
 	return (n);
 }
 
-int	ft_redirect(t_cmd *c)
+int	ft_redirect(t_cmd *c, int s_re)
 {
 	pid_t	pid;
 	int		wstatus;
@@ -101,8 +91,8 @@ int	ft_redirect(t_cmd *c)
 
 	in = 0;
 	out = 0;
-	n = check_L(c, &in, &out);
-	if (n == -1)
+	n = check_L(c, &in, &out, s_re);
+	if (n == 1)
 		return (1);
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
@@ -112,7 +102,17 @@ int	ft_redirect(t_cmd *c)
 		return (ERROR);
 	}
 	else if (pid == 0)
-		redi_child(c, n, in, out);
+	{
+		if (in != 0)
+			dup2(in, STDIN_FILENO);
+		if (out != 0)
+			dup2(out, STDOUT_FILENO);
+		redi_child(c, n, s_re);
+		if (in != 0)
+			close(in);
+		if (out != 0)
+			close(out);
+	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &wstatus, 0);
