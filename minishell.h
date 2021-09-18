@@ -112,6 +112,8 @@ int		ft_unset(t_env **env, char **cmd);
 int		ft_pipe(t_cmd *c);
 
 void	print_error(int qmark, char *str);
+void	redi_parent(pid_t pid, t_cmd *c);
+void	in_out(int *in, int *out, int flag);
 int		vaild_env_name(char c);
 void	put_env(t_env *env, char *tmp);
 void	print_env(t_env *env);
