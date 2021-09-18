@@ -79,6 +79,8 @@ int	check_L(t_cmd *c, int *in, int *out)
 	while (++n < g_var.size_re)
 	{
 		file = redi_one(c[n].cmd[0], c[n - 1].flag);
+		if (file == -1)
+			return (-1);
 		if (file != -1
 			&& (c[n - 1].flag == L_RE || c[n - 1].flag == L_APP))
 			*in = file;
@@ -100,6 +102,8 @@ int	ft_redirect(t_cmd *c)
 	in = 0;
 	out = 0;
 	n = check_L(c, &in, &out);
+	if (n == -1)
+		return (1);
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
 	if (pid < 0)
