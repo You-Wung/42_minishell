@@ -71,6 +71,8 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 	while (wait(&wstatus) > 0)
 	{
 		g_var.qmark = WEXITSTATUS(wstatus);
+		if (g_var.qmark)
+			printf("minishell: no such file or directory\n");
 		print_error(g_var.qmark, "pipe");
 	}
 }
