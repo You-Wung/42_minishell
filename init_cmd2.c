@@ -92,10 +92,8 @@ char	*edit_input(char **input)
 {
 	t_match	m;
 	int		i;
-	int		cnt;
 
 	i = -1;
-	cnt = 0;
 	ft_memset(&m, 0, sizeof(t_match));
 	if (**input == '<' && *(*input + 1) == '<')
 		return (NULL);
@@ -103,10 +101,6 @@ char	*edit_input(char **input)
 	while (*(*input + ++i))
 	{
 		set_comma_index(*(*input + i), &m);
-		if ((*(*input + i) == '>' || *(*input + i) == '<')
-			&& check_comma_index(m))
-			if (++cnt == 2)
-				return (save_cmd(*input, i));
 		if (*(*input + i) == '|')
 			return (save_cmd(*input, i));
 	}
