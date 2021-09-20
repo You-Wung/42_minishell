@@ -18,6 +18,8 @@ char	*set_flag(t_cmd *c, char *input, int *sign)
 		|| *input == '|')
 	{
 		input++;
+		if (*(input - 1) == '|')
+			break ;
 		*sign = -1;
 	}
 	return (input);

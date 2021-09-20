@@ -116,7 +116,7 @@ char	*init_cmd(t_cmd *c, char **input)
 	{
 		tmp = *input;
 		*input = edit_input(input);
-		//printf("----DONE----[%s]\n", *input);
+		printf("input : [%s]\n", *input);
 		if (*input == NULL)
 			return (NULL);
 		if (tmp != *input)

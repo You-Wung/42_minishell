@@ -11,9 +11,9 @@ void	count_flag(t_cmd **c, int size)
 	{
 		if (c[0][i].flag == PIPE)
 			g_var.size_pi++;
-		if (c[0][i].flag == R_RE || c[0][i].flag == L_RE
-			|| c[0][i].flag == R_APP || c[0][i].flag == L_APP)
-			g_var.size_re++;
+		//if (c[0][i].flag == R_RE || c[0][i].flag == L_RE
+			//|| c[0][i].flag == R_APP || c[0][i].flag == L_APP)
+			//g_var.size_re++;
 	}
 }
 
@@ -47,11 +47,8 @@ int	flag_check(char *input)
 	while (input[++i])
 	{
 		set_comma_index(input[i], &m);
-		if (is_flag(input[i]) && is_flag(input[i + 1])
-			&& is_flag(input[i + 2]) && check_comma_index(m))
-			return (1);
-		if (is_flag(input[i]) && is_flag(input[i + 1])
-			&& (input[i] != input[i + 1]) && check_comma_index(m))
+		if (is_flag(input[i]) && is_flag(input[i + 1]) && is_flag(input[i + 2])
+			&& input[i + 1] != input[i + 2] && check_comma_index(m))
 			return (1);
 		if (input[i] == '|' && input[i + 1] == '|' && check_comma_index(m))
 			return (1);
