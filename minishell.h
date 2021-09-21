@@ -71,6 +71,15 @@ typedef struct s_ext
 	char			*fre;
 }	t_ext;
 
+typedef struct s_redi
+{
+	char	*str[256];
+	int		lapp;
+	int		i;
+	int		in;
+	int		out;
+}	t_redi;
+
 void	init_env(char **env);
 int		start_read(void);
 char	*make_prompt(void);
@@ -134,8 +143,8 @@ void	use_pipe(t_cmd *c, int (*fd)[2]);
 int		single_redirection(char *input);
 int		use_redi_cmd(t_cmd *c);
 int		use_cmd(t_cmd *c);
-void	redi_L_APP_op(int flag, char *str);
-void	redi_L_APP(char *str, int flag);
+void	redi_L_APP_op(int flag, char *str, t_redi *re);
+void	redi_L_APP(char *str, int flag, t_redi *re);
 int		is_have_path(char *str);
 
 #endif

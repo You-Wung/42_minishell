@@ -2,31 +2,6 @@
 
 extern t_ext	g_var;
 
-void	redi_L_APP_op(int flag, char *str)
-{
-	int		file;
-	char	*buf;
-
-	if (flag == 1)
-		file = open("./cmd/user_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while (1)
-	{
-		buf = readline(" > ");
-		if (!buf)
-			printf("%c[1A %c[3C", 27, 27);
-		if (!buf || ft_strcmp(buf, str) == 0)
-			exit(0);
-		if (buf && flag == 1)
-		{
-			write(file, buf, ft_strlen(buf));
-			write(file, "\n", 1);
-		}
-		free(buf);
-	}
-	if (flag == 1)
-		close(file);
-}
-
 int	redirect_one(char *str, int flag)
 {
 	int		file;
@@ -34,7 +9,7 @@ int	redirect_one(char *str, int flag)
 	file = 0;
 	if (flag == L_APP)
 	{
-		redi_L_APP(str, 0);
+		redi_L_APP(str, 0, NULL);
 		return (0);
 	}
 	else if (flag == L_RE)
