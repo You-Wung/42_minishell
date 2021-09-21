@@ -46,7 +46,7 @@ static char	*set_after(char *input, int in)
 
 	i = 0;
 	after = malloc(sizeof(char) * ft_strlen(input) + 10);
-	while (is_flag(input[in]))
+	while (input[in] && (is_flag(input[in]) || input[in] == ' '))
 		after[i++] = input[in++];
 	while (input[in] && input[in] == ' ')
 	{
@@ -55,6 +55,7 @@ static char	*set_after(char *input, int in)
 	}
 	while (input[in] && input[in] != ' ')
 		after[i++] = input[in++];
+	after[i++] = ' ';
 	after[i] = '\0';
 	//printf("\t\tAFTER:%s\n", after);
 	return (after);
@@ -67,11 +68,9 @@ static char	*save_cmd(char *input, int i)
 	char	*ret;
 	char	*after;
 
-	ret = (char *)malloc(sizeof(char) * (ft_strlen(input) + 2));
+	ret = (char *)malloc(sizeof(char) * (ft_strlen(input) + 10));
 	in = 0;
 	in2 = 0;
-	while (input[in] && !is_flag(input[in]))
-		ret[in2++] = input[in++];
 	after = set_after(input, in);
 	while (is_flag(input[in]) || input[in] == ' ')
 		in++;
@@ -86,10 +85,11 @@ static char	*save_cmd(char *input, int i)
 		ret[in2++] = input[in++];
 	ret[in2] = '\0';
 	modify_input_for_option(ret);
+	//printf("ret : [%s]\n", ret);
 	return (ret);
 }
 
-char	*edit_input(char **input)
+char	*edit_input(char **input, int sign)
 {
 	t_match	m;
 	int		i;
@@ -98,22 +98,22 @@ char	*edit_input(char **input)
 	i = -1;
 	cnt = 0;
 	ft_memset(&m, 0, sizeof(t_match));
-	if (**input == '<' && *(*input + 1) == '<')
-		return (NULL);
-	while (*(*input + ++i))
+	while (*(*input + ++i) && sign)
 	{
 		set_comma_index(*(*input + i), &m);
-		if (is_re(*(*input + i) && check_comma_index(m)))
+		if (is_re(*(*input + i)) && check_comma_index(m) && ++cnt)
 		{
 			if (is_re(*(*input + i + 1)))
 				i++;
-			if (++cnt == 2)
+			if (cnt == 2)
 				return (save_cmd(*input, i));
 		}
-		if (*(*input + i) == '|')
+		if (*(*input + i) == '|' && check_comma_index(m))
 			return (save_cmd(*input, i));
 	}
-	if (*(*input + i) == '\0')
+	if (sign)
 		return (save_cmd(*input, i));
+	else
+		modify_input_for_option(*input);
 	return (*input);
 }

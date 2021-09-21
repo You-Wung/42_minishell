@@ -21,13 +21,13 @@ static t_cmd	*malloc_c(char *input)
 	int		size;
 
 	size = count_cmd(input);
-	g_var.first_input_size = size;
 	if (size == ERROR)
 	{
 		printf("minishell : error\n");
 		g_var.qmark = 258;
 		return (NULL);
 	}
+	g_var.first_input_size = size;
 	c = (t_cmd *)malloc(sizeof(t_cmd) * size);
 	ft_memset(c, 0, sizeof(t_cmd) * size);
 	return (c);
@@ -93,14 +93,13 @@ int	start_read(void)
 		c = malloc_c(input);
 		if (g_var_set() && c && fill_cmd(&c, &input) && ++g_var.writing)
 		{	
-			// if (&c[0] && c[0].cmd[0])
-			 	//printf("c[0].cmd[0] : [%s]%d\n", c[0].cmd[0], c[0].flag);
-			// if (&c[1] && c[1].cmd[0])
-			 	//printf("c[1].cmd[0] : [%s]%d\n", c[1].cmd[0], c[1].flag);
-			// if (&c[2] && c[2].cmd[0])
-			 	//printf("c[2].cmd[0] : [%s]%d\n", c[2].cmd[0], c[2].flag);
-			// if (&c[3] && c[3].cmd[0])
-			 	//printf("c[3].cmd[0] : [%s]%d\n", c[3].cmd[0], c[3].flag);
+			for(int i=0; i<g_var.first_input_size; i++)
+			{
+				for(int j=0; c[i].cmd[j]; j++)
+				{
+					printf("c[%d].cmd[%d] : [%s]\n", i, j, c[i].cmd[j]);
+				}
+			}
 			printf("___START\n");
 			g_var.qmark = exec_cmd(c);
 			printf("___END\n");

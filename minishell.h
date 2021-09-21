@@ -82,7 +82,7 @@ char	*set_flag(t_cmd *c, char *input, int *sign);/*flag 설정*/
 int		check_input(char *input, t_match *m);
 void	init_signal(void);/*시그널 처리*/
 int		is_flag(char c);
-char	*edit_input(char **input);
+char	*edit_input(char **input, int sign);
 void	check_qmark(char **str);
 int		all_space(char **input);
 void	set_vars(int *i, int *in, char **tmp, char **str);
@@ -99,6 +99,7 @@ int		count(char *input);
 void	modify_input_for_option(char *input);
 int		ed_co(char *input);
 int		is_re(char c);
+int		put_sign(char *str);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

@@ -38,16 +38,16 @@ int	error_check(char *str)
 	{
 		smth = 0;
 		set_comma_index(*str, &m);
-		if (is_flag(*str) && *(str + 1))
+		if (is_re(*str) && *(str + 1))
 		{
 			if (*str == *(str + 1))
 				str++;
 			str++;
 			while (*str == ' ')
 				str++;
-			while (*str && *str != ' ' && !is_flag(*str) && ++smth)
+			while (*str && *str != ' ' && !is_re(*str) && ++smth)
 				str++;
-			if (*str && is_flag(*str) && check_comma_index(m) && !smth)
+			if (*str && is_re(*str) && check_comma_index(m) && !smth)
 				return (ERROR);
 		}
 		if (!*str)

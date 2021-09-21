@@ -26,3 +26,15 @@ int	is_re(char c)
 		return (1);
 	return (0);
 }
+
+int	put_sign(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
+	if (is_flag(str[i]))
+		return (1);
+	return (0);
+}

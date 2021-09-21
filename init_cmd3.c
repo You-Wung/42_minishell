@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+static int	checking(char *input, int i)
+{
+	while (input[i] && input[i] == ' ')
+		i++;
+	if (input[i] == '|')
+		return (1);
+	return (0);
+}
+
 static int	find_opt(char *input)
 {
 	int		i;
@@ -59,25 +68,22 @@ static void	pull_options(char *input, int i, int opt)
 void	modify_input_for_option(char *input)
 {
 	int		i;
-	t_match	m;
 
 	i = 0;
-	ft_memset(&m, 0, sizeof(t_match));
 	while (input[i] && input[i] != '|')
 	{
-		set_comma_index(*input, &m);
-		if ((input[i] == '>' || input[i] == '<') && check_comma_index(m) && ++i)
+		if (is_re(input[i]) && ++i)
 		{
-			if (input[i] == '>' || input[i] == '<')
+			if (is_re(input[i]))
 				i++;
 			while (input[i] && input[i] == ' ')
 				i++;
 			while (input[i] && input[i] != ' ' && input[i] != '|'
 				&& input[i] != '>' && input[i] != '<')
 				i++;
-			if (input[i] == '|')
+			if (checking(input, i))
 				return ;
-			if (input[i] && input[i] != '>' && input[i] != '<')
+			if (input[i] && !is_re(input[i]))
 				pull_options(input, i, find_opt(input));
 		}
 		else
