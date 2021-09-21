@@ -33,10 +33,9 @@ void	exec_pipe(t_cmd *c, int fd[2], int flags)
 
 int	check_flag_pipe(int j, t_cmd *c)
 {
-	if (2 <= c[j].flag && c[j].flag <= 5)
-		j += 2;
-	else
+	while (2 <= c[j].flag && c[j].flag <= 5)
 		j++;
+	j++;
 	return (j);
 }
 

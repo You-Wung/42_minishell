@@ -34,7 +34,8 @@ int	redi_one(char *str, int flag)
 		file = open(str, O_RDONLY);
 	if (file < 0)
 	{
-		printf("minishell: %s: no such file or directory\n", str);
+		if (g_var.size_pi == 0)
+			printf("minishell: %s: no such file or directory\n", str);
 		return (-1);
 	}
 	return (file);
@@ -92,7 +93,10 @@ int	check_L(t_cmd *c, int *in, int *out, int s_re)
 		if (file == -1)
 			return (-1);
 		if (c[n - 1].flag == L_APP)
+		{
+
 			lapp = n;
+		}
 		if (c[n - 1].flag == L_RE)
 			*in = file;
 		else if (c[n - 1].flag == R_RE || c[n - 1].flag == R_APP)
