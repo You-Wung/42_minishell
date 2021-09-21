@@ -115,8 +115,9 @@ char	*init_cmd(t_cmd *c, char **input)
 	if ((ft_strchr(*input, '>') || ft_strchr(*input, '<')) && ed_co(*input))
 	{
 		tmp = *input;
+		printf("\t\tBEFORE\tinput : [%s]\n", *input);
 		*input = edit_input(input);
-		printf("input : [%s]\n", *input);
+		printf("\t\tAFTER\tinput : [%s]\n", *input);
 		if (*input == NULL)
 			return (NULL);
 		if (tmp != *input)

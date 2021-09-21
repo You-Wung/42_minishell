@@ -5,12 +5,8 @@ extern t_ext	g_var;
 static int	find_error(char *c)
 {
 	if (error_check(c) == ERROR)
-		//return (ERROR);
-	//if ((*c == '|' && is_flag(*(c + 1)))
-		//|| *c == ';'
-		if (*c == ';'
-		//|| (is_flag(*(c + 2)) && is_flag(*(c + 1)) && *c != *(c + 1))
-		//|| (is_flag(*(c + 2)) && is_flag(*(c + 1)) && *c != *(c + 1))
+		return (ERROR);
+	if (*c == ';'
 		|| (*c == '>' && *(c + 1) == '<')
 		|| (*c == '<' && *(c + 1) == '>'))
 		return (ERROR);

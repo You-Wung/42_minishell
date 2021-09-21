@@ -47,7 +47,7 @@ void	sigint_handler(int signo)
 		g_var.sig_qmark = 1;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		 rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -64,10 +64,10 @@ static void	sigquit_handler(int signo)
 	else if (g_var.writing <= 0 || g_var.writing == 2)
 	{
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		 rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	//  rl_replace_line("", 0);
+	  rl_replace_line("", 0);
 }
 
 void	init_signal(void)

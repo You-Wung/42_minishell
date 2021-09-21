@@ -63,7 +63,6 @@ typedef struct s_ext
 	int				pnum;
 	int				writing;	
 	int				size_pi;
-	//int				size_re;
 	t_env			*env;
 	char			**n_env;
 	int				qmark;
@@ -99,6 +98,7 @@ int		full_check(char *str);
 int		count(char *input);
 void	modify_input_for_option(char *input);
 int		ed_co(char *input);
+int		is_re(char c);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

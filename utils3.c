@@ -60,7 +60,6 @@ int	error_check(char *str)
 int	g_var_set(void)
 {
 	g_var.size_pi = 0;
-	//g_var.size_re = 0;
 	g_var.pnum = 0;
 	g_var.fre = NULL;
 	return (1);
