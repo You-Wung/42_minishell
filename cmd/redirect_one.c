@@ -2,6 +2,23 @@
 
 extern t_ext	g_var;
 
+void	redi_L_APP(char *str, int flag, t_redi *re)
+{
+	int		wstatus;
+	int		pid;
+
+	pid = fork();
+	g_var.writing = 2;
+	if (pid == 0)
+		redi_L_APP_op(flag, str, re);
+	else if (pid > 0)
+	{
+		g_var.writing = 3;
+		waitpid(pid, &wstatus, 0);
+		g_var.writing = 0;
+	}
+}
+
 int	redirect_one(char *str, int flag)
 {
 	int		file;

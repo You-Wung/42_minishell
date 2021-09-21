@@ -143,8 +143,10 @@ void	use_pipe(t_cmd *c, int (*fd)[2]);
 int		single_redirection(char *input);
 int		use_redi_cmd(t_cmd *c);
 int		use_cmd(t_cmd *c);
+int		redi_child(t_cmd *c, t_redi *re, int s_re);
 void	redi_L_APP_op(int flag, char *str, t_redi *re);
 void	redi_L_APP(char *str, int flag, t_redi *re);
+int		redi_one(char *str, int flag);
 int		is_have_path(char *str);
 
 #endif
