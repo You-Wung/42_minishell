@@ -59,7 +59,7 @@ static void	freee_c(t_cmd **c)
 	int	j;
 
 	j = 0;
-	while (j < g_var.first_input_size && &(c[0][j]))
+	while (*c && j < g_var.first_input_size && &(c[0][j]))
 	{
 		i = -1;
 		if (c[0][j].cmd)
