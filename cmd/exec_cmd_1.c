@@ -20,10 +20,25 @@ void	check_path_env(char **path_env, char **cmd)
 
 void	print_error(int qmark, char *str)
 {
-	if (qmark == 127)
-		printf("minishell: %s: command not found.\n", str);
-	if (qmark == 126)
-		printf("minishell: Permission denied\n");
+	char	*error;
+
+	error = "";
+	if (qmark == 1)
+	{
+		error = ft_strjoin(error, "minishell: ");
+		error = ft_strjoin(error, str);
+		error = ft_strjoin(error, ": no such file or directory\n");
+	}
+	else if (qmark == 127)
+	{
+		error = ft_strjoin(error, "minishell: ");
+		error = ft_strjoin(error, str);
+		error = ft_strjoin(error, ": command not found.\n");
+	}
+	else if (qmark == 126)
+		error = ft_strjoin(error, "minishell: Permission denied\n");
+	if (qmark == 1 || qmark == 127 || qmark == 126)
+		write(2, error, ft_strlen(error));
 }
 
 static int	permission_check(char **cmd)

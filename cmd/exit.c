@@ -25,6 +25,16 @@ int	end_shell(int flag, int exit_status)
 	return (0);
 }
 
+int	check_exit_sta(char **cmd)
+{
+	int	exit_status;
+
+	exit_status = ft_atoi(cmd[1]);
+	if (exit_status >= 255)
+		exit_status = 255;
+	return (exit_status);
+}
+
 int	ft_exit(char **cmd, int flag)
 {
 	int	exit_status;
@@ -46,7 +56,7 @@ int	ft_exit(char **cmd, int flag)
 	}
 	else if (cmd[1])
 	{
-		exit_status = ft_atoi(cmd[1]);
+		exit_status = check_exit_sta(cmd);
 		if (ft_strlen(cmd[1]) >= 20)
 			printf("minishell: %s: numeric argument required\n", cmd[1]);
 		end_shell(flag, exit_status);

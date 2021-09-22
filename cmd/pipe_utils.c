@@ -68,13 +68,5 @@ void	use_pipe(t_cmd *c, int (*fd)[2])
 	close(fd[i][0]);
 	j = 0;
 	while (wait(&wstatus) > 0)
-	{
 		g_var.qmark = WEXITSTATUS(wstatus);
-		if (g_var.qmark == 1)
-			printf("minishell: no such file or directory\n");
-		if (g_var.qmark == 127)
-			printf("minishell: command not found.\n");
-		if (g_var.qmark == 126)
-			printf("minishell: Permission denied\n");
-	}
 }
