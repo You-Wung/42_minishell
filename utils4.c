@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+extern t_ext	g_var;
+
+void	g_var_fre(void)
+{
+	if (g_var.fre)
+	{
+		free(g_var.fre);
+		g_var.fre = 0;
+	}
+}
+
 //먼 나오는 플래그
 int	ed_co(char *input)
 {

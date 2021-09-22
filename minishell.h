@@ -18,7 +18,7 @@
 # include <errno.h>
 
 /*define of color*/
-# define COLOR_SET "\x1b[1;94m"
+# define COLOR_SET "\x1b[1;93m"
 # define COLOR_RESET "\x1b[0m"
 /*define for flag*/
 # define PIPE 1/* | */
@@ -109,6 +109,7 @@ void	modify_input_for_option(char *input);
 int		ed_co(char *input);
 int		is_re(char c);
 int		put_sign(char *str);
+void	g_var_fre(void);
 
 /* 명령어 */
 int		ft_cd(t_env *env, char **cmd);

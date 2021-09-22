@@ -77,6 +77,7 @@ char	*fill_cmd(t_cmd **c, char **input)
 			g_var.qmark = 258;
 			return (NULL);
 		}
+		g_var_fre();
 	}
 	count_flag(c, size);
 	return (*input);

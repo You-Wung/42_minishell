@@ -47,11 +47,11 @@ static void	pull_options(char *input, int i, int opt)
 		return ;
 	while (++in < opt)
 		buf[in] = input[in];
-	while (input[i])
+	while (input[i] && input[i] != '|')
 	{
 		set_comma_index(input[i], &m);
-		if (check_comma_index(m) && (input[i] == '>' || input[i] == '<'))
-			return ;
+		if (check_comma_index(m) && is_re(input[i]))
+			break ;
 		buf[in++] = input[i];
 		j = i - 1;
 		while (input[++j])

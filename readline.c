@@ -106,8 +106,6 @@ int	start_read(void)
 			g_var.writing = 0;
 		}
 		freee_c(&c);
-		if (g_var.fre)
-			free(g_var.fre);
 		free(tmp);
 	}
 	return (0);

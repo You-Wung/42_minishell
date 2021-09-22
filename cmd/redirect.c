@@ -54,11 +54,10 @@ void	redi_parent(pid_t pid, t_cmd *c)
 int	ft_redirect(t_cmd *c, int s_re)
 {
 	pid_t	pid;
-	t_redi	*re;
+	t_redi	re;
 
-	re = malloc(sizeof(t_redi) * 1);
-	redi_init(re);
-	if (check_L(c, re, s_re) == -1)
+	redi_init(&re);
+	if (check_L(c, &re, s_re) == -1)
 		return (1);
 	pid = fork();
 	g_var.pid[g_var.pnum++] = pid;
@@ -69,8 +68,8 @@ int	ft_redirect(t_cmd *c, int s_re)
 	}
 	else if (pid == 0)
 	{
-		g_var.qmark = redi_child(c, re, s_re);
-		close_in_out(re);
+		g_var.qmark = redi_child(c, &re, s_re);
+		close_in_out(&re);
 		exit (g_var.qmark);
 	}
 	else if (pid > 0)
