@@ -37,7 +37,8 @@ int	redirect_one(char *str, int flag)
 		file = open(str, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (file < 0)
 	{
-		printf("minishell: no such file or directory: %s\n", str);
+		write(2, "minishell: no such file or directory\n"
+			,ft_strlen("minishell: no such file or directory\n"));
 		return (1);
 	}
 	close(file);

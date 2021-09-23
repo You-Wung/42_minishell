@@ -56,8 +56,10 @@ void	redi_L_APP_op(int flag, char *str, t_redi *re)
 
 int	redi_one(char *str, int flag)
 {
-	int	file;
+	int		file;
+	char	*buf;
 
+	buf = "";
 	file = 0;
 	if (flag == R_APP)
 		file = open(str, O_RDWR | O_CREAT | O_APPEND, 0644);
@@ -70,7 +72,12 @@ int	redi_one(char *str, int flag)
 	if (file < 0)
 	{
 		if (g_var.size_pi == 0)
-			printf("minishell: %s: no such file or directory\n", str);
+		{
+			buf = ft_strjoin(buf, "minishell: ");
+			buf = ft_strjoin(buf, str);
+			buf = ft_strjoin(buf, ": no such file or directory\n");
+			write(2, buf, ft_strlen(buf));
+		}
 		return (-1);
 	}
 	return (file);

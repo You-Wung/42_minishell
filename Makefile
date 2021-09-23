@@ -45,6 +45,7 @@ LIBFT = libft/ft_memset.c\
 		libft/ft_strdup.c\
 		libft/ft_strcmp.c\
 		libft/ft_itoa.c\
+		libft/ft_putstr_fd.c\
 		libft/ft_strchr.c
 
 $(NAME) : $(SRCS) $(LIBFT)

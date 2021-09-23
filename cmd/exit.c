@@ -35,6 +35,17 @@ int	check_exit_sta(char **cmd)
 	return (exit_status);
 }
 
+void	print_exit_error(char *str)
+{
+	char	*buf;
+
+	buf = "";
+	buf = ft_strjoin(buf, "minishell: ");
+	buf = ft_strjoin(buf, str);
+	buf = ft_strjoin(buf, ": numeric argument required\n");
+	write(2, buf, ft_strlen(buf));
+}
+
 int	ft_exit(char **cmd, int flag)
 {
 	int	exit_status;
@@ -46,19 +57,19 @@ int	ft_exit(char **cmd, int flag)
 	else if (cmd[1] && cmd[2])
 	{
 		exit_status = 1;
-		printf("minishell: too many arguments\n");
+		ft_putstr_fd("minishell: too many arguments\n", 2);
 	}
 	else if (cmd[1] && is_num(cmd[1]) == ERROR)
 	{
 		exit_status = 255;
-		printf("minishell: numeric argument required\n");
+		ft_putstr_fd("minishell: numeric argument required\n", 2);
 		end_shell(flag, exit_status);
 	}
 	else if (cmd[1])
 	{
 		exit_status = check_exit_sta(cmd);
 		if (ft_strlen(cmd[1]) >= 20)
-			printf("minishell: %s: numeric argument required\n", cmd[1]);
+			print_exit_error(cmd[1]);
 		end_shell(flag, exit_status);
 	}
 	return (exit_status);

@@ -65,14 +65,20 @@ void	main_env(t_env *env, t_cmd *c, char **tmp, int size)
 
 int	check_error_env(t_cmd *c, int i)
 {
+	char	*buf;
+
+	buf = "";
 	if (ft_strcmp(c->cmd[i], "=") == 0)
 	{
-		printf("minishell: env: =: Invalid argument\n");
+		ft_putstr_fd("minishell: env: =: Invalid argument\n", 2);
 		return (1);
 	}
 	else if (equl_num(c->cmd[i]) == 0)
 	{
-		printf("minishell: env: %s: error\n", c->cmd[i]);
+		buf = ft_strjoin(buf, "minishell: env: ");
+		buf = ft_strjoin(buf, c->cmd[i]);
+		buf = ft_strjoin(buf, ": error\n");
+		write(2, buf, ft_strlen(buf));
 		return (127);
 	}
 	return (0);
