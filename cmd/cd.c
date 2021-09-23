@@ -1,5 +1,21 @@
 #include "../minishell.h"
 
+void	print_cd_error(int flag, char *str)
+{
+	char	*error;
+
+	error = "";
+	if (flag == 1)
+		error = ft_strjoin(error, "minishell: No such file or directory.\n");
+	else if (flag == 2)
+	{
+		error = ft_strjoin(error, "minishell: ");
+		error = ft_strjoin(error, str);
+		error = ft_strjoin(error, "not set.\n");
+	}
+	write(2, error, ft_strlen(error));
+}
+
 int	move_env_path(t_env *env, char *env_name)
 {
 	while (env && env->next)
@@ -8,14 +24,14 @@ int	move_env_path(t_env *env, char *env_name)
 		{
 			if (chdir(env->content) != 0)
 			{
-				printf("minishell: No such file or directory.\n");
+				print_cd_error(1, NULL);
 				return (ERROR);
 			}
 			return (SUCCESS);
 		}
 		env = env->next;
 	}
-	printf("minishell: %s not set.\n", env_name);
+	print_cd_error(2, env_name);
 	return (ERROR);
 }
 
@@ -37,7 +53,7 @@ int	ft_cd(t_env *env, char **cmd)
 	{
 		if (chdir(cmd[1]) != 0)
 		{
-			printf("minishell: No such file or directory.\n");
+			print_cd_error(1, NULL);
 			return (1);
 		}
 	}

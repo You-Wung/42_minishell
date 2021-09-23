@@ -45,10 +45,21 @@ void	close_in_out(t_redi *re)
 void	redi_parent(pid_t pid, t_cmd *c)
 {
 	int		wstatus;
+	char	*error;
 
+	error = "";
 	waitpid(pid, &wstatus, 0);
 	g_var.qmark = WEXITSTATUS(wstatus);
-	print_error(g_var.qmark, c->cmd[0]);
+	if (g_var.qmark == 127)
+	{
+		error = ft_strjoin(error, "minishell: ");
+		error = ft_strjoin(error, c->cmd[0]);
+		error = ft_strjoin(error, ": command not found.\n");
+	}
+	else if (g_var.qmark == 126)
+		error = ft_strjoin(error, "minishell: Permission denied\n");
+	if (g_var.qmark == 127 || g_var.qmark == 126)
+		write(2, error, ft_strlen(error));
 }
 
 int	ft_redirect(t_cmd *c, int s_re)
