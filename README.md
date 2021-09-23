@@ -1,6 +1,6 @@
 # minishell
 
-2021. 07. 19 ~ 2021. 09. 24
+2021.07.19 ~ 2021.09.24
 
 minishell is from 42 subject.
 
