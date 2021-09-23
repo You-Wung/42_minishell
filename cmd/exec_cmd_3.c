@@ -43,8 +43,8 @@ int	use_cmd(t_cmd *c)
 		g_var.qmark = 0;
 		if (c->cmd[0])
 			g_var.qmark = run_cmd(c->cmd, g_var.env);
+		print_error(g_var.qmark, c->cmd[0]);
 	}
-	print_error(g_var.qmark, c->cmd[0]);
 	return (g_var.qmark);
 }
 
