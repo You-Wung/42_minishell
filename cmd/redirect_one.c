@@ -15,7 +15,6 @@ void	redi_L_APP(char *str, int flag, t_redi *re)
 	{
 		g_var.writing = 3;
 		waitpid(pid, &wstatus, 0);
-		//g_var.writing = 0;
 	}
 }
 

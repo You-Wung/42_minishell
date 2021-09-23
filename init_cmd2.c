@@ -57,7 +57,6 @@ static char	*set_after(char *input, int in)
 		after[i++] = input[in++];
 	after[i++] = ' ';
 	after[i] = '\0';
-	//printf("\t\tAFTER:%s\n", after);
 	return (after);
 }
 
@@ -85,7 +84,6 @@ static char	*save_cmd(char *input, int i)
 		ret[in2++] = input[in++];
 	ret[in2] = '\0';
 	modify_input_for_option(ret);
-	//printf("ret : [%s]\n", ret);
 	return (ret);
 }
 

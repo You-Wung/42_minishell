@@ -93,17 +93,8 @@ int	start_read(void)
 		c = malloc_c(input);
 		if (g_var_set() && c && fill_cmd(&c, &input) && ++g_var.writing)
 		{
-			//for(int i=0; i<g_var.first_input_size; i++)
-			//{
-			//	for(int j=0; c[i].cmd && c[i].cmd[j]; j++)
-			//	{
-			//		printf("c[%d].cmd[%d] : [%s]\n", i, j, c[i].cmd[j]);
-			//	}
-			//}
-			//printf("___START\n");
 			if (c && c[0].cmd)
 				g_var.qmark = exec_cmd(c);
-			//printf("___END\n");
 			if (g_var.writing == 1)
 				g_var.writing = 0;
 		}
