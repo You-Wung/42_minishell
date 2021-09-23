@@ -71,13 +71,10 @@ int	redi_one(char *str, int flag)
 		file = open(str, O_RDONLY);
 	if (file < 0)
 	{
-		if (g_var.size_pi == 0)
-		{
-			buf = ft_strjoin(buf, "minishell: ");
-			buf = ft_strjoin(buf, str);
-			buf = ft_strjoin(buf, ": no such file or directory\n");
-			write(2, buf, ft_strlen(buf));
-		}
+		buf = ft_strjoin(buf, "minishell: ");
+		buf = ft_strjoin(buf, str);
+		buf = ft_strjoin(buf, ": no such file or directory\n");
+		write(2, buf, ft_strlen(buf));
 		return (-1);
 	}
 	return (file);
