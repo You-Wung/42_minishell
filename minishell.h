@@ -150,5 +150,6 @@ void	redi_L_APP_op(int flag, char *str, t_redi *re);
 void	redi_L_APP(char *str, int flag, t_redi *re);
 int		redi_one(char *str, int flag);
 int		is_have_path(char *str);
+int		check_error_env(char *str, int flag);
 
 #endif

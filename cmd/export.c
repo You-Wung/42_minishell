@@ -66,10 +66,12 @@ int	use_export(t_env *env, char **cmd, int i)
 {
 	char	**tmp;
 
+	if (check_error_env(cmd[i], 0) == 1)
+		return (1);
 	tmp = ft_split(cmd[i], '=');
 	if (vaild_env(tmp[0]) == 0)
 	{
-		printf("minishell: %s: not a valid identifier.\n", cmd[i]);
+		printf("minishell: %s: not a valid identifier.\n", tmp[0]);
 		free_2char(tmp);
 		return (1);
 	}
