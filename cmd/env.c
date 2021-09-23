@@ -63,20 +63,23 @@ void	main_env(t_env *env, t_cmd *c, char **tmp, int size)
 	}
 }
 
-int	check_error_env(t_cmd *c, int i)
+int	check_error_env(char *str, int flag)
 {
 	char	*buf;
 
 	buf = "";
-	if (ft_strcmp(c->cmd[i], "=") == 0)
-	{
-		ft_putstr_fd("minishell: env: =: Invalid argument\n", 2);
-		return (1);
-	}
-	else if (equl_num(c->cmd[i]) == 0)
+	if (str[0] == '=')
 	{
 		buf = ft_strjoin(buf, "minishell: env: ");
-		buf = ft_strjoin(buf, c->cmd[i]);
+		buf = ft_strjoin(buf, str);
+		buf = ft_strjoin(buf, ": Invalid argument\n");
+		write(2, buf, ft_strlen(buf));
+		return (1);
+	}
+	else if (equl_num(str) == 0 && flag == 1)
+	{
+		buf = ft_strjoin(buf, "minishell: env: ");
+		buf = ft_strjoin(buf, str);
 		buf = ft_strjoin(buf, ": error\n");
 		write(2, buf, ft_strlen(buf));
 		return (127);
@@ -97,7 +100,7 @@ int	ft_env(t_env *env, t_cmd *c)
 	{
 		if (ft_strcmp(c->cmd[i], "env") != 0)
 		{
-			size = check_error_env(c, i) != 0;
+			size = check_error_env(c->cmd[i], 1) != 0;
 			if (size != 0)
 				return (size);
 			tmp[j] = make_tmp(env, c->cmd[i], tmp, j);
