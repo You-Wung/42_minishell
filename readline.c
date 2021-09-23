@@ -5,10 +5,10 @@ extern t_ext	g_var;
 static void	input_is_null(void)
 {
 	printf("%c[1A", 27);
-	if (g_var.writing == -1)
+	if (g_var.writing == 4)
 		printf(" >  %sexit\n", make_prompt());
 	else
-		printf("%s exit\n", make_prompt());
+		printf("%sexit\n", make_prompt());
 	printf(COLOR_RESET);
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_var.restore);
 	exit(0);
@@ -92,18 +92,20 @@ int	start_read(void)
 		add_history(input);
 		c = malloc_c(input);
 		if (g_var_set() && c && fill_cmd(&c, &input) && ++g_var.writing)
-		{	
-			for(int i=0; i<g_var.first_input_size; i++)
-			{
-				for(int j=0; c[i].cmd[j]; j++)
-				{
-					printf("c[%d].cmd[%d] : [%s]\n", i, j, c[i].cmd[j]);
-				}
-			}
-			printf("___START\n");
-			g_var.qmark = exec_cmd(c);
-			printf("___END\n");
-			g_var.writing = 0;
+		{
+			//for(int i=0; i<g_var.first_input_size; i++)
+			//{
+			//	for(int j=0; c[i].cmd && c[i].cmd[j]; j++)
+			//	{
+			//		printf("c[%d].cmd[%d] : [%s]\n", i, j, c[i].cmd[j]);
+			//	}
+			//}
+			//printf("___START\n");
+			if (c && c[0].cmd)
+				g_var.qmark = exec_cmd(c);
+			//printf("___END\n");
+			if (g_var.writing == 1)
+				g_var.writing = 0;
 		}
 		freee_c(&c);
 		free(tmp);

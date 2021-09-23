@@ -15,33 +15,21 @@ void	redi_L_APP(char *str, int flag, t_redi *re)
 	{
 		g_var.writing = 3;
 		waitpid(pid, &wstatus, 0);
-		g_var.writing = 0;
+		//g_var.writing = 0;
 	}
 }
 
 int	redirect_one(char *str, int flag)
 {
-	int		file;
+	int	ret;
 
-	file = 0;
-	if (flag == L_APP)
+	ret = redi_one(str, flag);
+	if (ret == 0)
 	{
 		redi_L_APP(str, 0, NULL);
 		return (0);
 	}
-	else if (flag == L_RE)
-		file = open(str, O_RDONLY);
-	else if (flag == R_APP)
-		file = open(str, O_RDWR | O_CREAT | O_APPEND, 0644);
-	else if (flag == R_RE)
-		file = open(str, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (file < 0)
-	{
-		write(2, "minishell: no such file or directory\n",
-			ft_strlen("minishell: no such file or directory\n"));
-		return (1);
-	}
-	close(file);
+	close(ret);
 	return (0);
 }
 
@@ -71,37 +59,40 @@ int	check_conditon(char *input)
 		i++;
 	while (input[i] && (input[i] == '>' || input[i] == '<' || input[i] == ' '))
 		i++;
-	while (input[i] && input[i] != ' ')
+	while (input[i] && input[i] != ' ' && input[i] != '|')
 		i++;
-	if (!input[i])
+	while (input[i] && input[i] == ' ')
+		i++;
+	if (!input[i] || input[i] == '|')
 		return (0);
 	return (1);
 }
 
-int	single_redirection(char *input)
+char	*single_redirection(char *input)
 {
-	int	i;
-	int	flag;
-	int	cp;
+	char	buf[125];
+	int		i;
+	int		in;
+	int		flag;
+	int		cp;
 
 	i = 0;
 	if (check_conditon(input))
-		return (0);
+		return (input);
 	while (input[i] && input[i] == ' ')
 		i++;
 	if (flagg(input, &flag, i))
-		return (0);
+		return (input);
 	while (input[i] && (input[i] == '>' || input[i] == '<' || input[i] == ' '))
 		i++;
 	cp = i;
-	while (input[i] && input[i] != ' ')
+	in = 0;
+	while (input[i] && input[i] != ' ' && input[i] != '|'
+		&& !is_re(input[i]) && in < 124)
+		buf[in++] = input[i++];
+	buf[in] = '\0';
+	while (input[i] && (input[i] == ' ' || input[i] == '|' ))
 		i++;
-	while (input[i] && input[i] == ' ')
-		input[i++] = '\0';
-	if (!input[i])
-	{
-		g_var.qmark = redirect_one(&input[cp], flag);
-		return (1);
-	}
-	return (0);
+	g_var.qmark = redirect_one(&buf[0], flag);
+	return (&input[i]);
 }

@@ -67,7 +67,6 @@ static int	check_size(char *input)
 		rt++;
 		input++;
 	}
-	//printf("CHECKSIZE : %d\n", rt);
 	return (rt);
 }
 
@@ -115,9 +114,7 @@ char	*init_cmd(t_cmd *c, char **input)
 	if ((ft_strchr(*input, '>') || ft_strchr(*input, '<')) && ed_co(*input))
 	{
 		tmp = *input;
-		printf("\t\tBEFORE\tinput : [%s]\n", *input);
 		*input = edit_input(input, put_sign(*input));
-		printf("\t\tAFTER\tinput : [%s]\n", *input);
 		if (*input == NULL)
 			return (NULL);
 		if (tmp != *input)

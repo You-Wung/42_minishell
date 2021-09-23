@@ -43,10 +43,7 @@ static int	exchange_qmark(char *rt, int in)
 		return (1);
 	}
 	if (g_var.sig_qmark)
-	{
 		buf = ft_itoa(g_var.sig_qmark);
-		g_var.sig_qmark = 0;
-	}
 	else
 		buf = ft_itoa(g_var.qmark);
 	while (buf[j])
@@ -84,6 +81,7 @@ void	check_qmark(char **str)
 	rt[in] = '\0';
 	free(tmp);
 	*str = rt;
+	g_var.sig_qmark = 0;
 }
 
 int	all_space(char **input)

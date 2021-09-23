@@ -18,7 +18,8 @@
 # include <errno.h>
 
 /*define of color*/
-# define COLOR_SET "\x1b[1;30m"
+//# define COLOR_SET "\x1b[1;30m"
+# define COLOR_SET "\x1b[0m"
 # define COLOR_RESET "\x1b[0m"
 /*define for flag*/
 # define PIPE 1/* | */
@@ -141,7 +142,7 @@ int		use_redi_cmd(t_cmd *c);
 void	cha_print(int i, t_cmd *c);
 void	ft_charjoin(int j, char *cmd, char **buf);
 void	use_pipe(t_cmd *c, int (*fd)[2]);
-int		single_redirection(char *input);
+char	*single_redirection(char *input);
 int		use_redi_cmd(t_cmd *c);
 int		use_cmd(t_cmd *c);
 int		redi_child(t_cmd *c, t_redi *re, int s_re);

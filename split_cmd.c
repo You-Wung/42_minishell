@@ -2,6 +2,13 @@
 
 extern t_ext	g_var;
 
+static char	*its_error(void)
+{
+	printf("minishell: Error\n");
+	g_var.qmark = 258;
+	return (NULL);
+}
+
 static int	find_error(char *c)
 {
 	if (error_check(c) == ERROR)
@@ -58,25 +65,26 @@ int	count_cmd(char *input)
 
 char	*fill_cmd(t_cmd **c, char **input)
 {
+	char	*tmp;
 	int		size;
 	int		i;
+	int		cnt;
 
+	cnt = 0;
 	i = -1;
 	size = count_cmd(*input);
 	if (size == ERROR)
 		return (NULL);
-	if (single_redirection(*input))
-		return (NULL);
 	while (*input && ++i < size)
 	{
+		tmp = *input;
+		*input = single_redirection(*input);
+		if ((tmp != *input || !**input) && ++cnt)
+			continue ;
 		if (!flag_check(*input))
-			*input = init_cmd(&(c[0][i]), input);
+			*input = init_cmd(&(c[0][i - cnt]), input);
 		if (*input == NULL || flag_check(*input))
-		{
-			printf("minishell: Error\n");
-			g_var.qmark = 258;
-			return (NULL);
-		}
+			return (its_error());
 		g_var_fre();
 	}
 	count_flag(c, size);
